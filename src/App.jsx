@@ -566,7 +566,7 @@ function TimelineSection() {
     { year: "1993", title: "INC. 500", text: "CII named one of America's fastest growing companies." },
     { year: "1999", title: "Hall of Fame", text: "Inducted into the Louisiana Sports Hall of Fame. #40 retired." },
     { year: "2015", title: "Ordained to Serve", text: "Dr. Joseph Profit becomes Reverend Joseph Profit." },
-    { year: "2020", title: "Never Broken", text: "The book. The story. The legacy preserved." },
+    { year: "2026", title: "Never Broken", text: "The book. The story. The legacy preserved." },
   ];
   return (
     <section id="timeline" style={{ padding: "clamp(60px, 10vw, 120px) 0", background: C.black }}>
