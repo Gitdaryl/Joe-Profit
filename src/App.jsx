@@ -1,4 +1,4 @@
-mport { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 
 // ─── DESIGN TOKENS ───
 const C = {
@@ -338,11 +338,11 @@ function Nav() {
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: scrolled ? 56 : 72, transition: "height 0.5s ease" }}>
         <a href="#" style={{ textDecoration: "none", display: "flex", alignItems: "baseline", gap: 8 }}>
           <span style={{ fontFamily: FONT.display, fontSize: "1.1rem", fontWeight: 700, color: C.gold, letterSpacing: "0.04em" }}>JOE PROFIT</span>
-          <span style={{ fontFamily: FONT.body, fontSize: "0.55rem", color: C.muted, letterSpacing: "0.3em", textTransform: "uppercase" }}>Never Broken</span>
+          <span style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.muted, letterSpacing: "0.3em", textTransform: "uppercase" }}>Never Broken</span>
         </a>
         <div className="dnav" style={{ display: "flex", gap: 32, alignItems: "center" }}>
           {links.map(l => (
-            <a key={l.label} href={l.href} style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.muted, textDecoration: "none", letterSpacing: "0.15em", textTransform: "uppercase", transition: "color 0.3s" }}
+            <a key={l.label} href={l.href} style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.muted, textDecoration: "none", letterSpacing: "0.12em", textTransform: "uppercase", transition: "color 0.3s" }}
               onMouseEnter={e => e.target.style.color = C.gold} onMouseLeave={e => e.target.style.color = C.muted}>{l.label}</a>
           ))}
         </div>
@@ -377,7 +377,7 @@ function HeroSection() {
           <h1 style={{ fontFamily: FONT.display, fontSize: "clamp(3rem, 8vw, 7rem)", fontWeight: 700, color: C.cream, lineHeight: 0.92, margin: 0, letterSpacing: "-0.02em" }}>
             Never<br /><span style={{ fontStyle: "italic", color: C.gold }}>Broken</span>
           </h1>
-          <p style={{ fontFamily: FONT.body, fontSize: "clamp(0.85rem, 1.4vw, 1.05rem)", color: C.mutedLight, maxWidth: 520, marginTop: 24, lineHeight: 1.7, opacity: loaded ? 0.85 : 0, transition: "opacity 1.5s ease 0.4s" }}>
+          <p style={{ fontFamily: FONT.body, fontSize: "clamp(1rem, 1.6vw, 1.15rem)", color: C.mutedLight, maxWidth: 520, marginTop: 24, lineHeight: 1.7, opacity: loaded ? 0.85 : 0, transition: "opacity 1.5s ease 0.4s" }}>
             From cotton fields to the NFL. From the White House to the boardroom. The story of Dr. Joe Profit — a man who refused to stay down.
           </p>
         </div>
@@ -409,7 +409,7 @@ function Marquee() {
   return (
     <div style={{ background: C.dark3, borderTop: `1px solid ${C.line}`, borderBottom: `1px solid ${C.line}`, padding: "14px 0", overflow: "hidden", whiteSpace: "nowrap" }}>
       <div style={{ display: "inline-block", animation: "marquee 60s linear infinite" }}>
-        <span style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: C.muted, letterSpacing: "0.2em", textTransform: "uppercase" }}>{txt}{"  ◆  "}{txt}</span>
+        <span style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.muted, letterSpacing: "0.2em", textTransform: "uppercase" }}>{txt}{"  ◆  "}{txt}</span>
       </div>
     </div>
   );
@@ -423,7 +423,7 @@ function StorySection({ onOpenChapter }) {
     <section id="story" style={{ padding: "clamp(60px, 10vw, 120px) 0", background: C.black }}>
       <div ref={ref} style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)" }}>
         <div style={{ marginBottom: 60, opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(30px)", transition: "all 0.8s ease" }}>
-          <div style={{ fontFamily: FONT.body, fontSize: "0.6rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>The Chapters</div>
+          <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>The Chapters</div>
           <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(2rem, 4vw, 3.2rem)", color: C.cream, fontWeight: 600, margin: 0, lineHeight: 1.1 }}>A Life in <span style={{ fontStyle: "italic", color: C.gold }}>Six Acts</span></h2>
         </div>
         <div className="chgrid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 3 }}>
@@ -444,10 +444,10 @@ function ChapterCard({ ch, i, onClick }) {
       <div style={{ position: "absolute", inset: 0, background: `linear-gradient(180deg, transparent 30%, rgba(10,9,8,0.9) 100%)` }} />
       <div style={{ position: "absolute", top: 16, left: 16, fontFamily: FONT.display, fontSize: "0.7rem", color: C.gold, fontStyle: "italic", opacity: 0.7 }}>{ch.num}</div>
       <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "24px 20px", transform: hover ? "translateY(0)" : "translateY(8px)", transition: "transform 0.5s ease" }}>
-        <div style={{ fontFamily: FONT.body, fontSize: "0.55rem", color: C.gold, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 4 }}>{ch.sub}</div>
+        <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.gold, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 4 }}>{ch.sub}</div>
         <h3 style={{ fontFamily: FONT.display, fontSize: "clamp(1.1rem, 2vw, 1.4rem)", color: C.cream, fontWeight: 600, margin: "0 0 8px 0", lineHeight: 1.2 }}>{ch.title}</h3>
-        <p style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.mutedLight, lineHeight: 1.6, margin: 0, opacity: hover ? 1 : 0, maxHeight: hover ? 100 : 0, transition: "all 0.5s ease" }}>{ch.text}</p>
-        <div style={{ fontFamily: FONT.body, fontSize: "0.55rem", color: C.gold, letterSpacing: "0.2em", textTransform: "uppercase", marginTop: 8, opacity: hover ? 0.8 : 0, transition: "opacity 0.4s ease 0.1s" }}>Read Chapter →</div>
+        <p style={{ fontFamily: FONT.body, fontSize: "0.9rem", color: C.mutedLight, lineHeight: 1.6, margin: 0, opacity: hover ? 1 : 0, maxHeight: hover ? 100 : 0, transition: "all 0.5s ease" }}>{ch.text}</p>
+        <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.gold, letterSpacing: "0.2em", textTransform: "uppercase", marginTop: 8, opacity: hover ? 0.8 : 0, transition: "opacity 0.4s ease 0.1s" }}>Read Chapter →</div>
       </div>
     </div>
   );
@@ -464,7 +464,7 @@ function ParallaxQuote({ quote, attribution }) {
       <div ref={ref} style={{ position: "relative", zIndex: 2, maxWidth: 800, margin: "0 auto", padding: "0 clamp(24px, 6vw, 60px)", textAlign: "center", opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(30px)", transition: "all 1s ease" }}>
         <div style={{ width: 40, height: 1, background: C.gold, margin: "0 auto 30px", opacity: 0.5 }} />
         <blockquote style={{ fontFamily: FONT.display, fontSize: "clamp(1.3rem, 3vw, 2.2rem)", color: C.cream, fontStyle: "italic", lineHeight: 1.5, margin: 0, fontWeight: 400 }}>"{quote}"</blockquote>
-        <div style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: C.gold, letterSpacing: "0.25em", textTransform: "uppercase", marginTop: 24 }}>— {attribution}</div>
+        <div style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.gold, letterSpacing: "0.25em", textTransform: "uppercase", marginTop: 24 }}>— {attribution}</div>
         <div style={{ width: 40, height: 1, background: C.gold, margin: "30px auto 0", opacity: 0.5 }} />
       </div>
     </section>
@@ -493,9 +493,9 @@ function ArchiveSection() {
       <div ref={ref} style={{ maxWidth: 1400, margin: "0 auto", padding: "0 clamp(16px, 3vw, 40px)" }}>
         {/* Header */}
         <div style={{ marginBottom: 20, opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(30px)", transition: "all 0.8s ease" }}>
-          <div style={{ fontFamily: FONT.body, fontSize: "0.6rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>The Archive</div>
+          <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>The Archive</div>
           <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(2rem, 4vw, 3rem)", color: C.cream, fontWeight: 600, margin: "0 0 8px 0" }}>A Legacy <span style={{ fontStyle: "italic", color: C.gold }}>Reclaimed</span></h2>
-          <p style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.muted, maxWidth: 600, lineHeight: 1.7, margin: 0 }}>
+          <p style={{ fontFamily: FONT.body, fontSize: "0.95rem", color: C.muted, maxWidth: 600, lineHeight: 1.7, margin: 0 }}>
             A house fire nearly erased decades of history. This archive exists because someone refused to let that story disappear.
           </p>
         </div>
@@ -503,7 +503,7 @@ function ArchiveSection() {
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 32, opacity: vis ? 1 : 0, transition: "opacity 0.8s ease 0.2s" }}>
           {GALLERY_CATEGORIES.map(cat => (
             <button key={cat} onClick={() => setActiveCat(cat)}
-              style={{ fontFamily: FONT.body, fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", padding: "8px 18px", border: `1px solid ${activeCat === cat ? C.gold : C.lineBright}`, background: activeCat === cat ? C.gold : "transparent", color: activeCat === cat ? C.black : C.muted, cursor: "pointer", transition: "all 0.3s", fontWeight: activeCat === cat ? 700 : 400 }}>
+              style={{ fontFamily: FONT.body, fontSize: "0.75rem", letterSpacing: "0.15em", textTransform: "uppercase", padding: "8px 18px", border: `1px solid ${activeCat === cat ? C.gold : C.lineBright}`, background: activeCat === cat ? C.gold : "transparent", color: activeCat === cat ? C.black : C.muted, cursor: "pointer", transition: "all 0.3s", fontWeight: activeCat === cat ? 700 : 400 }}>
               {cat}
             </button>
           ))}
@@ -512,7 +512,7 @@ function ArchiveSection() {
         <div style={{ columns: "clamp(1, 20vw, 4)", columnCount: window.innerWidth < 600 ? 2 : window.innerWidth < 900 ? 3 : 4, columnGap: 6 }}>
           {filtered.map((item, i) => <GalleryCard key={`${activeCat}-${i}`} item={item} i={i} onClick={() => setLightbox(item)} />)}
         </div>
-        <div style={{ textAlign: "center", marginTop: 32, fontFamily: FONT.body, fontSize: "0.65rem", color: C.muted, letterSpacing: "0.15em" }}>
+        <div style={{ textAlign: "center", marginTop: 32, fontFamily: FONT.body, fontSize: "0.8rem", color: C.muted, letterSpacing: "0.15em" }}>
           Showing {filtered.length} of {GALLERY_ITEMS.length} items
         </div>
       </div>
@@ -527,7 +527,7 @@ function ArchiveSection() {
           <img src={lightbox.src} alt={lightbox.title} onClick={(e) => e.stopPropagation()} style={{ maxWidth: "90vw", maxHeight: "80vh", objectFit: "contain", transform: `scale(${zoom})`, transition: "transform 0.3s ease", cursor: zoom > 1 ? "grab" : "zoom-in" }} />
           <div style={{ marginTop: 20, textAlign: "center", maxWidth: 600 }}>
             <div style={{ fontFamily: FONT.display, fontSize: "1rem", color: C.cream, marginBottom: 4 }}>{lightbox.title}</div>
-            <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.muted, lineHeight: 1.6 }}>{lightbox.caption}</div>
+            <div style={{ fontFamily: FONT.body, fontSize: "0.9rem", color: C.muted, lineHeight: 1.6 }}>{lightbox.caption}</div>
           </div>
         </div>
       )}
@@ -543,8 +543,8 @@ function GalleryCard({ item, i, onClick }) {
       style={{ breakInside: "avoid", marginBottom: 6, position: "relative", overflow: "hidden", cursor: "pointer", opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(20px)", transition: `all 0.6s ease ${(i % 8) * 0.05}s` }}>
       <img src={item.src} alt={item.title} style={{ width: "100%", display: "block", transform: hover ? "scale(1.04)" : "scale(1)", transition: "transform 0.6s cubic-bezier(0.23,1,0.32,1)", filter: hover ? "brightness(0.7)" : "brightness(0.85)" }} />
       <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "30px 12px 10px", background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)", opacity: hover ? 1 : 0, transform: hover ? "translateY(0)" : "translateY(8px)", transition: "all 0.4s ease" }}>
-        <div style={{ fontFamily: FONT.body, fontSize: "0.5rem", color: C.gold, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 2 }}>{item.cat}</div>
-        <div style={{ fontFamily: FONT.display, fontSize: "0.8rem", color: C.cream, fontWeight: 600 }}>{item.title}</div>
+        <div style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.gold, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 2 }}>{item.cat}</div>
+        <div style={{ fontFamily: FONT.display, fontSize: "0.95rem", color: C.cream, fontWeight: 600 }}>{item.title}</div>
       </div>
     </div>
   );
@@ -572,7 +572,7 @@ function TimelineSection() {
     <section id="timeline" style={{ padding: "clamp(60px, 10vw, 120px) 0", background: C.black }}>
       <div ref={ref} style={{ maxWidth: 900, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)" }}>
         <div style={{ textAlign: "center", marginBottom: 60, opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(30px)", transition: "all 0.8s ease" }}>
-          <div style={{ fontFamily: FONT.body, fontSize: "0.6rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>The Journey</div>
+          <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>The Journey</div>
           <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(2rem, 4vw, 3rem)", color: C.cream, fontWeight: 600, margin: 0 }}>Seven <span style={{ fontStyle: "italic", color: C.gold }}>Decades</span></h2>
         </div>
         <div style={{ position: "relative" }}>
@@ -590,9 +590,9 @@ function TimelineItem({ ev, i, isLeft }) {
     <div ref={ref} style={{ display: "flex", justifyContent: isLeft ? "flex-end" : "flex-start", paddingLeft: isLeft ? 0 : "52%", paddingRight: isLeft ? "52%" : 0, marginBottom: 40, position: "relative", opacity: vis ? 1 : 0, transform: vis ? "none" : `translateX(${isLeft ? -30 : 30}px)`, transition: `all 0.7s ease ${i * 0.05}s` }}>
       <div style={{ position: "absolute", left: "50%", top: 8, transform: "translateX(-50%)", width: 10, height: 10, borderRadius: "50%", background: vis ? C.gold : C.dark, border: `2px solid ${C.gold}`, transition: "background 0.5s ease", zIndex: 2 }} />
       <div style={{ textAlign: isLeft ? "right" : "left" }}>
-        <div style={{ fontFamily: FONT.display, fontSize: "0.85rem", color: C.gold, fontStyle: "italic", marginBottom: 4 }}>{ev.year}</div>
+        <div style={{ fontFamily: FONT.display, fontSize: "1rem", color: C.gold, fontStyle: "italic", marginBottom: 4 }}>{ev.year}</div>
         <div style={{ fontFamily: FONT.display, fontSize: "1rem", color: C.cream, fontWeight: 600, marginBottom: 4 }}>{ev.title}</div>
-        <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.muted, lineHeight: 1.6 }}>{ev.text}</div>
+        <div style={{ fontFamily: FONT.body, fontSize: "0.9rem", color: C.muted, lineHeight: 1.6 }}>{ev.text}</div>
       </div>
     </div>
   );
@@ -609,21 +609,21 @@ function CharitySection() {
       <div ref={ref} style={{ position: "relative", zIndex: 2, maxWidth: 1000, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center" }} className="chgrid">
           <div style={{ opacity: vis ? 1 : 0, transform: vis ? "none" : "translateX(-30px)", transition: "all 0.8s ease" }}>
-            <div style={{ fontFamily: FONT.body, fontSize: "0.6rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>Giving Back</div>
+            <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>Giving Back</div>
             <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)", color: C.cream, fontWeight: 600, margin: "0 0 20px 0", lineHeight: 1.15 }}>Youth United for <span style={{ fontStyle: "italic", color: C.gold }}>Prosperity</span></h2>
-            <p style={{ fontFamily: FONT.body, fontSize: "0.85rem", color: C.mutedLight, lineHeight: 1.8, marginBottom: 16 }}>
+            <p style={{ fontFamily: FONT.body, fontSize: "1.05rem", color: C.mutedLight, lineHeight: 1.8, marginBottom: 16 }}>
               The YUP Foundation empowers the next generation through literacy, entrepreneurship, and mentorship. From the Legends & Kids Young Authors Program — where students become published authors — to community service initiatives across Atlanta, Joe's mission is clear: lift as you climb.
             </p>
-            <p style={{ fontFamily: FONT.body, fontSize: "0.85rem", color: C.mutedLight, lineHeight: 1.8, marginBottom: 28 }}>
+            <p style={{ fontFamily: FONT.body, fontSize: "1.05rem", color: C.mutedLight, lineHeight: 1.8, marginBottom: 28 }}>
               Every dollar donated goes directly to programming that puts books in hands, confidence in hearts, and futures within reach.
             </p>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <a href="#contact" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: C.black, background: C.gold, padding: "12px 28px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
+              <a href="#contact" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.black, background: C.gold, padding: "12px 28px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
                 onMouseEnter={e => e.target.style.background = C.goldLight}
                 onMouseLeave={e => e.target.style.background = C.gold}>
                 Donate Now
               </a>
-              <a href="https://youthunitedpro.com" target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: C.gold, border: `1px solid ${C.gold}`, padding: "12px 28px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", transition: "all 0.3s" }}
+              <a href="https://youthunitedpro.com" target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.gold, border: `1px solid ${C.gold}`, padding: "12px 28px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", transition: "all 0.3s" }}
                 onMouseEnter={e => e.target.style.background = C.goldDim}
                 onMouseLeave={e => e.target.style.background = "transparent"}>
                 Visit YUP Foundation
@@ -634,13 +634,13 @@ function CharitySection() {
             <div style={{ position: "relative", overflow: "hidden" }}>
               <img src={IMG.dakota} alt="YUP Kid of the Year" style={{ width: "100%", display: "block", filter: "brightness(0.85) contrast(1.05)" }} />
               <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "20px 14px 10px", background: "linear-gradient(to top, rgba(0,0,0,0.8), transparent)" }}>
-                <div style={{ fontFamily: FONT.body, fontSize: "0.6rem", color: C.gold, letterSpacing: "0.15em" }}>YUP "Kid of the Year" Dakota Young</div>
+                <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.15em" }}>YUP "Kid of the Year" Dakota Young</div>
               </div>
             </div>
             <div style={{ position: "relative", overflow: "hidden" }}>
               <img src={IMG.nextGenAuthors} alt="Next Gen Authors" style={{ width: "100%", display: "block", filter: "brightness(0.85) contrast(1.05)" }} />
               <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "20px 14px 10px", background: "linear-gradient(to top, rgba(0,0,0,0.8), transparent)" }}>
-                <div style={{ fontFamily: FONT.body, fontSize: "0.6rem", color: C.gold, letterSpacing: "0.15em" }}>Words That Change Worlds</div>
+                <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.15em" }}>Words That Change Worlds</div>
               </div>
             </div>
           </div>
@@ -656,9 +656,9 @@ function BookTrailerSection() {
   return (
     <section style={{ padding: "clamp(60px, 10vw, 100px) 0", background: C.dark3 }}>
       <div ref={ref} style={{ maxWidth: 900, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)", textAlign: "center", opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(30px)", transition: "all 0.8s ease" }}>
-        <div style={{ fontFamily: FONT.body, fontSize: "0.6rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>Coming Soon</div>
+        <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>Coming Soon</div>
         <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)", color: C.cream, fontWeight: 600, margin: "0 0 16px 0" }}>The Book <span style={{ fontStyle: "italic", color: C.gold }}>Trailer</span></h2>
-        <p style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.muted, lineHeight: 1.7, marginBottom: 32, maxWidth: 500, margin: "0 auto 32px" }}>
+        <p style={{ fontFamily: FONT.body, fontSize: "0.95rem", color: C.muted, lineHeight: 1.7, marginBottom: 32, maxWidth: 500, margin: "0 auto 32px" }}>
           A cinematic journey through Joe's extraordinary life — coming soon.
         </p>
         {/* Video embed placeholder — replace data-video-id with actual YouTube/Vimeo ID */}
@@ -670,7 +670,7 @@ function BookTrailerSection() {
               onMouseLeave={e => e.currentTarget.style.background = "rgba(212,162,78,0.1)"}>
               <div style={{ width: 0, height: 0, borderTop: "14px solid transparent", borderBottom: "14px solid transparent", borderLeft: `22px solid ${C.gold}`, marginLeft: 4 }} />
             </div>
-            <div style={{ fontFamily: FONT.body, fontSize: "0.6rem", color: C.gold, letterSpacing: "0.3em", textTransform: "uppercase", marginTop: 16 }}>Watch Trailer</div>
+            <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.3em", textTransform: "uppercase", marginTop: 16 }}>Watch Trailer</div>
           </div>
         </div>
       </div>
@@ -692,21 +692,21 @@ function BookSection() {
             </div>
           </div>
           <div style={{ opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(30px)", transition: "all 0.8s ease 0.2s" }}>
-            <div style={{ fontFamily: FONT.body, fontSize: "0.6rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>The Book</div>
+            <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>The Book</div>
             <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(2rem, 4vw, 3rem)", color: C.cream, fontWeight: 600, margin: "0 0 20px 0", lineHeight: 1.1 }}>Never <span style={{ fontStyle: "italic", color: C.gold }}>Broken</span></h2>
-            <p style={{ fontFamily: FONT.body, fontSize: "0.85rem", color: C.mutedLight, lineHeight: 1.8, marginBottom: 12 }}>
+            <p style={{ fontFamily: FONT.body, fontSize: "1.05rem", color: C.mutedLight, lineHeight: 1.8, marginBottom: 12 }}>
               From the cotton fields of Louisiana to the NFL draft stage. From the Oval Office to the battlefields of Kuwait. This is the story of a man who was told no a thousand times and answered yes every single time.
             </p>
-            <p style={{ fontFamily: FONT.body, fontSize: "0.85rem", color: C.mutedLight, lineHeight: 1.8, marginBottom: 28 }}>
+            <p style={{ fontFamily: FONT.body, fontSize: "1.05rem", color: C.mutedLight, lineHeight: 1.8, marginBottom: 28 }}>
               "Never Broken" is more than a memoir — it's a blueprint for resilience, written by a man who lived every word.
             </p>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <a href="#contact" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: C.black, background: C.gold, padding: "14px 32px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
+              <a href="#contact" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.black, background: C.gold, padding: "14px 32px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
                 onMouseEnter={e => e.target.style.background = C.goldLight}
                 onMouseLeave={e => e.target.style.background = C.gold}>
                 Order Now
               </a>
-              <a href="#contact" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: C.gold, border: `1px solid ${C.gold}`, padding: "14px 32px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", transition: "all 0.3s" }}
+              <a href="#contact" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.gold, border: `1px solid ${C.gold}`, padding: "14px 32px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", transition: "all 0.3s" }}
                 onMouseEnter={e => e.target.style.background = C.goldDim}
                 onMouseLeave={e => e.target.style.background = "transparent"}>
                 Book a Speaking Engagement
@@ -725,13 +725,13 @@ function ContactSection() {
   return (
     <section id="contact" style={{ padding: "clamp(60px, 10vw, 100px) 0", background: C.dark, borderTop: `1px solid ${C.line}` }}>
       <div ref={ref} style={{ maxWidth: 700, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)", textAlign: "center", opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(30px)", transition: "all 0.8s ease" }}>
-        <div style={{ fontFamily: FONT.body, fontSize: "0.6rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>Get in Touch</div>
+        <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>Get in Touch</div>
         <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)", color: C.cream, fontWeight: 600, margin: "0 0 16px 0" }}>Continue the <span style={{ fontStyle: "italic", color: C.gold }}>Conversation</span></h2>
         <p style={{ fontFamily: FONT.body, fontSize: "0.85rem", color: C.muted, lineHeight: 1.7, marginBottom: 32 }}>
           For book orders, speaking engagements, charitable donations, or media inquiries.
         </p>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-          <a href="mailto:contact@joeprofit.com" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: C.black, background: C.gold, padding: "14px 32px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
+          <a href="mailto:contact@joeprofit.com" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.black, background: C.gold, padding: "14px 32px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
             onMouseEnter={e => e.target.style.background = C.goldLight}
             onMouseLeave={e => e.target.style.background = C.gold}>
             Email Us
@@ -748,7 +748,7 @@ function ContactSection() {
               onMouseLeave={e => e.currentTarget.style.borderColor = C.line}>
               <div style={{ fontSize: "1.5rem", marginBottom: 8 }}>{item.icon}</div>
               <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.cream, fontWeight: 600, letterSpacing: "0.08em", marginBottom: 4 }}>{item.label}</div>
-              <div style={{ fontFamily: FONT.body, fontSize: "0.6rem", color: C.muted }}>{item.desc}</div>
+              <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.muted }}>{item.desc}</div>
             </div>
           ))}
         </div>
@@ -762,10 +762,10 @@ function Footer() {
   return (
     <footer style={{ padding: "30px 24px", background: C.black, borderTop: `1px solid ${C.line}`, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
       <div style={{ fontFamily: FONT.display, fontSize: "0.8rem", color: C.gold, letterSpacing: "0.06em" }}>Dr. Joe Profit</div>
-      <div style={{ fontFamily: FONT.body, fontSize: "0.55rem", color: C.muted, letterSpacing: "0.15em" }}>
+      <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.muted, letterSpacing: "0.15em" }}>
         <span>© {new Date().getFullYear()} All rights reserved.</span>
       </div>
-      <div style={{ fontFamily: FONT.body, fontSize: "0.5rem", color: "rgba(154,142,127,0.3)", letterSpacing: "0.3em", textTransform: "uppercase" }}>A Legends Series Production</div>
+      <div style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: "rgba(154,142,127,0.3)", letterSpacing: "0.3em", textTransform: "uppercase" }}>A Legends Series Production</div>
     </footer>
   );
 }
@@ -822,10 +822,10 @@ function AudioPlayer({ src, title }) {
           )}
         </button>
         <div style={{ flex: 1 }}>
-          <div style={{ fontFamily: FONT.body, fontSize: "0.6rem", color: C.gold, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 4 }}>Listen to Joe Tell This Story</div>
-          <div style={{ fontFamily: FONT.display, fontSize: "0.85rem", color: C.cream, fontStyle: "italic" }}>{title}</div>
+          <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 4 }}>Listen to Joe Tell This Story</div>
+          <div style={{ fontFamily: FONT.display, fontSize: "1rem", color: C.cream, fontStyle: "italic" }}>{title}</div>
         </div>
-        <div style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: C.muted, fontVariantNumeric: "tabular-nums" }}>
+        <div style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.muted, fontVariantNumeric: "tabular-nums" }}>
           {fmt(currentTime)} / {fmt(duration || 0)}
         </div>
       </div>
@@ -856,7 +856,7 @@ function ChapterPage({ chapter, onBack, onNavigate }) {
     <div style={{ minHeight: "100vh", background: C.black }}>
       {/* Back button */}
       <div style={{ position: "fixed", top: 16, left: 20, zIndex: 150 }}>
-        <button onClick={onBack} style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: C.gold, background: "rgba(10,9,8,0.8)", border: `1px solid ${C.lineBright}`, padding: "10px 20px", cursor: "pointer", letterSpacing: "0.15em", textTransform: "uppercase", backdropFilter: "blur(10px)", transition: "all 0.3s" }}
+        <button onClick={onBack} style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.gold, background: "rgba(10,9,8,0.8)", border: `1px solid ${C.lineBright}`, padding: "10px 20px", cursor: "pointer", letterSpacing: "0.15em", textTransform: "uppercase", backdropFilter: "blur(10px)", transition: "all 0.3s" }}
           onMouseEnter={e => e.target.style.background = C.goldDim}
           onMouseLeave={e => e.target.style.background = "rgba(10,9,8,0.8)"}>
           ← Back to Story
@@ -869,7 +869,7 @@ function ChapterPage({ chapter, onBack, onNavigate }) {
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(180deg, rgba(10,9,8,0.4) 0%, rgba(10,9,8,0.2) 40%, ${C.black} 100%)` }} />
         <div style={{ position: "relative", zIndex: 2, height: "100%", display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "0 clamp(24px, 8vw, 120px)", paddingBottom: "clamp(40px, 8vh, 80px)", opacity: loaded ? 1 : 0, transform: loaded ? "none" : "translateY(30px)", transition: "all 1s ease 0.3s" }}>
           <div style={{ fontFamily: FONT.display, fontSize: "clamp(3rem, 8vw, 6rem)", color: "rgba(212,162,78,0.08)", fontWeight: 700, position: "absolute", top: "20%", right: "5%", lineHeight: 0.8 }}>{chapter.num}</div>
-          <div style={{ fontFamily: FONT.body, fontSize: "0.6rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>Chapter {chapter.num} · {chapter.sub}</div>
+          <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>Chapter {chapter.num} · {chapter.sub}</div>
           <h1 style={{ fontFamily: FONT.display, fontSize: "clamp(2.5rem, 6vw, 4.5rem)", color: C.cream, fontWeight: 700, margin: 0, lineHeight: 1, letterSpacing: "-0.02em" }}>{chapter.title}</h1>
         </div>
       </section>
@@ -880,7 +880,7 @@ function ChapterPage({ chapter, onBack, onNavigate }) {
         <AudioPlayer src={chapter.audio} title={`Chapter ${chapter.num}: ${chapter.title}`} />
 
         {/* Pull Quote */}
-        <blockquote style={{ fontFamily: FONT.display, fontSize: "clamp(1.2rem, 2.5vw, 1.6rem)", color: C.gold, fontStyle: "italic", lineHeight: 1.5, margin: "0 0 40px 0", padding: "24px 0 24px 24px", borderLeft: `2px solid ${C.gold}`, opacity: 0.9 }}>
+        <blockquote style={{ fontFamily: FONT.display, fontSize: "clamp(1.4rem, 2.8vw, 1.9rem)", color: C.gold, fontStyle: "italic", lineHeight: 1.5, margin: "0 0 40px 0", padding: "24px 0 24px 24px", borderLeft: `2px solid ${C.gold}`, opacity: 0.9 }}>
           "{chapter.pullQuote}"
         </blockquote>
 
@@ -899,20 +899,20 @@ function ChapterPage({ chapter, onBack, onNavigate }) {
         {/* Chapter Navigation */}
         <div style={{ marginTop: 60, paddingTop: 40, borderTop: `1px solid ${C.line}`, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
           {prevCh ? (
-            <button onClick={() => onNavigate(prevCh.slug)} style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: C.muted, background: "none", border: `1px solid ${C.line}`, padding: "12px 24px", cursor: "pointer", letterSpacing: "0.12em", textTransform: "uppercase", transition: "all 0.3s" }}
+            <button onClick={() => onNavigate(prevCh.slug)} style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.muted, background: "none", border: `1px solid ${C.line}`, padding: "12px 24px", cursor: "pointer", letterSpacing: "0.12em", textTransform: "uppercase", transition: "all 0.3s" }}
               onMouseEnter={e => { e.target.style.color = C.gold; e.target.style.borderColor = C.gold; }}
               onMouseLeave={e => { e.target.style.color = C.muted; e.target.style.borderColor = C.line; }}>
               ← {prevCh.title}
             </button>
           ) : <div />}
           {nextCh ? (
-            <button onClick={() => onNavigate(nextCh.slug)} style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: C.black, background: C.gold, border: "none", padding: "12px 24px", cursor: "pointer", letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
+            <button onClick={() => onNavigate(nextCh.slug)} style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.black, background: C.gold, border: "none", padding: "12px 24px", cursor: "pointer", letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
               onMouseEnter={e => e.target.style.background = C.goldLight}
               onMouseLeave={e => e.target.style.background = C.gold}>
               {nextCh.title} →
             </button>
           ) : (
-            <button onClick={onBack} style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: C.black, background: C.gold, border: "none", padding: "12px 24px", cursor: "pointer", letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
+            <button onClick={onBack} style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.black, background: C.gold, border: "none", padding: "12px 24px", cursor: "pointer", letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
               onMouseEnter={e => e.target.style.background = C.goldLight}
               onMouseLeave={e => e.target.style.background = C.gold}>
               Return Home →
@@ -928,7 +928,7 @@ function ChapterPage({ chapter, onBack, onNavigate }) {
 function ChapterParagraph({ text, delay }) {
   const [ref, vis] = useScrollReveal(0.2);
   return (
-    <p ref={ref} style={{ fontFamily: FONT.body, fontSize: "clamp(0.9rem, 1.3vw, 1.05rem)", color: C.creamSoft, lineHeight: 1.9, margin: "0 0 24px 0", opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(15px)", transition: `all 0.7s ease ${delay}s` }}>
+    <p ref={ref} style={{ fontFamily: FONT.body, fontSize: "clamp(1.05rem, 1.5vw, 1.2rem)", color: C.creamSoft, lineHeight: 1.9, margin: "0 0 24px 0", opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(15px)", transition: `all 0.7s ease ${delay}s` }}>
       {text}
     </p>
   );
@@ -941,7 +941,7 @@ function ChapterImage({ img, i }) {
       <div style={{ position: "relative", overflow: "hidden" }}>
         <img src={img.src} alt={img.caption} style={{ width: "100%", display: "block", filter: "brightness(0.9) contrast(1.05)" }} />
       </div>
-      <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.muted, marginTop: 8, lineHeight: 1.5, fontStyle: "italic" }}>{img.caption}</div>
+      <div style={{ fontFamily: FONT.body, fontSize: "0.85rem", color: C.muted, marginTop: 8, lineHeight: 1.5, fontStyle: "italic" }}>{img.caption}</div>
     </div>
   );
 }
