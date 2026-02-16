@@ -933,30 +933,30 @@ function ChapterParagraph({ text, delay }) {
     </p>
   );
 }
-function VideoDivider({ videoId, height = 280 }) {
+function VideoShowcase({ videoId, height = 500 }) {
   const [ref, vis] = useScrollReveal(0.1);
   return (
-    <div ref={ref} style={{
-      position: "relative", width: "100%", height: `${height}px`,
-      overflow: "hidden", background: C.black,
+    <section ref={ref} style={{
+      position: "relative", background: C.black,
+      padding: "40px 0", overflow: "hidden",
       opacity: vis ? 1 : 0, transition: "opacity 1.2s ease",
     }}>
       <div style={{
-        position: "absolute", top: "50%", left: "50%",
-        width: "180vw", height: "180vw",
-        transform: "translate(-50%, -50%)",
-        pointerEvents: "none",
+        position: "relative", width: "100%", maxWidth: `${height}px`,
+        margin: "0 auto",
       }}>
-        <iframe
-          src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&muted=1&background=1`}
-          style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-          allow="autoplay; fullscreen"
-          title="Video Divider"
-        />
+        <div style={{ position: "relative", paddingTop: "100%", width: "100%" }}>
+          <iframe
+            src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&muted=1&background=1`}
+            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+            allow="autoplay; fullscreen"
+            title="Video Showcase"
+          />
+        </div>
       </div>
-      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "80px", background: `linear-gradient(180deg, ${C.black} 0%, transparent 100%)`, zIndex: 2, pointerEvents: "none" }} />
-      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "80px", background: `linear-gradient(0deg, ${C.black} 0%, transparent 100%)`, zIndex: 2, pointerEvents: "none" }} />
-    </div>
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "60px", background: `linear-gradient(180deg, ${C.black} 0%, transparent 100%)`, zIndex: 2, pointerEvents: "none" }} />
+      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "60px", background: `linear-gradient(0deg, ${C.black} 0%, transparent 100%)`, zIndex: 2, pointerEvents: "none" }} />
+    </section>
   );
 }
 function HologramSection() {
@@ -1062,16 +1062,15 @@ export default function App() {
       <HeroSection />
       <Marquee />
       <StorySection onOpenChapter={openChapter} />
-      <ParallaxQuote quote="They can break your body, but they can never break your spirit. That's the one thing you own outright." attribution="Dr. Joe Profit" />
-      <VideoDivider videoId="655492739" />
+      <ParallaxQuote quote="They can break your body..." attribution="Dr. Joe Profit" />
+      <VideoShowcase videoId="655492739" />
       <ArchiveSection />
       <TimelineSection />
       <HologramSection />
-      <ParallaxQuote quote="Every morning the sun rises again. No matter what happened yesterday, you get another chance. That's not optimism — that's a fact." attribution="Dr. Joe Profit" />
+      <ParallaxQuote quote="Every morning the sun rises again..." attribution="Dr. Joe Profit" />
       <CharitySection />
-      <VideoDivider videoId="660003775" />
+      <VideoShowcase videoId="660003775" />
       <BookTrailerSection />
-      <BookSection />
       <ContactSection />
       <Footer />
     </>
