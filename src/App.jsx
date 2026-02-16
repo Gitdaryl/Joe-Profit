@@ -933,6 +933,62 @@ function ChapterParagraph({ text, delay }) {
     </p>
   );
 }
+function VideoDivider({ videoId, height = 250 }) {
+  const [ref, vis] = useScrollReveal(0.1);
+  return (
+    <div ref={ref} style={{
+      position: "relative", width: "100%", height: `${height}px`,
+      overflow: "hidden", background: C.black,
+      opacity: vis ? 1 : 0, transition: "opacity 1.2s ease",
+    }}>
+      <div style={{
+        position: "absolute", top: "50%", left: "50%",
+        width: "130%", height: "200%",
+        transform: "translate(-50%, -50%)",
+        pointerEvents: "none",
+      }}>
+        <iframe
+          src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&muted=1&background=1`}
+          style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+          allow="autoplay; fullscreen"
+          title="Video Divider"
+        />
+      </div>
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "70px", background: `linear-gradient(180deg, ${C.black} 0%, transparent 100%)`, zIndex: 2, pointerEvents: "none" }} />
+      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "70px", background: `linear-gradient(0deg, ${C.black} 0%, transparent 100%)`, zIndex: 2, pointerEvents: "none" }} />
+    </div>
+  );
+}
+function HologramSection() {
+  const [ref, vis] = useScrollReveal(0.05);
+  return (
+    <section ref={ref} style={{
+      position: "relative", background: "#050508",
+      padding: "40px 0", overflow: "hidden",
+      opacity: vis ? 1 : 0, transition: "opacity 1.5s ease",
+    }}>
+      <div style={{
+        position: "absolute", top: "50%", left: "50%",
+        width: "500px", height: "500px",
+        transform: "translate(-50%, -50%)",
+        background: "radial-gradient(circle, rgba(30,80,180,0.06) 0%, transparent 70%)",
+        pointerEvents: "none", zIndex: 0,
+      }} />
+      <div style={{ position: "relative", width: "100%", maxWidth: 600, margin: "0 auto", zIndex: 1 }}>
+        <div style={{ position: "relative", paddingTop: "100%", width: "100%" }}>
+          <iframe
+            src="https://player.vimeo.com/video/1165413709?autoplay=1&loop=1&muted=1&background=1"
+            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+            allow="autoplay; fullscreen"
+            title="Dr. Joe Profit — Hologram"
+          />
+        </div>
+      </div>
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "100px", background: "linear-gradient(180deg, #050508 0%, transparent 100%)", zIndex: 2, pointerEvents: "none" }} />
+      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "100px", background: "linear-gradient(0deg, #050508 0%, transparent 100%)", zIndex: 2, pointerEvents: "none" }} />
+    </section>
+  );
+}
 
 function ChapterImage({ img, i }) {
   const [ref, vis] = useScrollReveal(0.15);
