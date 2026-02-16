@@ -933,7 +933,7 @@ function ChapterParagraph({ text, delay }) {
     </p>
   );
 }
-function VideoDivider({ videoId, height = 250 }) {
+function VideoDivider({ videoId, height = 280 }) {
   const [ref, vis] = useScrollReveal(0.1);
   return (
     <div ref={ref} style={{
@@ -943,7 +943,7 @@ function VideoDivider({ videoId, height = 250 }) {
     }}>
       <div style={{
         position: "absolute", top: "50%", left: "50%",
-        width: "130%", height: "200%",
+        width: "180vw", height: "180vw",
         transform: "translate(-50%, -50%)",
         pointerEvents: "none",
       }}>
@@ -954,8 +954,8 @@ function VideoDivider({ videoId, height = 250 }) {
           title="Video Divider"
         />
       </div>
-      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "70px", background: `linear-gradient(180deg, ${C.black} 0%, transparent 100%)`, zIndex: 2, pointerEvents: "none" }} />
-      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "70px", background: `linear-gradient(0deg, ${C.black} 0%, transparent 100%)`, zIndex: 2, pointerEvents: "none" }} />
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "80px", background: `linear-gradient(180deg, ${C.black} 0%, transparent 100%)`, zIndex: 2, pointerEvents: "none" }} />
+      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "80px", background: `linear-gradient(0deg, ${C.black} 0%, transparent 100%)`, zIndex: 2, pointerEvents: "none" }} />
     </div>
   );
 }
