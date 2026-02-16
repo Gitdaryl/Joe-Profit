@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+mport { useState, useEffect, useRef, useCallback, useMemo } from "react";
 
 // ─── DESIGN TOKENS ───
 const C = {
@@ -416,7 +416,7 @@ function Marquee() {
 }
 
 // ─── STORY CHAPTERS ───
-function StorySection() {
+function StorySection({ onOpenChapter }) {
   const [ref, vis] = useScrollReveal(0.1);
   const chapters = CHAPTERS.map(c => ({ img: c.hero, num: c.num, title: c.title, sub: c.sub, slug: c.slug, text: c.paragraphs[0] }));
   return (
@@ -427,7 +427,7 @@ function StorySection() {
           <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(2rem, 4vw, 3.2rem)", color: C.cream, fontWeight: 600, margin: 0, lineHeight: 1.1 }}>A Life in <span style={{ fontStyle: "italic", color: C.gold }}>Six Acts</span></h2>
         </div>
         <div className="chgrid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 3 }}>
-          {chapters.map((ch, i) => <ChapterCard key={i} ch={ch} i={i} onClick={() => window.__openChapter && window.__openChapter(ch.slug)} />)}
+          {chapters.map((ch, i) => <ChapterCard key={i} ch={ch} i={i} onClick={() => onOpenChapter(ch.slug)} />)}
         </div>
       </div>
     </section>
@@ -955,9 +955,6 @@ export default function App() {
     if (ch) setActiveChapter(ch);
   };
 
-  // Expose to child components
-  useEffect(() => { window.__openChapter = openChapter; return () => { delete window.__openChapter; }; }, []);
-
   const closeChapter = () => {
     setActiveChapter(null);
     setTimeout(() => {
@@ -985,7 +982,6 @@ export default function App() {
   }
 
   return (
-  return (
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
@@ -1009,7 +1005,7 @@ export default function App() {
       <Nav />
       <HeroSection />
       <Marquee />
-      <StorySection />
+      <StorySection onOpenChapter={openChapter} />
       <ParallaxQuote quote="They can break your body, but they can never break your spirit. That's the one thing you own outright." attribution="Dr. Joe Profit" />
       <ArchiveSection />
       <TimelineSection />
