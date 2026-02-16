@@ -961,6 +961,7 @@ function VideoShowcase({ videoId, height = 500 }) {
 }
 function HologramSection() {
   const [ref, vis] = useScrollReveal(0.05);
+  const [muted, setMuted] = useState(true);
   return (
     <section ref={ref} style={{
       position: "relative", background: "#050508",
@@ -977,12 +978,28 @@ function HologramSection() {
       <div style={{ position: "relative", width: "100%", maxWidth: 600, margin: "0 auto", zIndex: 1 }}>
         <div style={{ position: "relative", paddingTop: "100%", width: "100%" }}>
           <iframe
-            src="https://player.vimeo.com/video/1165413709?autoplay=1&loop=1&muted=1&background=1"
+            key={`holo-${muted}`}
+            src={`https://player.vimeo.com/video/1165413709?autoplay=1&loop=1&muted=${muted ? 1 : 0}&background=${muted ? 1 : 0}`}
             style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
             allow="autoplay; fullscreen"
             title="Dr. Joe Profit — Hologram"
           />
         </div>
+        <button
+          onClick={() => setMuted(!muted)}
+          style={{
+            position: "absolute", bottom: 16, right: 16, zIndex: 10,
+            background: "rgba(10,9,8,0.7)", border: `1px solid ${C.goldDim}`,
+            borderRadius: "50%", width: 44, height: 44,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            cursor: "pointer", transition: "all 0.3s",
+            fontSize: "1.1rem",
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = "rgba(212,162,78,0.15)"; e.currentTarget.style.borderColor = C.gold; }}
+          onMouseLeave={e => { e.currentTarget.style.background = "rgba(10,9,8,0.7)"; e.currentTarget.style.borderColor = C.goldDim; }}
+        >
+          {muted ? "🔇" : "🔊"}
+        </button>
       </div>
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "100px", background: "linear-gradient(180deg, #050508 0%, transparent 100%)", zIndex: 2, pointerEvents: "none" }} />
       <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "100px", background: "linear-gradient(0deg, #050508 0%, transparent 100%)", zIndex: 2, pointerEvents: "none" }} />
