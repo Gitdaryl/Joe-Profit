@@ -1063,10 +1063,13 @@ export default function App() {
       <Marquee />
       <StorySection onOpenChapter={openChapter} />
       <ParallaxQuote quote="They can break your body, but they can never break your spirit. That's the one thing you own outright." attribution="Dr. Joe Profit" />
+      <VideoDivider videoId="655492739" />
       <ArchiveSection />
       <TimelineSection />
+      <HologramSection />
       <ParallaxQuote quote="Every morning the sun rises again. No matter what happened yesterday, you get another chance. That's not optimism — that's a fact." attribution="Dr. Joe Profit" />
       <CharitySection />
+      <VideoDivider videoId="660003775" />
       <BookTrailerSection />
       <BookSection />
       <ContactSection />
