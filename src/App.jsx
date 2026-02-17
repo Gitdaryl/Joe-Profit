@@ -90,7 +90,7 @@ const GALLERY_CATEGORIES = ["All", "Athletics", "Business", "Leadership", "Servi
 const GALLERY_ITEMS = [
   // ATHLETICS
   { src: IMG.thePick, cat: "Athletics", title: "The #1 Draft Pick", caption: "Joe Profit receives his No. 23 Jersey, presented by head coach Norm Van Brocklin of the Atlanta Falcons." },
-  { src: IMG.falcons, cat: "Athletics", title: "NFL Leading Rusher", caption: "Joe Profit NFL Leading Roster for the Atlanta Falcons." },
+  { src: IMG.falcons, cat: "Athletics", title: "NFL Leading Rusher", caption: "Joe Profit NFL Leading Rusher for the Atlanta Falcons." },
   { src: IMG.touchdown, cat: "Athletics", title: "Touchdown!", caption: "Arms raised, crowd roaring — touchdown at Louisiana Monroe. The scoreboard tells the story." },
   { src: IMG.kickoff, cat: "Athletics", title: "Kickoff Return", caption: "Joe Profit returns kickoff for the Atlanta Falcons." },
   { src: IMG.cutDime, cat: "Athletics", title: "Cut on a Dime", caption: "Atlanta Falcons Joe Profit cut on a dime." },
@@ -127,7 +127,7 @@ const GALLERY_ITEMS = [
   { src: IMG.katrina, cat: "Service", title: "Hurricane Katrina Rescue", caption: "Ranger Jones, The Honorable Joe R. Reeder, Under Secretary Army, Louis Bulter and Dr. Joe Profit." },
   { src: IMG.reverend, cat: "Service", title: "Ordained to Serve", caption: "Dr. Joseph Profit, Ordained to Serve, 2015." },
   { src: IMG.holyfield, cat: "Service", title: "Charity Golf", caption: "Joe Profit hosts golf tournament and invites the world heavyweight Boxing champion Evander Holyfield." },
-  { src: IMG.galeSayers, cat: "Service", title: "Fighting Sickle Cell", caption: "Gale Sayers and Joe Profit join in the fight against Sickle Cell Anemia." },
+  { src: IMG.galeSayers, cat: "Service", title: "Gale Sayers & Joe Profit - Fighting Sickle Cell", caption: "Gale Sayers and Joe Profit join in the fight against Sickle Cell Anemia." },
   // FAMILY
   { src: IMG.wanda, cat: "Family", title: "Joe & Wanda", caption: "Dr. Joe Profit and his wife Wanda." },
   { src: IMG.wandaDinner, cat: "Family", title: "Foundation Fundraiser", caption: "Dr. Joe Profit and his wife Wanda at one of their Foundation Fundraising Events." },
