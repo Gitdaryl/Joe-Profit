@@ -90,7 +90,7 @@ const GALLERY_CATEGORIES = ["All", "Athletics", "Business", "Leadership", "Servi
 const GALLERY_ITEMS = [
   // ATHLETICS
   { src: IMG.thePick, cat: "Athletics", title: "The #1 Draft Pick", caption: "Joe Profit receives his No. 23 Jersey, presented by head coach Norm Van Brocklin of the Atlanta Falcons." },
-  { src: IMG.falcons, cat: "Athletics", title: "Leading the Roster", caption: "Joe Profit NFL Leading Roster for the Atlanta Falcons." },
+  { src: IMG.falcons, cat: "Athletics", title: "NFL Leading Rusher", caption: "Joe Profit NFL Leading Roster for the Atlanta Falcons." },
   { src: IMG.touchdown, cat: "Athletics", title: "Touchdown!", caption: "Arms raised, crowd roaring — touchdown at Louisiana Monroe. The scoreboard tells the story." },
   { src: IMG.kickoff, cat: "Athletics", title: "Kickoff Return", caption: "Joe Profit returns kickoff for the Atlanta Falcons." },
   { src: IMG.cutDime, cat: "Athletics", title: "Cut on a Dime", caption: "Atlanta Falcons Joe Profit cut on a dime." },
