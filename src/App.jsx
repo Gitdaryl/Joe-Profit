@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // ─── DESIGN TOKENS ───
 const C = {
@@ -328,9 +329,9 @@ function Nav() {
     return () => window.removeEventListener("scroll", h);
   }, []);
   const links = [
-    { label: "Story", href: "#story" }, { label: "Archive", href: "#archive" },
-    { label: "Timeline", href: "#timeline" }, { label: "Youth United for Prosperity", href: "#charity" },
-    { label: "Book", href: "#book" }, { label: "Contact", href: "#contact" },
+    { label: "Story", href: "/#story" }, { label: "Archive", href: "/#archive" },
+    { label: "Timeline", href: "/#timeline" }, { label: "Youth United for Prosperity", href: "/#charity" },
+    { label: "Shop", href: "/shop" }, { label: "Contact", href: "/#contact" },
   ];
   const navBg = scrolled ? "rgba(10,9,8,0.92)" : "transparent";
   const navBorder = scrolled ? C.lineBright : "transparent";
@@ -392,7 +393,7 @@ function HeroSection() {
             onMouseLeave={e => { e.target.style.background = C.gold; e.target.style.transform = "translateY(0)"; }}>
             Enter the Story
           </a>
-          <a href="#book" style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.gold, border: `1px solid ${C.gold}`, padding: "14px 32px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 500, transition: "all 0.3s" }}
+          <a href="/shop" style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.gold, border: `1px solid ${C.gold}`, padding: "14px 32px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 500, transition: "all 0.3s" }}
             onMouseEnter={e => { e.target.style.background = C.goldDim; }}
             onMouseLeave={e => { e.target.style.background = "transparent"; }}>
             Get the Book
@@ -700,240 +701,48 @@ const MOSAIC = [
 ];
 
 function BookSection() {
-  const [headRef, headVis] = useScrollReveal(0.1);
-  const [contentRef, contentVis] = useScrollReveal(0.1);
-  const [edition, setEdition] = useState('hardcover');
-  const [loading, setLoading] = useState(false);
-  const [orderError, setOrderError] = useState(false);
-  const [orderSuccess, setOrderSuccess] = useState(false);
-
-  const editions = {
-    hardcover: { label: 'Hardcover', price: '$31.95' },
-    paperback: { label: 'Paperback', price: '$19.95' },
-  };
-
-  // Check for successful return from Stripe
-  useState(() => {
-    if (typeof window !== 'undefined' && window.location.search.includes('order=success')) {
-      setOrderSuccess(true);
-    }
-  });
-
-  const handleOrder = async () => {
-    setLoading(true);
-    setOrderError(false);
-    try {
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ edition }),
-      });
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        throw new Error('No checkout URL returned');
-      }
-    } catch (err) {
-      console.error('Order error:', err);
-      setOrderError(true);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  const [ref, vis] = useScrollReveal(0.1);
   return (
-    <section id="book" style={{ position: 'relative', overflow: 'hidden', background: C.black }}>
+    <section id="book" style={{ background: C.dark, padding: "clamp(60px, 8vw, 100px) 0", borderTop: `1px solid ${C.line}` }}>
+      <div ref={ref} style={{
+        maxWidth: 860, margin: "0 auto",
+        padding: "0 clamp(20px, 4vw, 40px)",
+        display: "grid", gridTemplateColumns: "auto 1fr",
+        gap: "clamp(36px, 6vw, 64px)", alignItems: "center",
+        opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(24px)",
+        transition: "all 0.9s cubic-bezier(0.23,1,0.32,1)",
+      }} className="bkgrid">
 
-      {/* ── Cinematic mosaic background ── */}
-      <div style={{
-        position: 'absolute', inset: 0,
-        display: 'grid',
-        gridTemplateColumns: 'repeat(3, 1fr)',
-        gridTemplateRows: 'repeat(2, 1fr)',
-      }}>
-        {MOSAIC.map((img, i) => (
-          <div key={i} style={{
-            backgroundImage: `url(${img.src})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            filter: 'grayscale(100%) brightness(0.35)',
-          }} />
-        ))}
-      </div>
-
-      {/* Overlay — fades edges to black, keeps center readable */}
-      <div style={{
-        position: 'absolute', inset: 0,
-        background: `
-          linear-gradient(180deg, ${C.black} 0%, rgba(10,9,8,0.55) 20%, rgba(10,9,8,0.55) 80%, ${C.black} 100%),
-          linear-gradient(90deg, ${C.black} 0%, transparent 20%, transparent 80%, ${C.black} 100%)
-        `,
-      }} />
-
-      {/* Gold top line */}
-      <div style={{
-        position: 'absolute', top: 0, left: 0, right: 0, height: 2,
-        background: `linear-gradient(90deg, transparent, ${C.gold}, transparent)`,
-        opacity: 0.4,
-      }} />
-
-      {/* ── Content ── */}
-      <div style={{ position: 'relative', zIndex: 1, padding: 'clamp(80px, 10vw, 140px) 0' }}>
-
-        {/* Header */}
-        <div ref={headRef} style={{
-          textAlign: 'center', marginBottom: 64,
-          opacity: headVis ? 1 : 0,
-          transform: headVis ? 'none' : 'translateY(24px)',
-          transition: 'all 0.9s cubic-bezier(0.23,1,0.32,1)',
-        }}>
-          <div style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.gold, letterSpacing: '0.4em', textTransform: 'uppercase', marginBottom: 16 }}>
-            The Book
+        {/* Book cover — large */}
+        <div style={{ width: "clamp(180px, 24vw, 280px)", flexShrink: 0 }}>
+          <div style={{ position: "relative", boxShadow: "20px 20px 56px rgba(0,0,0,0.7), -2px -2px 14px rgba(212,162,78,0.08)", transform: "rotate(-1.5deg)" }}>
+            <img src={IMG.book} alt="Never Broken by Dr. Joe Profit" style={{ width: "100%", display: "block" }} />
+            <div style={{ position: "absolute", inset: 0, boxShadow: "inset 4px 0 14px rgba(0,0,0,0.45)" }} />
           </div>
-          <h2 style={{ fontFamily: FONT.display, fontSize: 'clamp(2.8rem, 6vw, 4.8rem)', color: C.cream, fontWeight: 400, margin: '0 0 8px', lineHeight: 1.05 }}>
-            Never <em style={{ color: C.gold }}>Broken</em>
-          </h2>
-          <div style={{ width: 48, height: 1, background: C.gold, margin: '24px auto', opacity: 0.4 }} />
-          <p style={{ fontFamily: FONT.body, fontSize: 'clamp(1rem, 1.8vw, 1.15rem)', color: C.muted, maxWidth: 580, margin: '0 auto', lineHeight: 1.75, fontWeight: 300 }}>
-            From cotton fields to the Oval Office. From the NFL draft stage to the boardrooms of Kuwait.
-            The complete story of a man who refused to stay down.
-          </p>
         </div>
 
-        {/* Book cover + purchase */}
-        <div ref={contentRef} style={{
-          maxWidth: 860, margin: '0 auto',
-          padding: '0 clamp(20px, 4vw, 40px)',
-          display: 'grid',
-          gridTemplateColumns: 'auto 1fr',
-          gap: 'clamp(36px, 6vw, 72px)',
-          alignItems: 'start',
-          opacity: contentVis ? 1 : 0,
-          transform: contentVis ? 'none' : 'translateY(30px)',
-          transition: 'all 0.9s cubic-bezier(0.23,1,0.32,1) 0.15s',
-        }} className="bkgrid">
-
-          {/* Book cover */}
-          <div style={{ width: 'clamp(150px, 20vw, 240px)', flexShrink: 0 }}>
-            <div style={{
-              position: 'relative',
-              boxShadow: '20px 20px 60px rgba(0,0,0,0.8), -2px -2px 16px rgba(212,162,78,0.1)',
-              transform: 'rotate(-1.5deg)',
-            }}>
-              <img src={IMG.book} alt="Never Broken by Dr. Joe Profit" style={{ width: '100%', display: 'block', borderRadius: 2 }} />
-              <div style={{ position: 'absolute', inset: 0, boxShadow: 'inset 4px 0 16px rgba(0,0,0,0.5)' }} />
-            </div>
+        {/* Right */}
+        <div>
+          <div style={{ fontFamily: FONT.body, fontSize: "0.72rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 14 }}>The Book</div>
+          <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(2.2rem, 4.5vw, 3.4rem)", color: C.cream, fontWeight: 400, margin: "0 0 16px", lineHeight: 1.1 }}>
+            Never <em style={{ color: C.gold }}>Broken</em>
+          </h2>
+          <p style={{ fontFamily: FONT.body, fontSize: "clamp(1rem, 1.6vw, 1.1rem)", color: C.muted, lineHeight: 1.8, marginBottom: 10, fontWeight: 300 }}>
+            The complete story of Dr. Joe Profit — from cotton fields to the NFL, from the Oval Office to Kuwait.
+          </p>
+          <p style={{ fontFamily: FONT.body, fontSize: "0.88rem", color: C.gold, marginBottom: 28, opacity: 0.85 }}>
+            Available in hardcover, paperback, Kindle &amp; audiobook
+          </p>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 28, padding: "10px 16px", border: `1px solid ${C.goldDim}`, background: "rgba(212,162,78,0.04)" }}>
+            <span style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.gold, lineHeight: 1.5 }}>
+              🎓 <strong>100% of proceeds</strong> support the YUP Foundation
+            </span>
           </div>
-
-          {/* Right — edition selector + CTA */}
           <div>
-
-            {/* Success state */}
-            {orderSuccess && (
-              <div style={{
-                padding: '20px 24px', marginBottom: 28,
-                border: `1px solid ${C.gold}`,
-                background: 'rgba(212,162,78,0.08)',
-              }}>
-                <p style={{ fontFamily: FONT.body, fontSize: '0.95rem', color: C.gold, margin: 0, lineHeight: 1.6 }}>
-                  <strong>Order received — thank you.</strong> Your book ships within 3–5 business days.
-                  100% of your purchase goes to the YUP Foundation.
-                </p>
-              </div>
-            )}
-
-            {/* YUP badge */}
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: 12,
-              marginBottom: 28, padding: '14px 18px',
-              border: `1px solid ${C.goldDim}`,
-              background: 'rgba(212,162,78,0.05)',
-            }}>
-              <div style={{ fontFamily: FONT.body, fontSize: '0.82rem', color: C.gold, lineHeight: 1.5 }}>
-                <strong>100% of proceeds</strong> go directly to the YUP Foundation — Youth United for Prosperity
-              </div>
-            </div>
-
-            {/* Edition selector */}
-            <div style={{ marginBottom: 24 }}>
-              <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 12 }}>
-                Select Edition
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {Object.entries(editions).map(([key, val]) => (
-                  <button key={key} onClick={() => setEdition(key)} style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    padding: '16px 20px',
-                    background: edition === key ? 'rgba(212,162,78,0.07)' : 'transparent',
-                    border: `1px solid ${edition === key ? C.gold : C.lineBright}`,
-                    cursor: 'pointer',
-                    transition: 'all 0.25s ease',
-                    textAlign: 'left',
-                  }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                      <div style={{
-                        width: 16, height: 16, borderRadius: '50%',
-                        border: `2px solid ${edition === key ? C.gold : C.lineBright}`,
-                        background: edition === key ? C.gold : 'transparent',
-                        transition: 'all 0.25s ease', flexShrink: 0,
-                      }} />
-                      <span style={{ fontFamily: FONT.body, fontSize: '1.05rem', color: edition === key ? C.cream : C.muted, fontWeight: edition === key ? 500 : 400 }}>
-                        {val.label}
-                      </span>
-                    </div>
-                    <span style={{ fontFamily: FONT.display, fontSize: '1.15rem', color: edition === key ? C.gold : C.muted, fontStyle: 'italic' }}>
-                      {val.price}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Order button */}
-            <button
-              onClick={handleOrder}
-              disabled={loading}
-              style={{
-                width: '100%',
-                fontFamily: FONT.body, fontSize: '0.82rem',
-                letterSpacing: '0.22em', textTransform: 'uppercase',
-                color: C.black,
-                background: loading ? C.muted : C.gold,
-                border: 'none', padding: '18px 32px',
-                cursor: loading ? 'not-allowed' : 'pointer',
-                fontWeight: 700, transition: 'all 0.3s ease',
-                marginBottom: 12,
-              }}
-              onMouseEnter={e => { if (!loading) e.currentTarget.style.background = C.goldLight; }}
-              onMouseLeave={e => { if (!loading) e.currentTarget.style.background = C.gold; }}
-            >
-              {loading ? 'Preparing Secure Checkout…' : `Order ${editions[edition].label} — ${editions[edition].price}`}
-            </button>
-
-            {orderError && (
-              <p style={{ fontFamily: FONT.body, fontSize: '0.85rem', color: '#c0392b', marginTop: 8, fontStyle: 'italic', lineHeight: 1.5 }}>
-                Something went wrong. Please try again or email{' '}
-                <a href="mailto:info@joeprofitneverbroken.com" style={{ color: '#c0392b' }}>info@joeprofitneverbroken.com</a>
-              </p>
-            )}
-
-            <p style={{ fontFamily: FONT.body, fontSize: '0.75rem', color: C.muted, opacity: 0.6, lineHeight: 1.6, marginTop: 14 }}>
-              Secure checkout via Stripe. Ships within 3–5 business days within the US &amp; Canada.
-            </p>
-
-            <a href="#contact" style={{
-              display: 'inline-block', marginTop: 20,
-              fontFamily: FONT.body, fontSize: '0.75rem', color: C.gold,
-              letterSpacing: '0.18em', textTransform: 'uppercase',
-              textDecoration: 'none',
-              borderBottom: `1px solid ${C.lineBright}`, paddingBottom: 2,
-              transition: 'all 0.3s',
-            }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = C.gold; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = C.lineBright; }}
-            >
-              Book a Speaking Engagement →
+            <a href="/shop" style={{ display: "inline-block", fontFamily: FONT.body, fontSize: "0.78rem", color: C.black, background: C.gold, padding: "14px 36px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
+              onMouseEnter={e => { e.currentTarget.style.background = C.goldLight; e.currentTarget.style.transform = "translateY(-1px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = C.gold; e.currentTarget.style.transform = "none"; }}>
+              Visit the Shop →
             </a>
           </div>
         </div>
@@ -962,7 +771,7 @@ function ContactSection() {
         </div>
         <div style={{ marginTop: 40, display: "flex", gap: 32, justifyContent: "center", flexWrap: "wrap" }}>
           {[
-            { label: "Order the Book", desc: "Hardcover, softcover & digital", icon: "📖", href: null },
+            { label: "Order the Book", desc: "Hardcover, softcover & digital", icon: "📖", href: "/shop" },
             { label: "Donate to Foundation", desc: "Support youth literacy", icon: "🎓", href: "https://youthunitedpro.com/donate.php" },
             { label: "Book Joe to Speak", desc: "Keynotes & events", icon: "🎤", href: null },
           ].map(item => {
@@ -1163,7 +972,7 @@ function ChapterPage({ chapter, onBack, onNavigate }) {
             <p style={{ fontFamily: FONT.body, fontSize: "0.85rem", color: C.muted, lineHeight: 1.6, margin: "0 0 20px 0" }}>
               Every chapter. Every setback. Every comeback. Available now in hardcover, softcover & digital.
             </p>
-            <a href="https://www.joeprofitneverbroken.com/shop" target="_blank" rel="noopener noreferrer"
+            <a href="/shop"
               style={{ display: "inline-block", fontFamily: FONT.body, fontSize: "0.75rem", color: C.black, background: C.gold, padding: "12px 28px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
               onMouseEnter={e => e.target.style.background = C.goldLight}
               onMouseLeave={e => e.target.style.background = C.gold}>
@@ -1292,8 +1101,197 @@ function ChapterImage({ img, i }) {
   );
 }
 
-// ─── APP ───
-export default function App() {
+// ─── SHOP PAGE ───
+function ShopPage() {
+  const [orderStates, setOrderStates] = useState({ hardcover: 'idle', paperback: 'idle' });
+  const [orderSuccess, setOrderSuccess] = useState(false);
+  const [headRef, headVis] = useScrollReveal(0.1);
+  const [productsRef, productsVis] = useScrollReveal(0.08);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (window.location.search.includes('order=success')) {
+      setOrderSuccess(true);
+      window.history.replaceState({}, '', '/shop');
+    }
+  }, []);
+
+  const handleOrder = async (edition) => {
+    setOrderStates(s => ({ ...s, [edition]: 'loading' }));
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ edition }),
+      });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+      else throw new Error();
+    } catch {
+      setOrderStates(s => ({ ...s, [edition]: 'error' }));
+    }
+  };
+
+  const globalStyles = `
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{background:${C.black};overflow-x:hidden}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    a:hover{opacity:0.85}
+    ::selection{background:${C.gold};color:${C.black}}
+    img{-webkit-user-drag:none}
+    @media(max-width:820px){
+      .dnav{display:none!important}
+      .mobile-nav-btn{display:block!important}
+      .shopgrid{grid-template-columns:1fr 1fr!important}
+    }
+    @media(max-width:560px){
+      .shopgrid{grid-template-columns:1fr!important}
+    }
+  `;
+
+  return (
+    <>
+      <style>{globalStyles}</style>
+      <Grain />
+      <Nav />
+
+      {/* ── Hero ── */}
+      <section style={{ position: 'relative', overflow: 'hidden', background: C.black, paddingTop: 80 }}>
+        <div style={{
+          position: 'absolute', inset: 0,
+          display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gridTemplateRows: 'repeat(2, 1fr)',
+        }}>
+          {MOSAIC.map((img, i) => (
+            <div key={i} style={{ backgroundImage: `url(${img.src})`, backgroundSize: 'cover', backgroundPosition: 'center', filter: 'grayscale(100%) brightness(0.28)' }} />
+          ))}
+        </div>
+        <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(180deg, ${C.black} 0%, rgba(10,9,8,0.5) 30%, rgba(10,9,8,0.5) 70%, ${C.black} 100%)` }} />
+        <div style={{ position: 'absolute', top: 80, left: 0, right: 0, height: 1, background: `linear-gradient(90deg, transparent, ${C.gold}, transparent)`, opacity: 0.3 }} />
+
+        <div ref={headRef} style={{
+          position: 'relative', zIndex: 1,
+          textAlign: 'center', padding: 'clamp(60px, 8vw, 100px) 24px clamp(50px, 7vw, 80px)',
+          opacity: headVis ? 1 : 0, transform: headVis ? 'none' : 'translateY(24px)',
+          transition: 'all 0.9s cubic-bezier(0.23,1,0.32,1)',
+        }}>
+          <div style={{ fontFamily: FONT.body, fontSize: '0.7rem', color: C.gold, letterSpacing: '0.4em', textTransform: 'uppercase', marginBottom: 16 }}>The Shop</div>
+          <h1 style={{ fontFamily: FONT.display, fontSize: 'clamp(2.6rem, 6vw, 4.4rem)', color: C.cream, fontWeight: 400, margin: '0 0 20px', lineHeight: 1.05 }}>
+            Never <em style={{ color: C.gold }}>Broken</em>
+          </h1>
+          <p style={{ fontFamily: FONT.body, fontSize: 'clamp(0.95rem, 1.6vw, 1.1rem)', color: C.muted, maxWidth: 520, margin: '0 auto', lineHeight: 1.8, fontWeight: 300 }}>
+            The complete story of Dr. Joe Profit. Choose your format below.
+          </p>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, marginTop: 28, padding: '10px 18px', border: `1px solid ${C.goldDim}`, background: 'rgba(212,162,78,0.05)' }}>
+            <span style={{ fontFamily: FONT.body, fontSize: '0.8rem', color: C.gold }}>🎓 <strong>100% of proceeds</strong> go to the YUP Foundation</span>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Order success banner ── */}
+      {orderSuccess && (
+        <div style={{ background: 'rgba(212,162,78,0.1)', borderBottom: `1px solid ${C.gold}`, padding: '18px 24px', textAlign: 'center' }}>
+          <p style={{ fontFamily: FONT.body, fontSize: '0.95rem', color: C.gold, margin: 0 }}>
+            <strong>Order received — thank you.</strong> Your book ships within 3–5 business days. 100% goes to the YUP Foundation.
+          </p>
+        </div>
+      )}
+
+      {/* ── Products grid ── */}
+      <section style={{ background: C.black, padding: 'clamp(60px, 8vw, 100px) 0' }}>
+        <div ref={productsRef} style={{
+          maxWidth: 1000, margin: '0 auto', padding: '0 clamp(20px, 4vw, 40px)',
+          opacity: productsVis ? 1 : 0, transform: productsVis ? 'none' : 'translateY(30px)',
+          transition: 'all 0.9s cubic-bezier(0.23,1,0.32,1)',
+        }}>
+
+          {/* Physical books */}
+          <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, letterSpacing: '0.28em', textTransform: 'uppercase', marginBottom: 24, paddingBottom: 12, borderBottom: `1px solid ${C.line}` }}>
+            Print Editions
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 48 }} className="shopgrid">
+            {[
+              { key: 'hardcover', label: 'Hardcover', price: '$31.95', desc: 'Premium hardcover binding. A keepsake edition worthy of the story inside.' },
+              { key: 'paperback', label: 'Paperback', price: '$19.95', desc: 'Classic paperback. The full story, every chapter, at an accessible price.' },
+            ].map(({ key, label, price, desc }) => (
+              <div key={key} style={{ background: C.dark, border: `1px solid ${C.lineBright}`, padding: 'clamp(28px, 4vw, 40px)', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ marginBottom: 24, textAlign: 'center' }}>
+                  <div style={{ display: 'inline-block', position: 'relative', boxShadow: '12px 12px 40px rgba(0,0,0,0.6)', transform: 'rotate(-1deg)' }}>
+                    <img src={IMG.book} alt={`Never Broken — ${label}`} style={{ width: 'clamp(120px, 16vw, 180px)', display: 'block' }} />
+                    <div style={{ position: 'absolute', inset: 0, boxShadow: 'inset 3px 0 10px rgba(0,0,0,0.4)' }} />
+                  </div>
+                </div>
+                <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.gold, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 8 }}>{label}</div>
+                <div style={{ fontFamily: FONT.display, fontSize: '1.6rem', color: C.gold, fontStyle: 'italic', marginBottom: 12 }}>{price}</div>
+                <p style={{ fontFamily: FONT.body, fontSize: '0.9rem', color: C.muted, lineHeight: 1.7, marginBottom: 24, flex: 1 }}>{desc}</p>
+                <button
+                  onClick={() => handleOrder(key)}
+                  disabled={orderStates[key] === 'loading'}
+                  style={{
+                    fontFamily: FONT.body, fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase',
+                    color: C.black, background: orderStates[key] === 'loading' ? C.muted : C.gold,
+                    border: 'none', padding: '14px 24px', cursor: orderStates[key] === 'loading' ? 'not-allowed' : 'pointer',
+                    fontWeight: 700, transition: 'all 0.3s', width: '100%',
+                  }}
+                  onMouseEnter={e => { if (orderStates[key] !== 'loading') e.currentTarget.style.background = C.goldLight; }}
+                  onMouseLeave={e => { if (orderStates[key] !== 'loading') e.currentTarget.style.background = C.gold; }}
+                >
+                  {orderStates[key] === 'loading' ? 'Preparing Checkout…' : `Order ${label}`}
+                </button>
+                {orderStates[key] === 'error' && (
+                  <p style={{ fontFamily: FONT.body, fontSize: '0.8rem', color: '#c0392b', marginTop: 8, fontStyle: 'italic' }}>
+                    Something went wrong. Please try again.
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Digital editions */}
+          <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, letterSpacing: '0.28em', textTransform: 'uppercase', marginBottom: 24, paddingBottom: 12, borderBottom: `1px solid ${C.line}` }}>
+            Digital Editions — Coming Soon
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 64 }} className="shopgrid">
+            {[
+              { icon: '📱', label: 'Kindle Edition', desc: 'Read anywhere on any device. The complete book in digital format.', note: 'Available on Amazon Kindle' },
+              { icon: '🎧', label: 'Audiobook', desc: 'Six chapters. Joe\'s story in his own voice — a voice preservation project unlike any other.', note: '6 chapters · Narrated in Joe\'s voice' },
+            ].map(({ icon, label, desc, note }) => (
+              <div key={label} style={{ background: C.dark2, border: `1px solid ${C.line}`, padding: 'clamp(28px, 4vw, 40px)', opacity: 0.65, position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', top: 16, right: 16, fontFamily: FONT.body, fontSize: '0.62rem', color: C.gold, letterSpacing: '0.2em', textTransform: 'uppercase', background: 'rgba(212,162,78,0.1)', padding: '4px 10px', border: `1px solid ${C.goldDim}` }}>
+                  Coming Soon
+                </div>
+                <div style={{ fontSize: '2.4rem', marginBottom: 20 }}>{icon}</div>
+                <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 8 }}>{label}</div>
+                <p style={{ fontFamily: FONT.body, fontSize: '0.9rem', color: C.muted, lineHeight: 1.7, marginBottom: 16 }}>{desc}</p>
+                <p style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.gold, opacity: 0.6, fontStyle: 'italic' }}>{note}</p>
+                <div style={{ marginTop: 24, height: 46, border: `1px solid ${C.line}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.muted, letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.5 }}>Notify Me</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* More coming */}
+          <div style={{ textAlign: 'center', padding: '40px 0', borderTop: `1px solid ${C.line}` }}>
+            <p style={{ fontFamily: FONT.display, fontSize: 'clamp(1.1rem, 2vw, 1.5rem)', color: C.muted, fontStyle: 'italic', marginBottom: 8, opacity: 0.6 }}>
+              More from Dr. Joe Profit — coming soon.
+            </p>
+            <p style={{ fontFamily: FONT.body, fontSize: '0.8rem', color: C.muted, opacity: 0.4 }}>
+              Speaking resources, foundation merchandise, and more.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+      <BackToTop />
+    </>
+  );
+}
+
+// ─── HOME PAGE ───
+function HomePage() {
   const [activeChapter, setActiveChapter] = useState(null);
 
   const openChapter = (slug) => {
@@ -1366,5 +1364,17 @@ export default function App() {
       <Footer />
       <BackToTop />
     </>
+  );
+}
+
+// ─── APP ───
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/shop" element={<ShopPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
