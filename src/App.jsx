@@ -708,11 +708,17 @@ function BookSection() {
             <p style={{ fontFamily: FONT.body, fontSize: "1.05rem", color: C.mutedLight, lineHeight: 1.8, marginBottom: 12 }}>
               From the cotton fields of Louisiana to the NFL draft stage. From the Oval Office to the battlefields of Kuwait. This is the story of a man who was told no a thousand times and answered yes every single time.
             </p>
-            <p style={{ fontFamily: FONT.body, fontSize: "1.05rem", color: C.mutedLight, lineHeight: 1.8, marginBottom: 28 }}>
+            <p style={{ fontFamily: FONT.body, fontSize: "1.05rem", color: C.mutedLight, lineHeight: 1.8, marginBottom: 20 }}>
               "Never Broken" is more than a memoir — it's a blueprint for resilience, written by a man who lived every word.
             </p>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 28, padding: "12px 16px", border: `1px solid ${C.goldDim}`, background: "rgba(212,162,78,0.05)" }}>
+              <div style={{ fontSize: "1rem", flexShrink: 0 }}>🎓</div>
+              <div style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.gold, lineHeight: 1.5 }}>
+                <strong>100% of proceeds</strong> support the YUP Foundation — putting books in hands and futures within reach.
+              </div>
+            </div>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <a href="#contact" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.black, background: C.gold, padding: "14px 32px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
+              <a href="https://www.joeprofitneverbroken.com/shop" target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.black, background: C.gold, padding: "14px 32px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
                 onMouseEnter={e => e.target.style.background = C.goldLight}
                 onMouseLeave={e => e.target.style.background = C.gold}>
                 Order Now
@@ -1125,6 +1131,7 @@ export default function App() {
       <ParallaxQuote quote="Every morning the sun rises again. No matter what happened yesterday, you get another chance. That's not optimism — that's a fact." attribution="Dr. Joe Profit" />
       <CharitySection />
       <VideoShowcase videoId="660003775" />
+      <BookSection />
       <BookTrailerSection />
       <ContactSection />
       <Footer />
