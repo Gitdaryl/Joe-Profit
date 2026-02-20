@@ -82,6 +82,7 @@ const IMG = {
   buckhead: "/images/Brockhead_club.jpg",
   daveEmanuel: "/images/Dave_Emmanuel_.jpg",
   wandaGift: "/images/Wanda.jpg",
+  joeJoe: "/images/Joe_Joe.png",
 };
 
 // ─── GALLERY DATA (all 61+ images organized by category) ───
@@ -109,7 +110,7 @@ const GALLERY_ITEMS = [
   { src: IMG.cii, cat: "Business", title: "Operation Phone Home", caption: "CII's mobile communications center during Desert Storm, outside Kuwait City. The $50M contract — largest ever awarded to a U.S. minority-owned company." },
   { src: IMG.ali, cat: "Business", title: "The Ali Telephone", caption: "Dr. Profit brings Muhammad Ali to Atlanta to present the Muhammad Ali Telephone™ designed and manufactured by Profit's Company." },
   { src: IMG.uae, cat: "Business", title: "UAE Operations", caption: "Profit meets with his Middle East Director of Operations in the United Arab Emirates." },
-  { src: IMG.bodyBuilder, cat: "Business", title: "The Body Builder", caption: "Dr. Joseph Profit, the body builder — discipline in every arena." },
+  { src: IMG.bodyBuilder, cat: "Business", title: "The Body Builder", caption: "Joe Profit, Finalist International Bodybuilding Competition Masters Division." },
   // LEADERSHIP
   { src: IMG.reagan, cat: "Leadership", title: "With President Reagan", caption: "President Ronald Reagan welcomes Dr. Joe Profit to the White House." },
   { src: IMG.aliPress, cat: "Leadership", title: "Press Conference", caption: "Dr. Joe Profit with Atlanta's Mayor Maynard Jackson, Muhammad Ali, and others." },
@@ -328,7 +329,7 @@ function Nav() {
   }, []);
   const links = [
     { label: "Story", href: "#story" }, { label: "Archive", href: "#archive" },
-    { label: "Timeline", href: "#timeline" }, { label: "Charity", href: "#charity" },
+    { label: "Timeline", href: "#timeline" }, { label: "Youth United for Prosperity", href: "#charity" },
     { label: "Book", href: "#book" }, { label: "Contact", href: "#contact" },
   ];
   const navBg = scrolled ? "rgba(10,9,8,0.92)" : "transparent";
@@ -342,8 +343,9 @@ function Nav() {
         </a>
         <div className="dnav" style={{ display: "flex", gap: 32, alignItems: "center" }}>
           {links.map(l => (
-            <a key={l.label} href={l.href} style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.muted, textDecoration: "none", letterSpacing: "0.12em", textTransform: "uppercase", transition: "color 0.3s" }}
-              onMouseEnter={e => e.target.style.color = C.gold} onMouseLeave={e => e.target.style.color = C.muted}>{l.label}</a>
+            <a key={l.label} href={l.href} style={{ fontFamily: FONT.body, fontSize: "0.9rem", color: C.muted, textDecoration: "none", letterSpacing: "0.1em", textTransform: "uppercase", transition: "color 0.3s" }}
+              onMouseEnter={e => e.target.style.color = C.gold} onMouseLeave={e => e.target.style.color = C.muted}>{l.label}
+            </a>
           ))}
         </div>
         <button onClick={() => setMobileOpen(!mobileOpen)} className="mobile-nav-btn" style={{ display: "none", background: "none", border: "none", color: C.gold, fontSize: "1.5rem", cursor: "pointer" }}>☰</button>
@@ -365,7 +367,7 @@ function HeroSection() {
   const [loaded, setLoaded] = useState(false);
   useEffect(() => { setTimeout(() => setLoaded(true), 200); }, []);
   return (
-    <section ref={pRef} style={{ position: "relative", height: "100vh", minHeight: 600, overflow: "hidden" }}>
+    <section ref={pRef} style={{ position: "relative", height: "88vh", minHeight: 560, overflow: "hidden" }}>
       <div style={{ position: "absolute", inset: 0, transform: `translateY(${pOffset}px) scale(1.15)`, transition: "transform 0.05s linear", background: `url(${IMG.hero}) center/cover no-repeat`, filter: "brightness(0.35) contrast(1.1) saturate(0.8)" }} />
       <div style={{ position: "absolute", inset: 0, background: `linear-gradient(180deg, rgba(10,9,8,0.3) 0%, rgba(10,9,8,0.1) 40%, rgba(10,9,8,0.7) 75%, ${C.black} 100%)` }} />
       <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "40%", background: `linear-gradient(to top, ${C.black}, transparent)` }} />
@@ -377,9 +379,12 @@ function HeroSection() {
           <h1 style={{ fontFamily: FONT.display, fontSize: "clamp(3rem, 8vw, 7rem)", fontWeight: 700, color: C.cream, lineHeight: 0.92, margin: 0, letterSpacing: "-0.02em" }}>
             Never<br /><span style={{ fontStyle: "italic", color: C.gold }}>Broken</span>
           </h1>
-          <p style={{ fontFamily: FONT.body, fontSize: "clamp(1rem, 1.6vw, 1.15rem)", color: C.mutedLight, maxWidth: 520, marginTop: 24, lineHeight: 1.7, opacity: loaded ? 0.85 : 0, transition: "opacity 1.5s ease 0.4s" }}>
-            From cotton fields to the NFL. From the White House to the boardroom. The story of Dr. Joe Profit — a man who refused to stay down.
-          </p>
+          <div style={{ display: "flex", alignItems: "flex-end", gap: 20, marginTop: 24 }}>
+            <img src={IMG.book} alt="Never Broken — the book" style={{ width: 80, height: "auto", flexShrink: 0, boxShadow: "0 8px 32px rgba(0,0,0,0.6), 0 2px 8px rgba(212,162,78,0.15)", borderRadius: 2, opacity: loaded ? 0.95 : 0, transition: "opacity 1.5s ease 0.4s" }} />
+            <p style={{ fontFamily: FONT.body, fontSize: "clamp(1rem, 1.6vw, 1.15rem)", color: C.mutedLight, maxWidth: 440, margin: 0, lineHeight: 1.7, opacity: loaded ? 0.85 : 0, transition: "opacity 1.5s ease 0.4s" }}>
+              From cotton fields to the NFL. From the White House to the boardroom. The story of Dr. Joe Profit — a man who refused to stay down.
+            </p>
+          </div>
         </div>
         <div style={{ opacity: loaded ? 1 : 0, transition: "opacity 2s ease 1s", marginTop: 40, display: "flex", gap: 16, flexWrap: "wrap" }}>
           <a href="#story" style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.black, background: C.gold, padding: "14px 32px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s", borderRadius: 0 }}
@@ -393,6 +398,10 @@ function HeroSection() {
             Get the Book
           </a>
         </div>
+      </div>
+      {/* Joe portrait — right side */}
+      <div style={{ position: "absolute", bottom: 0, right: 0, width: "clamp(260px, 38vw, 560px)", height: "92%", zIndex: 1, display: "flex", alignItems: "flex-end", justifyContent: "flex-end", opacity: loaded ? 1 : 0, transition: "opacity 1.8s ease 0.6s" }}>
+        <img src={IMG.joeJoe} alt="Dr. Joe Profit" style={{ height: "100%", width: "auto", objectFit: "contain", objectPosition: "bottom center", maskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 18%, black 38%)", WebkitMaskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 18%, black 38%)", filter: "drop-shadow(-24px 0 48px rgba(212,162,78,0.12))" }} />
       </div>
       {/* Scroll indicator */}
       <div style={{ position: "absolute", bottom: 20, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, opacity: loaded ? 0.4 : 0, transition: "opacity 2s ease 1.5s" }}>
@@ -420,11 +429,11 @@ function StorySection({ onOpenChapter }) {
   const [ref, vis] = useScrollReveal(0.1);
   const chapters = CHAPTERS.map(c => ({ img: c.hero, num: c.num, title: c.title, sub: c.sub, slug: c.slug, text: c.paragraphs[0] }));
   return (
-    <section id="story" style={{ padding: "clamp(60px, 10vw, 120px) 0", background: C.black }}>
+    <section id="story" style={{ padding: "clamp(40px, 6vw, 80px) 0", background: C.black }}>
       <div ref={ref} style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)" }}>
         <div style={{ marginBottom: 60, opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(30px)", transition: "all 0.8s ease" }}>
-          <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>The Chapters</div>
-          <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(2rem, 4vw, 3.2rem)", color: C.cream, fontWeight: 600, margin: 0, lineHeight: 1.1 }}>A Life in <span style={{ fontStyle: "italic", color: C.gold }}>Six Acts</span></h2>
+          <div style={{ fontFamily: FONT.body, fontSize: "1rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>The Chapters</div>
+          <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(2.6rem, 5.5vw, 4.2rem)", color: C.cream, fontWeight: 600, margin: 0, lineHeight: 1.1 }}>A Life in <span style={{ fontStyle: "italic", color: C.gold }}>Six Acts</span></h2>
         </div>
         <div className="chgrid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 3 }}>
           {chapters.map((ch, i) => <ChapterCard key={i} ch={ch} i={i} onClick={() => onOpenChapter(ch.slug)} />)}
@@ -458,12 +467,12 @@ function ParallaxQuote({ quote, attribution }) {
   const [pRef, pOffset] = useParallax(0.2);
   const [ref, vis] = useScrollReveal(0.3);
   return (
-    <section ref={pRef} style={{ position: "relative", padding: "clamp(80px, 15vw, 180px) 0", overflow: "hidden" }}>
+    <section ref={pRef} style={{ position: "relative", padding: "clamp(40px, 6vw, 80px) 0", overflow: "hidden" }}>
       <div style={{ position: "absolute", inset: 0, background: C.dark3 }} />
       <div style={{ position: "absolute", top: "50%", left: "50%", transform: `translate(-50%, ${-50 + pOffset * 0.5}%) scale(${1 + Math.abs(pOffset) * 0.001})`, fontFamily: FONT.display, fontSize: "clamp(12rem, 30vw, 28rem)", color: "rgba(212,162,78,0.03)", fontWeight: 700, lineHeight: 0.8, whiteSpace: "nowrap", pointerEvents: "none" }}>40</div>
       <div ref={ref} style={{ position: "relative", zIndex: 2, maxWidth: 800, margin: "0 auto", padding: "0 clamp(24px, 6vw, 60px)", textAlign: "center", opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(30px)", transition: "all 1s ease" }}>
         <div style={{ width: 40, height: 1, background: C.gold, margin: "0 auto 30px", opacity: 0.5 }} />
-        <blockquote style={{ fontFamily: FONT.display, fontSize: "clamp(1.3rem, 3vw, 2.2rem)", color: C.cream, fontStyle: "italic", lineHeight: 1.5, margin: 0, fontWeight: 400 }}>"{quote}"</blockquote>
+        <blockquote style={{ fontFamily: FONT.display, fontSize: "clamp(1.1rem, 2.5vw, 1.9rem)", color: C.cream, fontStyle: "italic", lineHeight: 1.6, margin: 0, fontWeight: 400 }}>"{quote}"</blockquote>
         <div style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.gold, letterSpacing: "0.25em", textTransform: "uppercase", marginTop: 24 }}>— {attribution}</div>
         <div style={{ width: 40, height: 1, background: C.gold, margin: "30px auto 0", opacity: 0.5 }} />
       </div>
@@ -554,7 +563,7 @@ function GalleryCard({ item, i, onClick }) {
 function TimelineSection() {
   const [ref, vis] = useScrollReveal(0.1);
   const events = [
-    { year: "1948", title: "Born in Louisiana", text: "Lake Providence — one of the poorest towns in America." },
+    { year: "1949", title: "Born in Louisiana", text: "Lake Providence — one of the poorest towns in America." },
     { year: "1962", title: "Swayze Elementary", text: "Young Joe discovers football in heavy work boots." },
     { year: "1967", title: "First Black Athlete", text: "Breaks the color barrier at Northeast Louisiana University." },
     { year: "1971", title: "NFL Draft Day", text: "7th pick overall, 1st round — Atlanta Falcons." },
@@ -569,7 +578,7 @@ function TimelineSection() {
     { year: "2026", title: "Never Broken", text: "The book. The story. The legacy preserved." },
   ];
   return (
-    <section id="timeline" style={{ padding: "clamp(60px, 10vw, 120px) 0", background: C.black }}>
+    <section id="timeline" style={{ padding: "clamp(40px, 6vw, 80px) 0", background: C.black }}>
       <div ref={ref} style={{ maxWidth: 900, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)" }}>
         <div style={{ textAlign: "center", marginBottom: 60, opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(30px)", transition: "all 0.8s ease" }}>
           <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>The Journey</div>
@@ -603,7 +612,7 @@ function CharitySection() {
   const [ref, vis] = useScrollReveal(0.1);
   const [pRef, pOffset] = useParallax(0.15);
   return (
-    <section id="charity" ref={pRef} style={{ position: "relative", padding: "clamp(80px, 12vw, 140px) 0", overflow: "hidden" }}>
+    <section id="charity" ref={pRef} style={{ position: "relative", padding: "clamp(40px, 6vw, 80px) 0", overflow: "hidden" }}>
       <div style={{ position: "absolute", inset: 0, background: `url(${IMG.yup}) center/cover`, filter: "brightness(0.2) saturate(0.6)", transform: `translateY(${pOffset}px)` }} />
       <div style={{ position: "absolute", inset: 0, background: `linear-gradient(135deg, rgba(10,9,8,0.95) 0%, rgba(10,9,8,0.7) 50%, rgba(10,9,8,0.95) 100%)` }} />
       <div ref={ref} style={{ position: "relative", zIndex: 2, maxWidth: 1000, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)" }}>
@@ -933,27 +942,20 @@ function ChapterParagraph({ text, delay }) {
     </p>
   );
 }
-function VideoShowcase({ videoId, height = 500 }) {
+function VideoShowcase({ videoId }) {
   const [ref, vis] = useScrollReveal(0.1);
   return (
     <section ref={ref} style={{
       position: "relative", background: C.black,
-      padding: "40px 0", overflow: "hidden",
+      height: "500px", overflow: "hidden",
       opacity: vis ? 1 : 0, transition: "opacity 1.2s ease",
     }}>
-      <div style={{
-        position: "relative", width: "100%", maxWidth: `${height}px`,
-        margin: "0 auto",
-      }}>
-        <div style={{ position: "relative", paddingTop: "100%", width: "100%" }}>
-          <iframe
-            src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&muted=1&background=1`}
-            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-            allow="autoplay; fullscreen"
-            title="Video Showcase"
-          />
-        </div>
-      </div>
+      <iframe
+        src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&muted=1&background=1`}
+        style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+        allow="autoplay; fullscreen"
+        title="Video Showcase"
+      />
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "60px", background: `linear-gradient(180deg, ${C.black} 0%, transparent 100%)`, zIndex: 2, pointerEvents: "none" }} />
       <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "60px", background: `linear-gradient(0deg, ${C.black} 0%, transparent 100%)`, zIndex: 2, pointerEvents: "none" }} />
     </section>
@@ -965,7 +967,7 @@ function HologramSection() {
   return (
     <section ref={ref} style={{
       position: "relative", background: "#050508",
-      padding: "40px 0", overflow: "hidden",
+      padding: "20px 0", overflow: "hidden",
       opacity: vis ? 1 : 0, transition: "opacity 1.5s ease",
     }}>
       <div style={{
@@ -1079,12 +1081,12 @@ export default function App() {
       <HeroSection />
       <Marquee />
       <StorySection onOpenChapter={openChapter} />
-      <ParallaxQuote quote="They can break your body..." attribution="Dr. Joe Profit" />
+      <HologramSection />
+      <ParallaxQuote quote="They can break your body, but they can never break your spirit. That's the one thing you own outright." attribution="Dr. Joe Profit" />
       <VideoShowcase videoId="655492739" />
       <ArchiveSection />
       <TimelineSection />
-      <HologramSection />
-      <ParallaxQuote quote="Every morning the sun rises again..." attribution="Dr. Joe Profit" />
+      <ParallaxQuote quote="Every morning the sun rises again. No matter what happened yesterday, you get another chance. That's not optimism — that's a fact." attribution="Dr. Joe Profit" />
       <CharitySection />
       <VideoShowcase videoId="660003775" />
       <BookTrailerSection />
