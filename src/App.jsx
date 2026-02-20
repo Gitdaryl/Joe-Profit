@@ -629,7 +629,7 @@ function CharitySection() {
               Every dollar donated goes directly to programming that puts books in hands, confidence in hearts, and futures within reach.
             </p>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <a href="#contact" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.black, background: C.gold, padding: "12px 28px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
+              <a href="https://youthunitedpro.com/donate.php" target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.black, background: C.gold, padding: "12px 28px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
                 onMouseEnter={e => e.target.style.background = C.goldLight}
                 onMouseLeave={e => e.target.style.background = C.gold}>
                 Donate Now
@@ -750,21 +750,54 @@ function ContactSection() {
         </div>
         <div style={{ marginTop: 40, display: "flex", gap: 32, justifyContent: "center", flexWrap: "wrap" }}>
           {[
-            { label: "Order the Book", desc: "Hardcover & digital editions", icon: "📖" },
-            { label: "Donate to YUP", desc: "Support youth literacy", icon: "🎓" },
-            { label: "Book Joe to Speak", desc: "Keynotes & events", icon: "🎤" },
-          ].map(item => (
-            <div key={item.label} style={{ textAlign: "center", padding: 20, border: `1px solid ${C.line}`, flex: "1 1 160px", maxWidth: 200, transition: "all 0.3s", cursor: "pointer" }}
-              onMouseEnter={e => e.currentTarget.style.borderColor = C.gold}
-              onMouseLeave={e => e.currentTarget.style.borderColor = C.line}>
-              <div style={{ fontSize: "1.5rem", marginBottom: 8 }}>{item.icon}</div>
-              <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.cream, fontWeight: 600, letterSpacing: "0.08em", marginBottom: 4 }}>{item.label}</div>
-              <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.muted }}>{item.desc}</div>
-            </div>
-          ))}
+            { label: "Order the Book", desc: "Hardcover, softcover & digital", icon: "📖", href: null },
+            { label: "Donate to YUP", desc: "Support youth literacy", icon: "🎓", href: "https://youthunitedpro.com/donate.php" },
+            { label: "Book Joe to Speak", desc: "Keynotes & events", icon: "🎤", href: null },
+          ].map(item => {
+            const Tag = item.href ? "a" : "div";
+            return (
+              <Tag key={item.label} href={item.href || undefined} target={item.href ? "_blank" : undefined} rel={item.href ? "noopener noreferrer" : undefined}
+                style={{ textAlign: "center", padding: 20, border: `1px solid ${C.line}`, flex: "1 1 160px", maxWidth: 200, transition: "all 0.3s", cursor: "pointer", textDecoration: "none", display: "block" }}
+                onMouseEnter={e => e.currentTarget.style.borderColor = C.gold}
+                onMouseLeave={e => e.currentTarget.style.borderColor = C.line}>
+                <div style={{ fontSize: "1.5rem", marginBottom: 8 }}>{item.icon}</div>
+                <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.cream, fontWeight: 600, letterSpacing: "0.08em", marginBottom: 4 }}>{item.label}</div>
+                <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.muted }}>{item.desc}</div>
+              </Tag>
+            );
+          })}
         </div>
       </div>
     </section>
+  );
+}
+
+// ─── BACK TO TOP ───
+function BackToTop() {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 400);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return (
+    <button
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      style={{
+        position: "fixed", bottom: 28, right: 28, zIndex: 999,
+        background: "rgba(10,9,8,0.85)", border: `1px solid ${C.goldDim}`,
+        color: C.gold, fontFamily: FONT.body, fontSize: "0.65rem",
+        letterSpacing: "0.18em", textTransform: "uppercase",
+        padding: "10px 14px", cursor: "pointer",
+        opacity: visible ? 1 : 0, pointerEvents: visible ? "auto" : "none",
+        transform: visible ? "translateY(0)" : "translateY(12px)",
+        transition: "all 0.4s ease", backdropFilter: "blur(6px)",
+      }}
+      onMouseEnter={e => { e.currentTarget.style.borderColor = C.gold; e.currentTarget.style.background = "rgba(212,162,78,0.12)"; }}
+      onMouseLeave={e => { e.currentTarget.style.borderColor = C.goldDim; e.currentTarget.style.background = "rgba(10,9,8,0.85)"; }}
+    >
+      ↑ Top
+    </button>
   );
 }
 
@@ -1095,6 +1128,7 @@ export default function App() {
       <BookTrailerSection />
       <ContactSection />
       <Footer />
+      <BackToTop />
     </>
   );
 }
