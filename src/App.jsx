@@ -690,45 +690,251 @@ function BookTrailerSection() {
 }
 
 // ─── BOOK / PURCHASE SECTION ───
+const MOSAIC = [
+  { src: IMG.reagan,             alt: "Joe Profit with President Reagan" },
+  { src: IMG.ali,                alt: "Joe Profit with Muhammad Ali" },
+  { src: IMG.runTD,              alt: "Joe Profit scoring in the NFL" },
+  { src: IMG.multiMillionContract, alt: "Multimillion dollar Kuwait contract" },
+  { src: IMG.yup,                alt: "YUP Foundation — Youth United for Prosperity" },
+  { src: IMG.signing,            alt: "Dr. Joe Profit signing Never Broken" },
+];
+
 function BookSection() {
-  const [ref, vis] = useScrollReveal(0.15);
+  const [headRef, headVis] = useScrollReveal(0.1);
+  const [contentRef, contentVis] = useScrollReveal(0.1);
+  const [edition, setEdition] = useState('hardcover');
+  const [loading, setLoading] = useState(false);
+  const [orderError, setOrderError] = useState(false);
+  const [orderSuccess, setOrderSuccess] = useState(false);
+
+  const editions = {
+    hardcover: { label: 'Hardcover', price: '$31.95' },
+    paperback: { label: 'Paperback', price: '$19.95' },
+  };
+
+  // Check for successful return from Stripe
+  useState(() => {
+    if (typeof window !== 'undefined' && window.location.search.includes('order=success')) {
+      setOrderSuccess(true);
+    }
+  });
+
+  const handleOrder = async () => {
+    setLoading(true);
+    setOrderError(false);
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ edition }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error('No checkout URL returned');
+      }
+    } catch (err) {
+      console.error('Order error:', err);
+      setOrderError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <section id="book" style={{ padding: "clamp(60px, 10vw, 120px) 0", background: C.black }}>
-      <div ref={ref} style={{ maxWidth: 1000, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)" }}>
-        <div className="bkgrid" style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: 60, alignItems: "center" }}>
-          <div style={{ opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(20px) rotate(-2deg)", transition: "all 0.8s ease" }}>
-            <div style={{ position: "relative", boxShadow: "24px 24px 60px rgba(0,0,0,0.5), -4px -4px 20px rgba(212,162,78,0.05)" }}>
-              <img src={IMG.book} alt="Never Broken" style={{ width: "100%", display: "block" }} />
-              <div style={{ position: "absolute", inset: 0, boxShadow: "inset 0 0 40px rgba(0,0,0,0.3)" }} />
+    <section id="book" style={{ position: 'relative', overflow: 'hidden', background: C.black }}>
+
+      {/* ── Cinematic mosaic background ── */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gridTemplateRows: 'repeat(2, 1fr)',
+      }}>
+        {MOSAIC.map((img, i) => (
+          <div key={i} style={{
+            backgroundImage: `url(${img.src})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            filter: 'grayscale(100%) brightness(0.35)',
+          }} />
+        ))}
+      </div>
+
+      {/* Overlay — fades edges to black, keeps center readable */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: `
+          linear-gradient(180deg, ${C.black} 0%, rgba(10,9,8,0.55) 20%, rgba(10,9,8,0.55) 80%, ${C.black} 100%),
+          linear-gradient(90deg, ${C.black} 0%, transparent 20%, transparent 80%, ${C.black} 100%)
+        `,
+      }} />
+
+      {/* Gold top line */}
+      <div style={{
+        position: 'absolute', top: 0, left: 0, right: 0, height: 2,
+        background: `linear-gradient(90deg, transparent, ${C.gold}, transparent)`,
+        opacity: 0.4,
+      }} />
+
+      {/* ── Content ── */}
+      <div style={{ position: 'relative', zIndex: 1, padding: 'clamp(80px, 10vw, 140px) 0' }}>
+
+        {/* Header */}
+        <div ref={headRef} style={{
+          textAlign: 'center', marginBottom: 64,
+          opacity: headVis ? 1 : 0,
+          transform: headVis ? 'none' : 'translateY(24px)',
+          transition: 'all 0.9s cubic-bezier(0.23,1,0.32,1)',
+        }}>
+          <div style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.gold, letterSpacing: '0.4em', textTransform: 'uppercase', marginBottom: 16 }}>
+            The Book
+          </div>
+          <h2 style={{ fontFamily: FONT.display, fontSize: 'clamp(2.8rem, 6vw, 4.8rem)', color: C.cream, fontWeight: 400, margin: '0 0 8px', lineHeight: 1.05 }}>
+            Never <em style={{ color: C.gold }}>Broken</em>
+          </h2>
+          <div style={{ width: 48, height: 1, background: C.gold, margin: '24px auto', opacity: 0.4 }} />
+          <p style={{ fontFamily: FONT.body, fontSize: 'clamp(1rem, 1.8vw, 1.15rem)', color: C.muted, maxWidth: 580, margin: '0 auto', lineHeight: 1.75, fontWeight: 300 }}>
+            From cotton fields to the Oval Office. From the NFL draft stage to the boardrooms of Kuwait.
+            The complete story of a man who refused to stay down.
+          </p>
+        </div>
+
+        {/* Book cover + purchase */}
+        <div ref={contentRef} style={{
+          maxWidth: 860, margin: '0 auto',
+          padding: '0 clamp(20px, 4vw, 40px)',
+          display: 'grid',
+          gridTemplateColumns: 'auto 1fr',
+          gap: 'clamp(36px, 6vw, 72px)',
+          alignItems: 'start',
+          opacity: contentVis ? 1 : 0,
+          transform: contentVis ? 'none' : 'translateY(30px)',
+          transition: 'all 0.9s cubic-bezier(0.23,1,0.32,1) 0.15s',
+        }} className="bkgrid">
+
+          {/* Book cover */}
+          <div style={{ width: 'clamp(150px, 20vw, 240px)', flexShrink: 0 }}>
+            <div style={{
+              position: 'relative',
+              boxShadow: '20px 20px 60px rgba(0,0,0,0.8), -2px -2px 16px rgba(212,162,78,0.1)',
+              transform: 'rotate(-1.5deg)',
+            }}>
+              <img src={IMG.book} alt="Never Broken by Dr. Joe Profit" style={{ width: '100%', display: 'block', borderRadius: 2 }} />
+              <div style={{ position: 'absolute', inset: 0, boxShadow: 'inset 4px 0 16px rgba(0,0,0,0.5)' }} />
             </div>
           </div>
-          <div style={{ opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(30px)", transition: "all 0.8s ease 0.2s" }}>
-            <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>The Book</div>
-            <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(2rem, 4vw, 3rem)", color: C.cream, fontWeight: 600, margin: "0 0 20px 0", lineHeight: 1.1 }}>Never <span style={{ fontStyle: "italic", color: C.gold }}>Broken</span></h2>
-            <p style={{ fontFamily: FONT.body, fontSize: "1.05rem", color: C.mutedLight, lineHeight: 1.8, marginBottom: 12 }}>
-              From the cotton fields of Louisiana to the NFL draft stage. From the Oval Office to the battlefields of Kuwait. This is the story of a man who was told no a thousand times and answered yes every single time.
-            </p>
-            <p style={{ fontFamily: FONT.body, fontSize: "1.05rem", color: C.mutedLight, lineHeight: 1.8, marginBottom: 20 }}>
-              "Never Broken" is more than a memoir — it's a blueprint for resilience, written by a man who lived every word.
-            </p>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 28, padding: "12px 16px", border: `1px solid ${C.goldDim}`, background: "rgba(212,162,78,0.05)" }}>
-              <div style={{ fontSize: "1rem", flexShrink: 0 }}>🎓</div>
-              <div style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.gold, lineHeight: 1.5 }}>
-                <strong>100% of proceeds</strong> support the YUP Foundation — putting books in hands and futures within reach.
+
+          {/* Right — edition selector + CTA */}
+          <div>
+
+            {/* Success state */}
+            {orderSuccess && (
+              <div style={{
+                padding: '20px 24px', marginBottom: 28,
+                border: `1px solid ${C.gold}`,
+                background: 'rgba(212,162,78,0.08)',
+              }}>
+                <p style={{ fontFamily: FONT.body, fontSize: '0.95rem', color: C.gold, margin: 0, lineHeight: 1.6 }}>
+                  <strong>Order received — thank you.</strong> Your book ships within 3–5 business days.
+                  100% of your purchase goes to the YUP Foundation.
+                </p>
+              </div>
+            )}
+
+            {/* YUP badge */}
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 12,
+              marginBottom: 28, padding: '14px 18px',
+              border: `1px solid ${C.goldDim}`,
+              background: 'rgba(212,162,78,0.05)',
+            }}>
+              <div style={{ fontFamily: FONT.body, fontSize: '0.82rem', color: C.gold, lineHeight: 1.5 }}>
+                <strong>100% of proceeds</strong> go directly to the YUP Foundation — Youth United for Prosperity
               </div>
             </div>
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <a href="https://www.joeprofitneverbroken.com/shop" target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.black, background: C.gold, padding: "14px 32px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
-                onMouseEnter={e => e.target.style.background = C.goldLight}
-                onMouseLeave={e => e.target.style.background = C.gold}>
-                Order Now
-              </a>
-              <a href="#contact" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.gold, border: `1px solid ${C.gold}`, padding: "14px 32px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", transition: "all 0.3s" }}
-                onMouseEnter={e => e.target.style.background = C.goldDim}
-                onMouseLeave={e => e.target.style.background = "transparent"}>
-                Book a Speaking Engagement
-              </a>
+
+            {/* Edition selector */}
+            <div style={{ marginBottom: 24 }}>
+              <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 12 }}>
+                Select Edition
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {Object.entries(editions).map(([key, val]) => (
+                  <button key={key} onClick={() => setEdition(key)} style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '16px 20px',
+                    background: edition === key ? 'rgba(212,162,78,0.07)' : 'transparent',
+                    border: `1px solid ${edition === key ? C.gold : C.lineBright}`,
+                    cursor: 'pointer',
+                    transition: 'all 0.25s ease',
+                    textAlign: 'left',
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                      <div style={{
+                        width: 16, height: 16, borderRadius: '50%',
+                        border: `2px solid ${edition === key ? C.gold : C.lineBright}`,
+                        background: edition === key ? C.gold : 'transparent',
+                        transition: 'all 0.25s ease', flexShrink: 0,
+                      }} />
+                      <span style={{ fontFamily: FONT.body, fontSize: '1.05rem', color: edition === key ? C.cream : C.muted, fontWeight: edition === key ? 500 : 400 }}>
+                        {val.label}
+                      </span>
+                    </div>
+                    <span style={{ fontFamily: FONT.display, fontSize: '1.15rem', color: edition === key ? C.gold : C.muted, fontStyle: 'italic' }}>
+                      {val.price}
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
+
+            {/* Order button */}
+            <button
+              onClick={handleOrder}
+              disabled={loading}
+              style={{
+                width: '100%',
+                fontFamily: FONT.body, fontSize: '0.82rem',
+                letterSpacing: '0.22em', textTransform: 'uppercase',
+                color: C.black,
+                background: loading ? C.muted : C.gold,
+                border: 'none', padding: '18px 32px',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                fontWeight: 700, transition: 'all 0.3s ease',
+                marginBottom: 12,
+              }}
+              onMouseEnter={e => { if (!loading) e.currentTarget.style.background = C.goldLight; }}
+              onMouseLeave={e => { if (!loading) e.currentTarget.style.background = C.gold; }}
+            >
+              {loading ? 'Preparing Secure Checkout…' : `Order ${editions[edition].label} — ${editions[edition].price}`}
+            </button>
+
+            {orderError && (
+              <p style={{ fontFamily: FONT.body, fontSize: '0.85rem', color: '#c0392b', marginTop: 8, fontStyle: 'italic', lineHeight: 1.5 }}>
+                Something went wrong. Please try again or email{' '}
+                <a href="mailto:info@joeprofitneverbroken.com" style={{ color: '#c0392b' }}>info@joeprofitneverbroken.com</a>
+              </p>
+            )}
+
+            <p style={{ fontFamily: FONT.body, fontSize: '0.75rem', color: C.muted, opacity: 0.6, lineHeight: 1.6, marginTop: 14 }}>
+              Secure checkout via Stripe. Ships within 3–5 business days within the US &amp; Canada.
+            </p>
+
+            <a href="#contact" style={{
+              display: 'inline-block', marginTop: 20,
+              fontFamily: FONT.body, fontSize: '0.75rem', color: C.gold,
+              letterSpacing: '0.18em', textTransform: 'uppercase',
+              textDecoration: 'none',
+              borderBottom: `1px solid ${C.lineBright}`, paddingBottom: 2,
+              transition: 'all 0.3s',
+            }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = C.gold; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = C.lineBright; }}
+            >
+              Book a Speaking Engagement →
+            </a>
           </div>
         </div>
       </div>
