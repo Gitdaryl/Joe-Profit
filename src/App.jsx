@@ -948,7 +948,7 @@ function ChapterPage({ chapter, onBack, onNavigate }) {
 
         {/* Book CTA */}
         <div style={{ marginTop: 60, padding: "32px", background: "rgba(212,162,78,0.04)", border: `1px solid ${C.goldDim}`, display: "flex", gap: 28, alignItems: "center", flexWrap: "wrap" }}>
-          <img src={IMG.book} alt="Never Broken" style={{ width: 140, height: "auto", flexShrink: 0, boxShadow: "12px 12px 40px rgba(0,0,0,0.5), -2px -2px 12px rgba(212,162,78,0.08)", borderRadius: 2 }} />
+          <img src={IMG.book} alt="Never Broken" style={{ width: 280, height: "auto", flexShrink: 0, boxShadow: "12px 12px 40px rgba(0,0,0,0.5), -2px -2px 12px rgba(212,162,78,0.08)", borderRadius: 2 }} />
           <div style={{ flex: 1, minWidth: 200 }}>
             <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.gold, letterSpacing: "0.35em", textTransform: "uppercase", marginBottom: 10 }}>The Complete Story</div>
             <p style={{ fontFamily: FONT.display, fontSize: "clamp(1.2rem, 2.5vw, 1.6rem)", color: C.cream, lineHeight: 1.3, margin: "0 0 8px 0", fontWeight: 600 }}>
@@ -963,7 +963,7 @@ function ChapterPage({ chapter, onBack, onNavigate }) {
               onMouseLeave={e => e.target.style.background = C.gold}>
               Order Never Broken →
             </a>
-            <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.goldDim, marginTop: 10, letterSpacing: "0.05em" }}>
+            <div style={{ fontFamily: FONT.body, fontSize: "0.85rem", color: C.gold, marginTop: 10, letterSpacing: "0.05em" }}>
               🎓 All proceeds support the YUP Foundation
             </div>
           </div>
