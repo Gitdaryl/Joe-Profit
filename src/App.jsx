@@ -379,8 +379,8 @@ function HeroSection() {
           <h1 style={{ fontFamily: FONT.display, fontSize: "clamp(3rem, 8vw, 7rem)", fontWeight: 700, color: C.cream, lineHeight: 0.92, margin: 0, letterSpacing: "-0.02em" }}>
             Never<br /><span style={{ fontStyle: "italic", color: C.gold }}>Broken</span>
           </h1>
-          <div style={{ display: "flex", alignItems: "flex-end", gap: 20, marginTop: 24 }}>
-            <img src={IMG.book} alt="Never Broken — the book" style={{ width: 80, height: "auto", flexShrink: 0, boxShadow: "0 8px 32px rgba(0,0,0,0.6), 0 2px 8px rgba(212,162,78,0.15)", borderRadius: 2, opacity: loaded ? 0.95 : 0, transition: "opacity 1.5s ease 0.4s" }} />
+          <div style={{ display: "flex", alignItems: "flex-start", gap: 20, marginTop: 24 }}>
+            <img src={IMG.book} alt="Never Broken — the book" style={{ width: 120, height: "auto", flexShrink: 0, boxShadow: "0 8px 32px rgba(0,0,0,0.6), 0 2px 8px rgba(212,162,78,0.15)", borderRadius: 2, opacity: loaded ? 0.95 : 0, transition: "opacity 1.5s ease 0.4s" }} />
             <p style={{ fontFamily: FONT.body, fontSize: "clamp(1rem, 1.6vw, 1.15rem)", color: C.mutedLight, maxWidth: 440, margin: 0, lineHeight: 1.7, opacity: loaded ? 0.85 : 0, transition: "opacity 1.5s ease 0.4s" }}>
               From cotton fields to the NFL. From the White House to the boardroom. The story of Dr. Joe Profit — a man who refused to stay down.
             </p>
@@ -742,7 +742,7 @@ function ContactSection() {
           For book orders, speaking engagements, charitable donations, or media inquiries.
         </p>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-          <a href="mailto:contact@joeprofit.com" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.black, background: C.gold, padding: "14px 32px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
+          <a href="mailto:info@joeprofitneverbroken.com" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.black, background: C.gold, padding: "14px 32px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
             onMouseEnter={e => e.target.style.background = C.goldLight}
             onMouseLeave={e => e.target.style.background = C.gold}>
             Email Us
@@ -751,7 +751,7 @@ function ContactSection() {
         <div style={{ marginTop: 40, display: "flex", gap: 32, justifyContent: "center", flexWrap: "wrap" }}>
           {[
             { label: "Order the Book", desc: "Hardcover, softcover & digital", icon: "📖", href: null },
-            { label: "Donate to YUP", desc: "Support youth literacy", icon: "🎓", href: "https://youthunitedpro.com/donate.php" },
+            { label: "Donate to Foundation", desc: "Support youth literacy", icon: "🎓", href: "https://youthunitedpro.com/donate.php" },
             { label: "Book Joe to Speak", desc: "Keynotes & events", icon: "🎤", href: null },
           ].map(item => {
             const Tag = item.href ? "a" : "div";
