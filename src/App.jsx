@@ -551,9 +551,11 @@ function GalleryCard({ item, i, onClick }) {
     <div ref={ref} onClick={onClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
       style={{ breakInside: "avoid", marginBottom: 6, position: "relative", overflow: "hidden", cursor: "pointer", opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(20px)", transition: `all 0.6s ease ${(i % 8) * 0.05}s` }}>
       <img src={item.src} alt={item.title} style={{ width: "100%", display: "block", transform: hover ? "scale(1.04)" : "scale(1)", transition: "transform 0.6s cubic-bezier(0.23,1,0.32,1)", filter: hover ? "brightness(0.7)" : "brightness(0.85)" }} />
+      <div style={{ position: "absolute", top: 8, right: 8, zIndex: 3, fontFamily: FONT.body, fontSize: "1rem", color: C.gold, opacity: hover ? 0.9 : 0.35, transition: "opacity 0.4s ease", lineHeight: 1, userSelect: "none" }}>⊕</div>
       <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "30px 12px 10px", background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)", opacity: hover ? 1 : 0, transform: hover ? "translateY(0)" : "translateY(8px)", transition: "all 0.4s ease" }}>
         <div style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.gold, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 2 }}>{item.cat}</div>
         <div style={{ fontFamily: FONT.display, fontSize: "0.95rem", color: C.cream, fontWeight: 600 }}>{item.title}</div>
+        <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.goldDim, letterSpacing: "0.15em", textTransform: "uppercase", marginTop: 6 }}>View ↗</div>
       </div>
     </div>
   );
@@ -1002,6 +1004,7 @@ function HologramSection() {
         >
           {muted ? "🔇" : "🔊"}
         </button>
+        <div style={{ position: "absolute", bottom: -22, right: 0, fontFamily: FONT.body, fontSize: "0.65rem", color: C.goldDim, letterSpacing: "0.12em", textTransform: "uppercase", whiteSpace: "nowrap", pointerEvents: "none" }}>Click for sound</div>
       </div>
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "100px", background: "linear-gradient(180deg, #050508 0%, transparent 100%)", zIndex: 2, pointerEvents: "none" }} />
       <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "100px", background: "linear-gradient(0deg, #050508 0%, transparent 100%)", zIndex: 2, pointerEvents: "none" }} />
