@@ -805,7 +805,7 @@ function BackToTop() {
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       style={{
-        position: "fixed", bottom: 28, right: 28, zIndex: 999,
+        position: "fixed", bottom: 28, left: 28, zIndex: 999,
         background: "rgba(10,9,8,0.85)", border: `1px solid ${C.goldDim}`,
         color: C.gold, fontFamily: FONT.body, fontSize: "0.65rem",
         letterSpacing: "0.18em", textTransform: "uppercase",
@@ -830,7 +830,7 @@ function Footer() {
       <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.muted, letterSpacing: "0.15em" }}>
         <span>© {new Date().getFullYear()} All rights reserved.</span>
       </div>
-      <div style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: "rgba(154,142,127,0.3)", letterSpacing: "0.3em", textTransform: "uppercase" }}>A Legends Series Production</div>
+      <a href="https://yeti-signature-films.vercel.app" target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: "rgba(154,142,127,0.3)", letterSpacing: "0.3em", textTransform: "uppercase", textDecoration: "none" }}>A Legends Commission Production</a>
     </footer>
   );
 }
@@ -1218,7 +1218,7 @@ function ShopPage() {
               <div key={key} style={{ background: C.dark, border: `1px solid ${C.lineBright}`, padding: 'clamp(28px, 4vw, 40px)', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ marginBottom: 24, textAlign: 'center' }}>
                   <div style={{ display: 'inline-block', position: 'relative', boxShadow: '12px 12px 40px rgba(0,0,0,0.6)', transform: 'rotate(-1deg)' }}>
-                    <img src={IMG.book} alt={`Never Broken — ${label}`} style={{ width: 'clamp(120px, 16vw, 180px)', display: 'block' }} />
+                    <img src={IMG.book} alt={`Never Broken — ${label}`} style={{ width: 'clamp(200px, 28vw, 324px)', display: 'block' }} />
                     <div style={{ position: 'absolute', inset: 0, boxShadow: 'inset 3px 0 10px rgba(0,0,0,0.4)' }} />
                   </div>
                 </div>
