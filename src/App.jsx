@@ -1060,7 +1060,7 @@ function HologramSection() {
         <div style={{ position: "relative", paddingTop: "100%", width: "100%" }}>
           <iframe
             key={`holo-${muted}`}
-            src={`https://player.vimeo.com/video/1165413709?autoplay=1&loop=1&muted=${muted ? 1 : 0}&background=${muted ? 1 : 0}`}
+            src={`https://player.vimeo.com/video/1169383000?autoplay=1&loop=1&muted=${muted ? 1 : 0}&background=${muted ? 1 : 0}`}
             style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
             allow="autoplay; fullscreen"
             title="Dr. Joe Profit — Hologram"
@@ -1352,12 +1352,12 @@ function HomePage() {
       <StorySection onOpenChapter={openChapter} />
       <HologramSection />
       <ParallaxQuote quote="They can break your body, but they can never break your spirit. That's the one thing you own outright." attribution="Dr. Joe Profit" />
-      <VideoShowcase videoId="655492739" />
+      <VideoShowcase videoId="1169383220" />
       <ArchiveSection />
       <TimelineSection />
       <ParallaxQuote quote="Every morning the sun rises again. No matter what happened yesterday, you get another chance. That's not optimism — that's a fact." attribution="Dr. Joe Profit" />
       <CharitySection />
-      <VideoShowcase videoId="660003775" />
+      <VideoShowcase videoId="1169381642" />
       <BookSection />
       <BookTrailerSection />
       <ContactSection />
