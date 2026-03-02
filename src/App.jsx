@@ -1248,6 +1248,31 @@ function ShopPage() {
             ))}
           </div>
 
+          {/* CashApp alternative */}
+          <div style={{ textAlign: 'center', padding: '28px 0 40px', borderTop: `1px solid ${C.line}` }}>
+            <p style={{ fontFamily: FONT.body, fontSize: '0.7rem', color: C.muted, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 16 }}>
+              Prefer to pay with CashApp?
+            </p>
+            <a
+              href="https://cash.app/$YUPKIDS"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 10,
+                fontFamily: FONT.body, fontSize: '0.78rem', letterSpacing: '0.15em', textTransform: 'uppercase',
+                color: C.gold, border: `1px solid ${C.gold}`, padding: '12px 28px',
+                textDecoration: 'none', fontWeight: 600, transition: 'all 0.3s',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = C.goldDim; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+            >
+              <span style={{ fontSize: '1.1rem' }}>$</span> Send via CashApp · $YUPKIDS
+            </a>
+            <p style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.muted, opacity: 0.5, marginTop: 12, fontStyle: 'italic' }}>
+              Include your shipping address in the CashApp note.
+            </p>
+          </div>
+
           {/* Digital editions */}
           <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, letterSpacing: '0.28em', textTransform: 'uppercase', marginBottom: 24, paddingBottom: 12, borderBottom: `1px solid ${C.line}` }}>
             Digital Editions — Coming Soon
