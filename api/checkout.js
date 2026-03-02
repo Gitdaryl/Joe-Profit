@@ -21,7 +21,7 @@ export default async function handler(req, res) {
 
   try {
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card', 'paypal', 'cashapp'],
+      payment_method_types: ['card'],
       line_items: [{ price: PRICE_IDS[edition], quantity: 1 }],
       mode: 'payment',
       success_url: `${siteUrl}?order=success#book`,
