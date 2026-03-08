@@ -834,6 +834,7 @@ function Footer() {
       <div style={{ display: "flex", gap: 20, marginTop: 4 }}>
         <a href="/privacy" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>Privacy Policy</a>
         <a href="/terms" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>Terms of Service</a>
+        <a href="/support" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>Support</a>
       </div>
     </footer>
   );
@@ -1529,6 +1530,31 @@ function TermsPage() {
   );
 }
 
+// ─── SUPPORT PAGE ───
+function SupportPage() {
+  return (
+    <LegalPage title="Customer Support">
+      <p style={LS.p}>We're here to help. Whether you have a question about your order, received a damaged book, or need assistance with anything related to your purchase — reach out and we'll make it right.</p>
+
+      <h2 style={LS.h2}>Contact Us</h2>
+      <p style={LS.p}>Email us at: <a href="mailto:jprofit23@gmail.com" style={LS.a}>jprofit23@gmail.com</a></p>
+      <p style={LS.p}>We respond within 1–2 business days.</p>
+
+      <h2 style={LS.h2}>Order Issues</h2>
+      <p style={LS.p}>If your order hasn't arrived, arrived damaged, or you received the wrong item, email us with your order confirmation number and a brief description. We'll resolve it promptly.</p>
+
+      <h2 style={LS.h2}>Returns & Refunds</h2>
+      <p style={LS.p}>Damaged or defective physical books qualify for a full refund or replacement within 14 days of delivery. Digital products are non-refundable once accessed. See our <a href="/terms" style={LS.a}>Terms of Service</a> for full details.</p>
+
+      <h2 style={LS.h2}>Speaking & Booking Inquiries</h2>
+      <p style={LS.p}>For speaking engagement requests or media inquiries, email us at: <a href="mailto:jprofit23@gmail.com" style={LS.a}>jprofit23@gmail.com</a></p>
+
+      <h2 style={LS.h2}>General Questions</h2>
+      <p style={LS.p}>For anything else — foundation partnerships, media, or general questions about Dr. Joe Profit's story and work — we'd love to hear from you.</p>
+    </LegalPage>
+  );
+}
+
 // ─── APP ───
 export default function App() {
   return (
@@ -1538,6 +1564,7 @@ export default function App() {
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />
+        <Route path="/support" element={<SupportPage />} />
       </Routes>
     </BrowserRouter>
   );
