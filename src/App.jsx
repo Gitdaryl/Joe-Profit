@@ -831,6 +831,10 @@ function Footer() {
         <span>© {new Date().getFullYear()} All rights reserved.</span>
       </div>
       <a href="https://yeti-signature-films.vercel.app" target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: "rgba(154,142,127,0.3)", letterSpacing: "0.3em", textTransform: "uppercase", textDecoration: "none" }}>A Legends Commission Production</a>
+      <div style={{ display: "flex", gap: 20, marginTop: 4 }}>
+        <a href="/privacy" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>Privacy Policy</a>
+        <a href="/terms" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>Terms of Service</a>
+      </div>
     </footer>
   );
 }
@@ -1392,6 +1396,139 @@ function HomePage() {
   );
 }
 
+// ─── LEGAL PAGE SHELL ───
+function LegalPage({ title, children }) {
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:${C.black};overflow-x:hidden}
+        ::selection{background:${C.gold};color:${C.black}}
+      `}</style>
+      <Grain />
+      <div style={{ minHeight: "100vh", background: C.black, color: C.cream, fontFamily: FONT.body, padding: "60px 24px 80px" }}>
+        <div style={{ maxWidth: 780, margin: "0 auto" }}>
+          <a href="/" style={{ display: "inline-block", marginBottom: 40, fontFamily: FONT.body, fontSize: "0.8rem", color: C.gold, letterSpacing: "0.15em", textTransform: "uppercase", textDecoration: "none", opacity: 0.7 }}>← Back</a>
+          <h1 style={{ fontFamily: FONT.display, fontSize: "clamp(2rem, 5vw, 3rem)", color: C.gold, marginBottom: 8, fontWeight: 700 }}>{title}</h1>
+          <p style={{ fontSize: "0.8rem", color: C.muted, marginBottom: 48, opacity: 0.6 }}>Last updated: March 2026</p>
+          <div style={{ lineHeight: 1.8, fontSize: "1rem", color: "rgba(245,237,224,0.85)" }}>
+            {children}
+          </div>
+        </div>
+        <div style={{ maxWidth: 780, margin: "48px auto 0", borderTop: `1px solid ${C.line}`, paddingTop: 24, display: "flex", gap: 20 }}>
+          <a href="/privacy" style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.muted, textDecoration: "none", opacity: 0.5 }}>Privacy Policy</a>
+          <a href="/terms" style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.muted, textDecoration: "none", opacity: 0.5 }}>Terms of Service</a>
+        </div>
+      </div>
+    </>
+  );
+}
+
+const LS = {
+  h2: { fontFamily: FONT.display, fontSize: "1.3rem", color: C.gold, marginTop: 40, marginBottom: 12, fontWeight: 600 },
+  p: { marginBottom: 16 },
+  ul: { paddingLeft: 20, marginBottom: 16 },
+  li: { marginBottom: 8 },
+  a: { color: C.gold, textDecoration: "none" },
+};
+
+// ─── PRIVACY POLICY PAGE ───
+function PrivacyPage() {
+  return (
+    <LegalPage title="Privacy Policy">
+      <p style={LS.p}>This Privacy Policy describes how Yeti Groove Media LLC ("we," "us," or "our") collects, uses, and protects information when you visit <strong>joe-profit.com</strong> (the "Site") or make a purchase.</p>
+
+      <h2 style={LS.h2}>Information We Collect</h2>
+      <p style={LS.p}>We collect information you provide directly when you:</p>
+      <ul style={LS.ul}>
+        <li style={LS.li}><strong>Place an order</strong> — name, email address, shipping address, and payment information (processed securely by Stripe, PayPal, or Cash App — we do not store your payment card details).</li>
+        <li style={LS.li}><strong>Contact us</strong> — name, email, and message content.</li>
+      </ul>
+      <p style={LS.p}>We also automatically collect standard technical data when you visit the Site, including your IP address, browser type, pages viewed, and referring URLs. This is standard server/analytics logging.</p>
+
+      <h2 style={LS.h2}>How We Use Your Information</h2>
+      <ul style={LS.ul}>
+        <li style={LS.li}>To process and fulfill your orders and send order confirmations.</li>
+        <li style={LS.li}>To respond to your inquiries and customer service requests.</li>
+        <li style={LS.li}>To improve and maintain the Site.</li>
+        <li style={LS.li}>To comply with legal obligations.</li>
+      </ul>
+      <p style={LS.p}>We do not sell, rent, or trade your personal information to third parties.</p>
+
+      <h2 style={LS.h2}>Payment Processing</h2>
+      <p style={LS.p}>All payments are processed by third-party providers — Stripe, PayPal, and Cash App. Your payment information is transmitted directly to these processors and is subject to their privacy policies. We do not store full credit card numbers or financial account details on our servers.</p>
+
+      <h2 style={LS.h2}>Cookies</h2>
+      <p style={LS.p}>The Site may use essential cookies required for navigation and security. We do not use tracking cookies for advertising purposes.</p>
+
+      <h2 style={LS.h2}>Data Retention</h2>
+      <p style={LS.p}>We retain order and contact information for as long as necessary to fulfill orders, handle disputes, and meet legal requirements. You may request deletion of your personal data at any time by contacting us.</p>
+
+      <h2 style={LS.h2}>Your Rights</h2>
+      <p style={LS.p}>You have the right to request access to, correction of, or deletion of personal data we hold about you. To exercise these rights, contact us at the email below.</p>
+
+      <h2 style={LS.h2}>Children's Privacy</h2>
+      <p style={LS.p}>This Site is not directed at children under 13. We do not knowingly collect personal information from children under 13.</p>
+
+      <h2 style={LS.h2}>Changes to This Policy</h2>
+      <p style={LS.p}>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated date.</p>
+
+      <h2 style={LS.h2}>Contact</h2>
+      <p style={LS.p}>Questions about this policy? Contact us at: <a href="mailto:jprofit23@gmail.com" style={LS.a}>jprofit23@gmail.com</a></p>
+      <p style={LS.p}>Yeti Groove Media LLC · Adrian, Michigan</p>
+    </LegalPage>
+  );
+}
+
+// ─── TERMS OF SERVICE PAGE ───
+function TermsPage() {
+  return (
+    <LegalPage title="Terms of Service">
+      <p style={LS.p}>These Terms of Service ("Terms") govern your use of <strong>joe-profit.com</strong> (the "Site") operated by Yeti Groove Media LLC ("we," "us," or "our"). By accessing or using the Site, you agree to these Terms.</p>
+
+      <h2 style={LS.h2}>Use of the Site</h2>
+      <p style={LS.p}>You may use the Site for lawful purposes only. You agree not to:</p>
+      <ul style={LS.ul}>
+        <li style={LS.li}>Use the Site in any way that violates applicable laws or regulations.</li>
+        <li style={LS.li}>Reproduce, distribute, or commercially exploit any Site content without written permission.</li>
+        <li style={LS.li}>Attempt to gain unauthorized access to any portion of the Site or its related systems.</li>
+      </ul>
+
+      <h2 style={LS.h2}>Products and Orders</h2>
+      <p style={LS.p}>All product descriptions and prices are subject to change without notice. We reserve the right to refuse or cancel any order. If a charge has already been made and we cancel the order, we will issue a full refund.</p>
+
+      <h2 style={LS.h2}>Payments</h2>
+      <p style={LS.p}>We accept payment via Stripe (credit/debit card), PayPal, and Cash App. By providing payment information, you represent that you are authorized to use the payment method. All transactions are subject to the terms and conditions of the respective payment processor.</p>
+
+      <h2 style={LS.h2}>Shipping and Delivery</h2>
+      <p style={LS.p}>Physical products (books) are shipped to the address you provide at checkout. Estimated delivery times are provided at checkout and are not guaranteed. We are not responsible for delays caused by shipping carriers or customs.</p>
+
+      <h2 style={LS.h2}>Returns and Refunds</h2>
+      <p style={LS.p}>If you receive a damaged or defective product, contact us within 14 days of delivery at <a href="mailto:jprofit23@gmail.com" style={LS.a}>jprofit23@gmail.com</a> and we will arrange a replacement or full refund. Digital products (audiobooks, downloads) are non-refundable once accessed.</p>
+
+      <h2 style={LS.h2}>Intellectual Property</h2>
+      <p style={LS.p}>All content on this Site — including text, images, audio, video, and design — is owned by Yeti Groove Media LLC or Dr. Joe Profit and is protected by copyright and other intellectual property laws. No content may be reproduced without express written consent.</p>
+
+      <h2 style={LS.h2}>Disclaimer of Warranties</h2>
+      <p style={LS.p}>The Site and its content are provided "as is" without warranties of any kind, express or implied. We do not warrant that the Site will be uninterrupted, error-free, or free of harmful components.</p>
+
+      <h2 style={LS.h2}>Limitation of Liability</h2>
+      <p style={LS.p}>To the fullest extent permitted by law, Yeti Groove Media LLC and Dr. Joe Profit shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the Site or products purchased through it.</p>
+
+      <h2 style={LS.h2}>Governing Law</h2>
+      <p style={LS.p}>These Terms are governed by the laws of the State of Michigan, without regard to its conflict of law provisions.</p>
+
+      <h2 style={LS.h2}>Changes to These Terms</h2>
+      <p style={LS.p}>We reserve the right to modify these Terms at any time. Continued use of the Site after changes constitutes acceptance of the updated Terms.</p>
+
+      <h2 style={LS.h2}>Contact</h2>
+      <p style={LS.p}>Questions? Contact us at: <a href="mailto:jprofit23@gmail.com" style={LS.a}>jprofit23@gmail.com</a></p>
+      <p style={LS.p}>Yeti Groove Media LLC · Adrian, Michigan</p>
+    </LegalPage>
+  );
+}
+
 // ─── APP ───
 export default function App() {
   return (
@@ -1399,6 +1536,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/shop" element={<ShopPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
       </Routes>
     </BrowserRouter>
   );
