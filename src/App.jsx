@@ -1970,7 +1970,7 @@ function PressPage() {
     @media(max-width:820px){
       .dnav{display:none!important}
       .mobile-nav-btn{display:block!important}
-      .pressgrid{grid-template-columns:repeat(2,1fr)!important}
+      .pressgrid{grid-template-columns:1fr!important}
       .presscovgrid{grid-template-columns:repeat(2,1fr)!important}
       .presshero{flex-direction:column!important}
     }
@@ -2071,24 +2071,24 @@ function PressPage() {
                 For high-resolution assets or custom needs, email <a href="mailto:info@joeprofitneverbroken.com" style={{ color: C.gold, textDecoration: 'none' }}>info@joeprofitneverbroken.com</a>.
               </p>
             </div>
-            <div className="pressgrid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+            <div className="pressgrid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20 }}>
               {[
+                { src: IMG.reagan, label: 'With President Reagan', featured: true },
+                { src: IMG.ali, label: 'With Muhammad Ali', featured: true },
                 { src: IMG.joeJoe, label: 'Portrait — Suited' },
                 { src: IMG.speaks, label: 'Live Keynote' },
-                { src: IMG.reagan, label: 'With President Reagan' },
-                { src: IMG.ali, label: 'With Muhammad Ali' },
                 { src: IMG.book, label: 'Never Broken — Book' },
                 { src: IMG.reverend, label: 'Reverend Joe Profit' },
               ].map(item => (
                 <div key={item.label} style={{ cursor: 'context-menu' }}>
-                  <div style={{ overflow: 'hidden', border: `1px solid ${C.line}`, transition: 'border-color 0.3s' }}
-                    onMouseEnter={e => e.currentTarget.style.borderColor = C.goldDim.replace('0.12','0.35')}
-                    onMouseLeave={e => e.currentTarget.style.borderColor = C.line}>
-                    <img src={item.src} alt={item.label} style={{ width: '100%', height: 180, objectFit: 'cover', display: 'block', transition: 'transform 0.4s', filter: 'brightness(0.92)' }}
+                  <div style={{ overflow: 'hidden', border: `1px solid ${item.featured ? C.goldDim : C.line}`, transition: 'border-color 0.3s' }}
+                    onMouseEnter={e => e.currentTarget.style.borderColor = C.gold}
+                    onMouseLeave={e => e.currentTarget.style.borderColor = item.featured ? C.goldDim : C.line}>
+                    <img src={item.src} alt={item.label} style={{ width: '100%', height: item.featured ? 360 : 300, objectFit: 'cover', display: 'block', transition: 'transform 0.4s', filter: 'brightness(0.92)' }}
                       onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.03)'}
                       onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'} />
                   </div>
-                  <p style={{ fontFamily: FONT.body, fontSize: '0.7rem', color: C.muted, marginTop: 7, letterSpacing: '0.08em' }}>{item.label}</p>
+                  <p style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: item.featured ? C.cream : C.muted, marginTop: 9, letterSpacing: '0.08em' }}>{item.label}</p>
                 </div>
               ))}
             </div>
