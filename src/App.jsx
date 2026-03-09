@@ -84,6 +84,7 @@ const IMG = {
   daveEmanuel: "/images/Dave_Emmanuel_.jpg",
   wandaGift: "/images/Wanda.jpg",
   joeJoe: "/images/Joe_Joe.png",
+  portrait40: "/images/joe_portrait.png",
 };
 
 // ─── GALLERY DATA (all 61+ images organized by category) ───
@@ -750,6 +751,31 @@ function BookSection() {
   );
 }
 
+// ─── PORTRAIT ───
+function PortraitSection() {
+  const [ref, vis] = useScrollReveal(0.08);
+  return (
+    <section style={{ padding: "clamp(60px,8vw,100px) 0", background: C.dark3, borderTop: `1px solid ${C.line}` }}>
+      <div ref={ref} style={{ maxWidth: 900, margin: "0 auto", padding: "0 clamp(20px,4vw,48px)", opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(30px)", transition: "all 0.9s ease" }}>
+        <div style={{ textAlign: "center", marginBottom: 40 }}>
+          <div style={{ fontFamily: FONT.body, fontSize: "0.72rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>A Commissioned Work</div>
+          <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(1.6rem,3vw,2.4rem)", color: C.cream, fontWeight: 600, margin: 0 }}>
+            The Man at <span style={{ fontStyle: "italic", color: C.gold }}>Forty</span>
+          </h2>
+        </div>
+        <div style={{ position: "relative", maxWidth: 640, margin: "0 auto" }}>
+          <img src={IMG.portrait40} alt="Oil portrait of Dr. Joe Profit at 40" style={{ width: "100%", display: "block", border: `1px solid ${C.lineBright}`, boxShadow: "0 24px 80px rgba(0,0,0,0.7)" }} />
+          <div style={{ marginTop: 20, textAlign: "center" }}>
+            <p style={{ fontFamily: FONT.display, fontSize: "clamp(0.9rem,1.3vw,1.05rem)", color: C.muted, fontStyle: "italic", lineHeight: 1.7 }}>
+              An oil painting commissioned by Joe's staff to mark his 40th year — a milestone portrait of a man who had already lived several lifetimes.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── CONTACT ───
 function ContactSection() {
   const [ref, vis] = useScrollReveal(0.15);
@@ -1389,6 +1415,7 @@ function HomePage() {
       <VideoShowcase videoId="1169381642" />
       <BookSection />
       <BookTrailerSection />
+      <PortraitSection />
       <ContactSection />
       <Footer />
       <BackToTop />
