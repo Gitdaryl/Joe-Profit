@@ -433,7 +433,7 @@ function StorySection({ onOpenChapter }) {
     <section id="story" style={{ padding: "clamp(40px, 6vw, 80px) 0", background: C.black }}>
       <div ref={ref} style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)" }}>
         <div style={{ marginBottom: 60, opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(30px)", transition: "all 0.8s ease" }}>
-          <div style={{ fontFamily: FONT.body, fontSize: "1rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>The Chapters</div>
+          <div style={{ fontFamily: FONT.body, fontSize: "1rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Book Snippets</div>
           <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(2.6rem, 5.5vw, 4.2rem)", color: C.cream, fontWeight: 600, margin: 0, lineHeight: 1.1 }}>A Life in <span style={{ fontStyle: "italic", color: C.gold }}>Six Acts</span></h2>
         </div>
         <div className="chgrid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 3 }}>
