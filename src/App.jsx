@@ -85,6 +85,11 @@ const IMG = {
   wandaGift: "/images/Wanda.jpg",
   joeJoe: "/images/Joe_Joe.png",
   portrait40: "/images/joe_portrait.png",
+  // Press logos
+  logoWSJ: "/images/wsj_logo.png",
+  logoUSAToday: "/images/usa_today_logo.png",
+  logoEssence: "/images/essence_logo.png",
+  logoINC500: "/images/inc500_logo.png",
 };
 
 // ─── GALLERY DATA (all 61+ images organized by category) ───
@@ -423,6 +428,106 @@ function Marquee() {
         <span style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.muted, letterSpacing: "0.2em", textTransform: "uppercase" }}>{txt}{"  ◆  "}{txt}</span>
       </div>
     </div>
+  );
+}
+
+// ─── PRESS LOGO WALL ───
+function PressLogoWall() {
+  const [ref, vis] = useScrollReveal(0.2);
+  const logos = [
+    { src: IMG.logoWSJ,     alt: "The Wall Street Journal" },
+    { src: IMG.logoUSAToday, alt: "USA Today" },
+    { src: IMG.logoEssence,  alt: "Essence Magazine" },
+    { src: IMG.logoINC500,   alt: "INC. 500" },
+  ];
+  return (
+    <section style={{ background: C.dark3, borderTop: `1px solid ${C.line}`, borderBottom: `1px solid ${C.line}`, padding: "clamp(28px, 4vw, 44px) 0" }}>
+      <div ref={ref} style={{ maxWidth: 900, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)", opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(16px)", transition: "all 0.8s ease" }}>
+        <div style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: C.muted, letterSpacing: "0.4em", textTransform: "uppercase", textAlign: "center", marginBottom: 28, opacity: 0.5 }}>
+          As Featured In
+        </div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "clamp(28px, 6vw, 72px)", flexWrap: "wrap" }}>
+          {logos.map((logo, i) => (
+            <img
+              key={i}
+              src={logo.src}
+              alt={logo.alt}
+              style={{
+                height: "clamp(22px, 3vw, 34px)",
+                width: "auto",
+                display: "block",
+                filter: "brightness(0) invert(1)",
+                opacity: 1,
+                transition: "filter 0.4s ease",
+              }}
+              onMouseEnter={e => e.currentTarget.style.filter = "brightness(0) invert(1) brightness(1.4)"}
+              onMouseLeave={e => e.currentTarget.style.filter = "brightness(0) invert(1)"}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── HERO AUDIO HOOK ───
+function HeroAudioHook() {
+  const audioRef = useRef(null);
+  const [playing, setPlaying] = useState(false);
+  const [ref, vis] = useScrollReveal(0.2);
+
+  const toggle = () => {
+    if (!audioRef.current) return;
+    if (playing) { audioRef.current.pause(); } else { audioRef.current.play().catch(() => {}); }
+    setPlaying(!playing);
+  };
+
+  useEffect(() => {
+    const a = audioRef.current;
+    if (!a) return;
+    const onEnd = () => setPlaying(false);
+    a.addEventListener("ended", onEnd);
+    return () => a.removeEventListener("ended", onEnd);
+  }, []);
+
+  return (
+    <section style={{ background: C.dark3, borderBottom: `1px solid ${C.line}`, padding: "clamp(36px, 5vw, 56px) 0" }}>
+      <audio ref={audioRef} src="/audio/joe-intro.mp3" preload="metadata" />
+      <div ref={ref} style={{ maxWidth: 700, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)", display: "flex", alignItems: "center", gap: "clamp(20px, 4vw, 40px)", opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(20px)", transition: "all 0.9s ease" }}>
+        {/* Play button */}
+        <button onClick={toggle} style={{ flexShrink: 0, width: 64, height: 64, borderRadius: "50%", border: `1.5px solid ${C.gold}`, background: playing ? C.goldDim : "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", transition: "all 0.3s", position: "relative" }}
+          onMouseEnter={e => e.currentTarget.style.background = C.goldDim}
+          onMouseLeave={e => { if (!playing) e.currentTarget.style.background = "transparent"; }}>
+          {playing ? (
+            <>
+              <div style={{ display: "flex", gap: 5 }}>
+                <div style={{ width: 3, height: 18, background: C.gold, borderRadius: 2, animation: "pulse 0.8s ease infinite" }} />
+                <div style={{ width: 3, height: 18, background: C.gold, borderRadius: 2, animation: "pulse 0.8s ease infinite 0.15s" }} />
+                <div style={{ width: 3, height: 18, background: C.gold, borderRadius: 2, animation: "pulse 0.8s ease infinite 0.3s" }} />
+              </div>
+              {/* Pulsing ring */}
+              <div style={{ position: "absolute", inset: -6, borderRadius: "50%", border: `1px solid ${C.gold}`, opacity: 0.3, animation: "pulse 1.5s ease infinite" }} />
+            </>
+          ) : (
+            <div style={{ width: 0, height: 0, borderTop: "10px solid transparent", borderBottom: "10px solid transparent", borderLeft: `18px solid ${C.gold}`, marginLeft: 4 }} />
+          )}
+        </button>
+        {/* Text */}
+        <div style={{ flex: 1 }}>
+          <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.gold, letterSpacing: "0.35em", textTransform: "uppercase", marginBottom: 6 }}>
+            {playing ? "Now Playing" : "Hear Joe's Story"}
+          </div>
+          <div style={{ fontFamily: FONT.display, fontSize: "clamp(1.1rem, 2vw, 1.4rem)", color: C.cream, fontStyle: "italic", lineHeight: 1.3 }}>
+            In His Own Words
+          </div>
+          <div style={{ fontFamily: FONT.body, fontSize: "0.85rem", color: C.muted, marginTop: 4, lineHeight: 1.5 }}>
+            {playing ? "Dr. Joe Profit — Never Broken" : "A 30-second declaration from Dr. Joe Profit himself."}
+          </div>
+        </div>
+        {/* Decorative divider */}
+        <div style={{ flexShrink: 0, width: 1, height: 52, background: `linear-gradient(to bottom, transparent, ${C.gold}, transparent)`, opacity: 0.2, display: "clamp(0px, 1px, 1px)" }} />
+      </div>
+    </section>
   );
 }
 
@@ -1404,6 +1509,8 @@ function HomePage() {
       <Nav />
       <HeroSection />
       <Marquee />
+      <PressLogoWall />
+      <HeroAudioHook />
       <StorySection onOpenChapter={openChapter} />
       <HologramSection />
       <ParallaxQuote quote="They can break your body, but they can never break your spirit. That's the one thing you own outright." attribution="Dr. Joe Profit" />
