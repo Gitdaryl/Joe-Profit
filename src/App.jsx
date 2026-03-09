@@ -85,6 +85,15 @@ const IMG = {
   wandaGift: "/images/Wanda.jpg",
   joeJoe: "/images/Joe_Joe.png",
   portrait40: "/images/joe_portrait.png",
+  // Book preview pages
+  preview: [
+    "/images/preview_01.png",
+    "/images/preview_02.png",
+    "/images/preview_03.png",
+    "/images/preview_04.png",
+    "/images/preview_05.png",
+    "/images/preview_06.png",
+  ],
   // Press logos
   logoWSJ: "/images/wsj_logo.png",
   logoUSAToday: "/images/usa_today_logo.png",
@@ -805,7 +814,85 @@ const MOSAIC = [
   { src: IMG.signing,            alt: "Dr. Joe Profit signing Never Broken" },
 ];
 
-function BookSection() {
+// ─── BOOK PREVIEW MODAL ───
+function BookPreviewModal({ onClose }) {
+  const [page, setPage] = useState(0);
+  const pages = IMG.preview;
+  const isFirst = page === 0;
+  const isLast = page === pages.length - 1;
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowRight" && !isLast) setPage(p => p + 1);
+      if (e.key === "ArrowLeft" && !isFirst) setPage(p => p - 1);
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose, isFirst, isLast]);
+
+  return (
+    <div onClick={onClose} style={{ position: "fixed", inset: 0, zIndex: 300, background: "rgba(0,0,0,0.96)", display: "flex", alignItems: "center", justifyContent: "center", animation: "fadeIn 0.3s ease", padding: "clamp(16px, 3vw, 40px)" }}>
+      <div onClick={e => e.stopPropagation()} style={{ width: "100%", maxWidth: 720, display: "flex", flexDirection: "column", gap: 0 }}>
+
+        {/* Header */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+          <div>
+            <div style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", opacity: 0.7 }}>A Glimpse Inside</div>
+            <div style={{ fontFamily: FONT.display, fontSize: "1rem", color: C.cream, fontStyle: "italic" }}>Never Broken</div>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+            <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.muted, letterSpacing: "0.1em" }}>
+              {page + 1} <span style={{ opacity: 0.4 }}>of</span> {pages.length}
+            </div>
+            <button onClick={onClose} style={{ background: "none", border: `1px solid ${C.lineBright}`, color: C.muted, width: 32, height: 32, cursor: "pointer", fontSize: "0.9rem", display: "flex", alignItems: "center", justifyContent: "center", transition: "all 0.3s" }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = C.gold; e.currentTarget.style.color = C.gold; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = C.lineBright; e.currentTarget.style.color = C.muted; }}>✕</button>
+          </div>
+        </div>
+
+        {/* Page image */}
+        <div style={{ border: `1px solid ${C.lineBright}`, background: C.dark, overflow: "hidden", boxShadow: "0 32px 80px rgba(0,0,0,0.8)" }}>
+          <img src={pages[page]} alt={`Page ${page + 1}`} style={{ width: "100%", display: "block", maxHeight: "70vh", objectFit: "contain" }} />
+        </div>
+
+        {/* Navigation */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 20, gap: 12 }}>
+          <button onClick={() => setPage(p => p - 1)} disabled={isFirst}
+            style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: isFirst ? "rgba(154,142,127,0.3)" : C.muted, background: "none", border: `1px solid ${isFirst ? "rgba(212,162,78,0.06)" : C.lineBright}`, padding: "10px 20px", cursor: isFirst ? "default" : "pointer", letterSpacing: "0.15em", textTransform: "uppercase", transition: "all 0.3s" }}
+            onMouseEnter={e => { if (!isFirst) { e.currentTarget.style.color = C.gold; e.currentTarget.style.borderColor = C.gold; }}}
+            onMouseLeave={e => { if (!isFirst) { e.currentTarget.style.color = C.muted; e.currentTarget.style.borderColor = C.lineBright; }}}>
+            ← Prev
+          </button>
+
+          {/* Dot indicators */}
+          <div style={{ display: "flex", gap: 6 }}>
+            {pages.map((_, i) => (
+              <button key={i} onClick={() => setPage(i)} style={{ width: i === page ? 20 : 6, height: 6, borderRadius: 3, background: i === page ? C.gold : "rgba(212,162,78,0.25)", border: "none", cursor: "pointer", transition: "all 0.3s", padding: 0 }} />
+            ))}
+          </div>
+
+          {isLast ? (
+            <a href="/shop" style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.black, background: C.gold, padding: "10px 24px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "background 0.3s" }}
+              onMouseEnter={e => e.currentTarget.style.background = C.goldLight}
+              onMouseLeave={e => e.currentTarget.style.background = C.gold}>
+              Order the Book →
+            </a>
+          ) : (
+            <button onClick={() => setPage(p => p + 1)}
+              style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.black, background: C.gold, border: "none", padding: "10px 24px", cursor: "pointer", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "background 0.3s" }}
+              onMouseEnter={e => e.currentTarget.style.background = C.goldLight}
+              onMouseLeave={e => e.currentTarget.style.background = C.gold}>
+              Next →
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BookSection({ onOpenPreview }) {
   const [ref, vis] = useScrollReveal(0.1);
   return (
     <section id="book" style={{ background: C.dark, padding: "clamp(60px, 8vw, 100px) 0", borderTop: `1px solid ${C.line}` }}>
@@ -843,16 +930,69 @@ function BookSection() {
               🎓 <strong>100% of proceeds</strong> support the YUP Foundation
             </span>
           </div>
-          <div>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
             <a href="/shop" style={{ display: "inline-block", fontFamily: FONT.body, fontSize: "0.78rem", color: C.black, background: C.gold, padding: "14px 36px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
               onMouseEnter={e => { e.currentTarget.style.background = C.goldLight; e.currentTarget.style.transform = "translateY(-1px)"; }}
               onMouseLeave={e => { e.currentTarget.style.background = C.gold; e.currentTarget.style.transform = "none"; }}>
               Visit the Shop →
             </a>
+            <button onClick={onOpenPreview} style={{ fontFamily: FONT.body, fontSize: "0.78rem", color: C.gold, background: "transparent", border: `1px solid ${C.gold}`, padding: "14px 28px", cursor: "pointer", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 500, transition: "all 0.3s" }}
+              onMouseEnter={e => e.currentTarget.style.background = C.goldDim}
+              onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
+              Read a Few Pages
+            </button>
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+// ─── TESTIMONIALS ───
+const TESTIMONIALS = [
+  {
+    quote: "Joe Profit's life is proof that with determination, humility, and vision, even the greatest challenges can become the foundation for extraordinary achievement.",
+    name: "Dave Emanuel",
+    title: "",
+  },
+  // Add more testimonials here as they come in
+];
+
+function TestimonialsSection() {
+  const [ref, vis] = useScrollReveal(0.1);
+  return (
+    <section style={{ background: C.dark3, padding: "clamp(60px, 8vw, 100px) 0", borderTop: `1px solid ${C.line}` }}>
+      <div ref={ref} style={{ maxWidth: 1000, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)", opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(30px)", transition: "all 0.9s ease" }}>
+        <div style={{ textAlign: "center", marginBottom: 56 }}>
+          <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12, opacity: 0.8 }}>Those Who Know</div>
+          <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)", color: C.cream, fontWeight: 600, margin: 0 }}>
+            What They <span style={{ fontStyle: "italic", color: C.gold }}>Say</span>
+          </h2>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: `repeat(${TESTIMONIALS.length === 1 ? 1 : TESTIMONIALS.length === 2 ? 2 : 3}, 1fr)`, gap: 24, maxWidth: TESTIMONIALS.length === 1 ? 680 : "100%", margin: "0 auto" }}>
+          {TESTIMONIALS.map((t, i) => (
+            <TestimonialCard key={i} t={t} i={i} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function TestimonialCard({ t, i }) {
+  const [ref, vis] = useScrollReveal(0.15);
+  return (
+    <div ref={ref} style={{ padding: "clamp(28px, 4vw, 40px)", border: `1px solid ${C.lineBright}`, background: "rgba(212,162,78,0.02)", opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(24px)", transition: `all 0.8s ease ${i * 0.15}s`, display: "flex", flexDirection: "column", gap: 24 }}>
+      {/* Opening mark */}
+      <div style={{ fontFamily: FONT.display, fontSize: "3.5rem", color: C.gold, lineHeight: 0.7, opacity: 0.35, userSelect: "none" }}>"</div>
+      <blockquote style={{ fontFamily: FONT.display, fontSize: "clamp(1rem, 1.6vw, 1.15rem)", color: C.creamSoft, fontStyle: "italic", lineHeight: 1.75, margin: 0, flex: 1 }}>
+        {t.quote}
+      </blockquote>
+      <div style={{ borderTop: `1px solid ${C.line}`, paddingTop: 20 }}>
+        <div style={{ fontFamily: FONT.body, fontSize: "0.85rem", color: C.cream, fontWeight: 600, letterSpacing: "0.04em" }}>{t.name}</div>
+        {t.title && <div style={{ fontFamily: FONT.body, fontSize: "0.78rem", color: C.gold, marginTop: 4, opacity: 0.8 }}>{t.title}</div>}
+      </div>
+    </div>
   );
 }
 
@@ -1453,6 +1593,7 @@ function ShopPage() {
 // ─── HOME PAGE ───
 function HomePage() {
   const [activeChapter, setActiveChapter] = useState(null);
+  const [previewOpen, setPreviewOpen] = useState(false);
 
   const openChapter = (slug) => {
     const ch = CHAPTERS.find(c => c.slug === slug);
@@ -1520,8 +1661,10 @@ function HomePage() {
       <ParallaxQuote quote="Every morning the sun rises again. No matter what happened yesterday, you get another chance. That's not optimism — that's a fact." attribution="Dr. Joe Profit" />
       <CharitySection />
       <VideoShowcase videoId="1169381642" />
-      <BookSection />
-      <BookTrailerSection />
+      <BookSection onOpenPreview={() => setPreviewOpen(true)} />
+      {previewOpen && <BookPreviewModal onClose={() => setPreviewOpen(false)} />}
+      {/* <BookTrailerSection /> — restore when trailer Vimeo ID is ready */}
+      <TestimonialsSection />
       <PortraitSection />
       <ContactSection />
       <Footer />
