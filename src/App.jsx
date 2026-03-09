@@ -546,11 +546,10 @@ function ArchiveSection() {
 }
 
 function GalleryCard({ item, i, onClick }) {
-  const [ref, vis] = useScrollReveal(0.1);
   const [hover, setHover] = useState(false);
   return (
-    <div ref={ref} onClick={onClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
-      style={{ breakInside: "avoid", marginBottom: 6, position: "relative", overflow: "hidden", cursor: "pointer", opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(20px)", transition: `all 0.6s ease ${(i % 8) * 0.05}s` }}>
+    <div onClick={onClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
+      style={{ breakInside: "avoid", marginBottom: 6, position: "relative", overflow: "hidden", cursor: "pointer" }}>
       <img src={item.src} alt={item.title} style={{ width: "100%", display: "block", transform: hover ? "scale(1.04)" : "scale(1)", transition: "transform 0.6s cubic-bezier(0.23,1,0.32,1)", filter: hover ? "brightness(0.7)" : "brightness(0.85)" }} />
       <div style={{ position: "absolute", top: 8, right: 8, zIndex: 3, fontFamily: FONT.body, fontSize: "1rem", color: C.gold, opacity: hover ? 0.9 : 0.35, transition: "opacity 0.4s ease", lineHeight: 1, userSelect: "none" }}>⊕</div>
       <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "30px 12px 10px", background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)", opacity: hover ? 1 : 0, transform: hover ? "translateY(0)" : "translateY(8px)", transition: "all 0.4s ease" }}>
