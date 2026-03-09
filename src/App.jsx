@@ -1768,7 +1768,7 @@ function SpeakingPage() {
           <p style={{ fontFamily: FONT.body, fontSize: 'clamp(0.85rem,1.2vw,1rem)', color: C.muted, textAlign: 'center', letterSpacing: '0.12em', marginBottom: 36, fontStyle: 'italic' }}>
             Joe Profit has spoken to students, executives, athletes, and world leaders.
           </p>
-          <div style={{ display: 'flex', gap: 'clamp(12px,3vw,24px)', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 'clamp(16px,3vw,32px)', justifyContent: 'center', alignItems: 'flex-start', flexWrap: 'wrap' }}>
             {[
               { src: IMG.reagan, label: 'The White House' },
               { src: IMG.ali, label: 'Muhammad Ali' },
@@ -1777,10 +1777,10 @@ function SpeakingPage() {
               { src: IMG.ambassador, label: 'Ambassador Andrew Young' },
             ].map(item => (
               <div key={item.label} style={{ textAlign: 'center' }}>
-                <div style={{ width: 72, height: 72, overflow: 'hidden', margin: '0 auto 8px', border: `1px solid ${C.line}` }}>
-                  <img src={item.src} alt={item.label} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(40%)' }} />
+                <div style={{ width: 160, height: 160, overflow: 'hidden', margin: '0 auto 10px', border: `1px solid ${C.lineBright}` }}>
+                  <img src={item.src} alt={item.label} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(20%)' }} />
                 </div>
-                <div style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.muted, letterSpacing: '0.1em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>{item.label}</div>
+                <div style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.muted, letterSpacing: '0.1em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>{item.label}</div>
               </div>
             ))}
           </div>
