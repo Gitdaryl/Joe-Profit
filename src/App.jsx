@@ -331,7 +331,7 @@ function Nav() {
   const links = [
     { label: "Story", href: "/#story" }, { label: "Archive", href: "/#archive" },
     { label: "Timeline", href: "/#timeline" }, { label: "Youth United for Prosperity", href: "/#charity" },
-    { label: "Shop", href: "/shop" }, { label: "Contact", href: "/#contact" },
+    { label: "Shop", href: "/shop" }, { label: "Speaking", href: "/speaking" }, { label: "Contact", href: "/#contact" },
   ];
   const navBg = scrolled ? "rgba(10,9,8,0.92)" : "transparent";
   const navBorder = scrolled ? C.lineBright : "transparent";
@@ -773,11 +773,11 @@ function ContactSection() {
           {[
             { label: "Order the Book", desc: "Hardcover, softcover & digital", icon: "📖", href: "/shop" },
             { label: "Donate to Foundation", desc: "Support youth literacy", icon: "🎓", href: "https://youthunitedpro.com/donate.php" },
-            { label: "Book Joe to Speak", desc: "Keynotes & events", icon: "🎤", href: null },
+            { label: "Book Joe to Speak", desc: "Keynotes & events", icon: "🎤", href: "/speaking" },
           ].map(item => {
             const Tag = item.href ? "a" : "div";
             return (
-              <Tag key={item.label} href={item.href || undefined} target={item.href ? "_blank" : undefined} rel={item.href ? "noopener noreferrer" : undefined}
+              <Tag key={item.label} href={item.href || undefined} target={item.href && item.href.startsWith('http') ? "_blank" : undefined} rel={item.href && item.href.startsWith('http') ? "noopener noreferrer" : undefined}
                 style={{ textAlign: "center", padding: 20, border: `1px solid ${C.line}`, flex: "1 1 160px", maxWidth: 200, transition: "all 0.3s", cursor: "pointer", textDecoration: "none", display: "block" }}
                 onMouseEnter={e => e.currentTarget.style.borderColor = C.gold}
                 onMouseLeave={e => e.currentTarget.style.borderColor = C.line}>
@@ -1555,6 +1555,371 @@ function SupportPage() {
   );
 }
 
+// ─── SPEAKING PAGE ───
+const TALKS = [
+  {
+    type: "Signature Keynote",
+    title: "Never Broken",
+    purpose: "Joe's flagship talk — built around his life story and the Never Broken philosophy.",
+    lengths: ["30 minutes", "45 minutes", "60 minutes"],
+    focus: ["Turning adversity into strength", "Responsibility over victimhood", "Discipline under pressure", "Choosing growth instead of bitterness"],
+    audience: ["Schools", "Leadership events", "Conferences", "Youth programs"],
+    outcome: "Attendees leave with a new perspective on hardship and a sense of personal ownership over their story.",
+    addons: [],
+  },
+  {
+    type: "Youth Impact",
+    title: "Youth Assembly Talk",
+    purpose: "Adapted version of the keynote specifically for students.",
+    lengths: ["30–45 minutes"],
+    focus: ["Peer pressure", "Choices matter", "You are not defined by your past", "Character over popularity"],
+    audience: ["Schools", "Youth programs", "Student assemblies"],
+    outcome: "A new perspective on hardship and personal ownership over their story.",
+    addons: ["Student Q&A session"],
+  },
+  {
+    type: "Leadership",
+    title: "Leadership Under Pressure",
+    purpose: "For professionals and leaders facing stress, responsibility, and decision-making challenges.",
+    lengths: ["30–45 minutes"],
+    focus: ["Accountability in leadership", "Responding to adversity", "Mental resilience", "Leading without excuses"],
+    audience: ["Corporate events", "Leadership retreats", "Professional groups"],
+    outcome: "Leaders leave with sharper clarity on accountability and resilience that they can apply immediately.",
+    addons: [],
+  },
+  {
+    type: "Athletic Program",
+    title: "Athletic Program Talk",
+    purpose: "For sports teams and athletic programs — from a man who lived it.",
+    lengths: ["30–45 minutes"],
+    focus: ["Mental toughness", "Discipline", "Life beyond sports", "Handling wins, losses, and setbacks"],
+    audience: ["Sports teams", "Athletic programs", "Coaches and athletes"],
+    outcome: "Teams gain a framework for discipline and resilience on and off the field.",
+    addons: ["Live audience Q&A", "Meet & greet", "Book signing", "Small group breakout session", "Photo opportunity"],
+  },
+];
+
+function SpeakingPage() {
+  const [formData, setFormData] = useState({
+    name: '', email: '', phone: '', organization: '', city: '',
+    eventType: '', audienceSize: '', dateRange: '', budget: '', message: '',
+  });
+  const [formState, setFormState] = useState('idle'); // idle | loading | success | error
+  const [heroRef, heroVis] = useScrollReveal(0.1);
+  const [talksRef, talksVis] = useScrollReveal(0.06);
+  const [credRef, credVis] = useScrollReveal(0.1);
+  const [formRef, formVis] = useScrollReveal(0.08);
+
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  const handleChange = (e) => setFormData(p => ({ ...p, [e.target.name]: e.target.value }));
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setFormState('loading');
+    try {
+      const res = await fetch('/api/speaking-inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      if (!res.ok) throw new Error();
+      setFormState('success');
+    } catch {
+      setFormState('error');
+    }
+  };
+
+  const inputStyle = {
+    width: '100%', background: 'rgba(255,255,255,0.04)', border: `1px solid ${C.lineBright}`,
+    color: C.cream, fontFamily: FONT.body, fontSize: '1rem', padding: '14px 16px',
+    outline: 'none', transition: 'border-color 0.3s', boxSizing: 'border-box',
+  };
+
+  const labelStyle = {
+    display: 'block', fontFamily: FONT.body, fontSize: '0.72rem', color: C.muted,
+    letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 8,
+  };
+
+  const globalStyles = `
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{background:${C.black};overflow-x:hidden}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    a:hover{opacity:0.85}
+    ::selection{background:${C.gold};color:${C.black}}
+    img{-webkit-user-drag:none}
+    .spk-input:focus{border-color:${C.gold}!important}
+    select.spk-input option{background:${C.dark2};color:${C.cream}}
+    @media(max-width:820px){
+      .dnav{display:none!important}
+      .mobile-nav-btn{display:block!important}
+      .spkhero{flex-direction:column!important}
+      .spkgrid{grid-template-columns:1fr!important}
+      .spkformrow{flex-direction:column!important}
+    }
+  `;
+
+  return (
+    <>
+      <style>{globalStyles}</style>
+      <Grain />
+      <Nav />
+
+      {/* ── HERO ── */}
+      <section style={{ paddingTop: 100, paddingBottom: 80, background: `linear-gradient(180deg, ${C.dark3} 0%, ${C.dark} 100%)`, borderBottom: `1px solid ${C.line}` }}>
+        <div ref={heroRef} className="spkhero" style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(20px,4vw,48px)', display: 'flex', gap: 60, alignItems: 'center', opacity: heroVis ? 1 : 0, transform: heroVis ? 'none' : 'translateY(30px)', transition: 'all 0.9s ease' }}>
+          {/* Image */}
+          <div style={{ flexShrink: 0, width: 'clamp(200px,28vw,320px)' }}>
+            <img src={IMG.joeJoe} alt="Dr. Joe Profit" style={{ width: '100%', display: 'block', filter: 'drop-shadow(0 8px 40px rgba(0,0,0,0.7))' }} />
+          </div>
+          {/* Text */}
+          <div style={{ flex: 1 }}>
+            <div style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.gold, letterSpacing: '0.4em', textTransform: 'uppercase', marginBottom: 16 }}>Speaking & Engagements</div>
+            <h1 style={{ fontFamily: FONT.display, fontSize: 'clamp(2rem,4vw,3.2rem)', color: C.cream, fontWeight: 700, lineHeight: 1.15, marginBottom: 24 }}>
+              A Story That <span style={{ fontStyle: 'italic', color: C.gold }}>Changes</span> How You See Yours
+            </h1>
+            <blockquote style={{ borderLeft: `3px solid ${C.gold}`, paddingLeft: 20, marginBottom: 28 }}>
+              <p style={{ fontFamily: FONT.body, fontSize: 'clamp(1rem,1.5vw,1.15rem)', color: C.creamSoft, fontStyle: 'italic', lineHeight: 1.7 }}>
+                "Joe delivers real-life perspective on resilience, responsibility, and turning adversity into strength."
+              </p>
+            </blockquote>
+            <p style={{ fontFamily: FONT.body, fontSize: 'clamp(0.95rem,1.2vw,1.05rem)', color: C.muted, lineHeight: 1.8, marginBottom: 32, maxWidth: 560 }}>
+              Joe Profit is a former elite athlete, leader, and mentor whose life story is a testament to resilience and responsibility.
+              Rising from early hardship that could have shaped a life of bitterness, Joe chose discipline, growth, and purpose instead.
+              Through speaking and his book <em style={{ color: C.cream }}>Never Broken</em>, he challenges people of all ages to take ownership of their story and turn adversity into strength.
+            </p>
+            <a href="#booking-form" style={{ display: 'inline-block', fontFamily: FONT.body, fontSize: '0.8rem', color: C.black, background: C.gold, padding: '16px 36px', textDecoration: 'none', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 700, transition: 'background 0.3s' }}
+              onMouseEnter={e => e.currentTarget.style.background = C.goldLight}
+              onMouseLeave={e => e.currentTarget.style.background = C.gold}>
+              Book Joe to Speak
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── TALKS ── */}
+      <section style={{ padding: 'clamp(60px,8vw,100px) 0', background: C.dark }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(20px,4vw,48px)' }}>
+          <div style={{ textAlign: 'center', marginBottom: 56 }}>
+            <div style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.gold, letterSpacing: '0.4em', textTransform: 'uppercase', marginBottom: 12 }}>What Joe Brings</div>
+            <h2 style={{ fontFamily: FONT.display, fontSize: 'clamp(1.8rem,3vw,2.6rem)', color: C.cream, fontWeight: 600, margin: 0 }}>
+              Four Ways to <span style={{ fontStyle: 'italic', color: C.gold }}>Engage</span>
+            </h2>
+          </div>
+          <div ref={talksRef} className="spkgrid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24, opacity: talksVis ? 1 : 0, transform: talksVis ? 'none' : 'translateY(24px)', transition: 'all 0.8s ease' }}>
+            {TALKS.map(talk => (
+              <div key={talk.title}
+                style={{ background: C.dark2, border: `1px solid ${C.line}`, padding: 'clamp(24px,3vw,36px)', transition: 'border-color 0.3s', display: 'flex', flexDirection: 'column', gap: 16 }}
+                onMouseEnter={e => e.currentTarget.style.borderColor = C.goldDim.replace('0.12', '0.4')}
+                onMouseLeave={e => e.currentTarget.style.borderColor = C.line}>
+                {/* Header */}
+                <div>
+                  <div style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.gold, letterSpacing: '0.35em', textTransform: 'uppercase', marginBottom: 8 }}>{talk.type}</div>
+                  <h3 style={{ fontFamily: FONT.display, fontSize: 'clamp(1.1rem,1.8vw,1.45rem)', color: C.cream, fontWeight: 600, lineHeight: 1.25, marginBottom: 10 }}>{talk.title}</h3>
+                  <p style={{ fontFamily: FONT.body, fontSize: '0.9rem', color: C.muted, lineHeight: 1.65 }}>{talk.purpose}</p>
+                </div>
+                {/* Length */}
+                <div>
+                  <div style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.mutedLight, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 6 }}>Length Options</div>
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                    {talk.lengths.map(l => (
+                      <span key={l} style={{ fontFamily: FONT.body, fontSize: '0.75rem', color: C.cream, background: 'rgba(212,162,78,0.08)', border: `1px solid ${C.goldDim}`, padding: '3px 10px' }}>{l}</span>
+                    ))}
+                  </div>
+                </div>
+                {/* Focus */}
+                <div>
+                  <div style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.mutedLight, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 8 }}>Focus Areas</div>
+                  <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: 5 }}>
+                    {talk.focus.map(f => (
+                      <li key={f} style={{ fontFamily: FONT.body, fontSize: '0.85rem', color: C.muted, paddingLeft: 14, position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0, color: C.gold, fontSize: '0.6rem', top: 3 }}>◆</span>
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                {/* Outcome */}
+                <div style={{ borderTop: `1px solid ${C.line}`, paddingTop: 14, marginTop: 'auto' }}>
+                  <div style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.mutedLight, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 6 }}>Outcome</div>
+                  <p style={{ fontFamily: FONT.body, fontSize: '0.85rem', color: C.creamSoft, lineHeight: 1.6 }}>{talk.outcome}</p>
+                </div>
+                {/* Add-ons */}
+                {talk.addons.length > 0 && (
+                  <div>
+                    <div style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.mutedLight, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 6 }}>Add-On Options</div>
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                      {talk.addons.map(a => (
+                        <span key={a} style={{ fontFamily: FONT.body, fontSize: '0.7rem', color: C.muted, border: `1px solid ${C.line}`, padding: '2px 8px' }}>{a}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CREDIBILITY BAR ── */}
+      <section style={{ padding: 'clamp(40px,6vw,70px) 0', background: C.dark3, borderTop: `1px solid ${C.line}`, borderBottom: `1px solid ${C.line}` }}>
+        <div ref={credRef} style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(20px,4vw,48px)', opacity: credVis ? 1 : 0, transform: credVis ? 'none' : 'translateY(20px)', transition: 'all 0.8s ease' }}>
+          <p style={{ fontFamily: FONT.body, fontSize: 'clamp(0.85rem,1.2vw,1rem)', color: C.muted, textAlign: 'center', letterSpacing: '0.12em', marginBottom: 36, fontStyle: 'italic' }}>
+            Joe Profit has spoken to students, executives, athletes, and world leaders.
+          </p>
+          <div style={{ display: 'flex', gap: 'clamp(12px,3vw,24px)', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
+            {[
+              { src: IMG.reagan, label: 'The White House' },
+              { src: IMG.ali, label: 'Muhammad Ali' },
+              { src: IMG.falcons, label: 'NFL — Atlanta Falcons' },
+              { src: IMG.speaks, label: 'Live Keynote' },
+              { src: IMG.ambassador, label: 'Ambassador Andrew Young' },
+            ].map(item => (
+              <div key={item.label} style={{ textAlign: 'center' }}>
+                <div style={{ width: 72, height: 72, overflow: 'hidden', margin: '0 auto 8px', border: `1px solid ${C.line}` }}>
+                  <img src={item.src} alt={item.label} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(40%)' }} />
+                </div>
+                <div style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.muted, letterSpacing: '0.1em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>{item.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── BOOKING FORM ── */}
+      <section id="booking-form" style={{ padding: 'clamp(60px,8vw,100px) 0', background: C.dark }}>
+        <div ref={formRef} style={{ maxWidth: 760, margin: '0 auto', padding: '0 clamp(20px,4vw,48px)', opacity: formVis ? 1 : 0, transform: formVis ? 'none' : 'translateY(24px)', transition: 'all 0.8s ease' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <div style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.gold, letterSpacing: '0.4em', textTransform: 'uppercase', marginBottom: 12 }}>Inquiries</div>
+            <h2 style={{ fontFamily: FONT.display, fontSize: 'clamp(1.8rem,3vw,2.6rem)', color: C.cream, fontWeight: 600, marginBottom: 16 }}>
+              Book Joe to <span style={{ fontStyle: 'italic', color: C.gold }}>Speak</span>
+            </h2>
+            <p style={{ fontFamily: FONT.body, fontSize: '0.9rem', color: C.muted, lineHeight: 1.7, maxWidth: 520, margin: '0 auto' }}>
+              Joe accepts a limited number of engagements each year. All inquiries are reviewed within 48–72 hours.
+            </p>
+          </div>
+
+          {formState === 'success' ? (
+            <div style={{ textAlign: 'center', padding: '60px 40px', border: `1px solid ${C.goldDim}`, background: 'rgba(212,162,78,0.04)' }}>
+              <div style={{ fontFamily: FONT.display, fontSize: '2rem', color: C.gold, fontStyle: 'italic', marginBottom: 16 }}>Inquiry Received</div>
+              <p style={{ fontFamily: FONT.body, fontSize: '1rem', color: C.muted, lineHeight: 1.7 }}>
+                Thank you for reaching out. We'll review your inquiry and be in touch within 48–72 hours.
+              </p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+              {/* Row 1: Name + Email */}
+              <div className="spkformrow" style={{ display: 'flex', gap: 16 }}>
+                <div style={{ flex: 1 }}>
+                  <label style={labelStyle}>Name <span style={{ color: C.gold }}>*</span></label>
+                  <input name="name" value={formData.name} onChange={handleChange} required className="spk-input" style={inputStyle} placeholder="Full name" />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <label style={labelStyle}>Email <span style={{ color: C.gold }}>*</span></label>
+                  <input name="email" type="email" value={formData.email} onChange={handleChange} required className="spk-input" style={inputStyle} placeholder="your@email.com" />
+                </div>
+              </div>
+              {/* Row 2: Phone + Organization */}
+              <div className="spkformrow" style={{ display: 'flex', gap: 16 }}>
+                <div style={{ flex: 1 }}>
+                  <label style={labelStyle}>Phone</label>
+                  <input name="phone" value={formData.phone} onChange={handleChange} className="spk-input" style={inputStyle} placeholder="(optional)" />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <label style={labelStyle}>Organization <span style={{ color: C.gold }}>*</span></label>
+                  <input name="organization" value={formData.organization} onChange={handleChange} required className="spk-input" style={inputStyle} placeholder="School, company, org..." />
+                </div>
+              </div>
+              {/* Row 3: City + Event Type */}
+              <div className="spkformrow" style={{ display: 'flex', gap: 16 }}>
+                <div style={{ flex: 1 }}>
+                  <label style={labelStyle}>City / State <span style={{ color: C.gold }}>*</span></label>
+                  <input name="city" value={formData.city} onChange={handleChange} required className="spk-input" style={inputStyle} placeholder="City, ST" />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <label style={labelStyle}>Event Type <span style={{ color: C.gold }}>*</span></label>
+                  <select name="eventType" value={formData.eventType} onChange={handleChange} required className="spk-input" style={inputStyle}>
+                    <option value="">Select type...</option>
+                    <option value="School / Youth Assembly">School / Youth Assembly</option>
+                    <option value="Corporate Event">Corporate Event</option>
+                    <option value="Leadership Retreat">Leadership Retreat</option>
+                    <option value="Athletic Program">Athletic Program</option>
+                    <option value="Conference">Conference</option>
+                    <option value="Church / Ministry">Church / Ministry</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+              {/* Row 4: Audience Size + Budget */}
+              <div className="spkformrow" style={{ display: 'flex', gap: 16 }}>
+                <div style={{ flex: 1 }}>
+                  <label style={labelStyle}>Estimated Audience Size</label>
+                  <select name="audienceSize" value={formData.audienceSize} onChange={handleChange} className="spk-input" style={inputStyle}>
+                    <option value="">Select...</option>
+                    <option value="Under 50">Under 50</option>
+                    <option value="50–200">50–200</option>
+                    <option value="200–500">200–500</option>
+                    <option value="500+">500+</option>
+                  </select>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <label style={labelStyle}>Budget Range</label>
+                  <select name="budget" value={formData.budget} onChange={handleChange} className="spk-input" style={inputStyle}>
+                    <option value="">Select...</option>
+                    <option value="Under $2,000">Under $2,000</option>
+                    <option value="$2,000–$5,000">$2,000–$5,000</option>
+                    <option value="$5,000–$10,000">$5,000–$10,000</option>
+                    <option value="Open to discuss">Open to discuss</option>
+                  </select>
+                </div>
+              </div>
+              {/* Preferred Date */}
+              <div>
+                <label style={labelStyle}>Preferred Date / Date Range</label>
+                <input name="dateRange" value={formData.dateRange} onChange={handleChange} className="spk-input" style={inputStyle} placeholder="e.g. April 2026, Spring semester, flexible..." />
+              </div>
+              {/* Message */}
+              <div>
+                <label style={labelStyle}>Additional Details</label>
+                <textarea name="message" value={formData.message} onChange={handleChange} className="spk-input" rows={4} style={{ ...inputStyle, resize: 'vertical' }} placeholder="Tell us about your event, audience, or any specific goals..." />
+              </div>
+              {/* Submit */}
+              {formState === 'error' && (
+                <p style={{ fontFamily: FONT.body, fontSize: '0.85rem', color: '#E57373', textAlign: 'center' }}>
+                  Something went wrong. Please try again or email <a href="mailto:jprofit23@gmail.com" style={{ color: C.gold }}>jprofit23@gmail.com</a>.
+                </p>
+              )}
+              <button type="submit" disabled={formState === 'loading'}
+                style={{ fontFamily: FONT.body, fontSize: '0.8rem', color: C.black, background: formState === 'loading' ? C.muted : C.gold, padding: '18px 40px', border: 'none', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, cursor: formState === 'loading' ? 'not-allowed' : 'pointer', transition: 'background 0.3s', alignSelf: 'flex-start' }}
+                onMouseEnter={e => { if (formState !== 'loading') e.currentTarget.style.background = C.goldLight; }}
+                onMouseLeave={e => { if (formState !== 'loading') e.currentTarget.style.background = C.gold; }}>
+                {formState === 'loading' ? 'Sending...' : 'Submit Inquiry'}
+              </button>
+            </form>
+          )}
+        </div>
+      </section>
+
+      {/* ── PRESS KIT ── */}
+      <section style={{ padding: 'clamp(40px,5vw,60px) 0', background: C.dark3, borderTop: `1px solid ${C.line}` }}>
+        <div style={{ maxWidth: 760, margin: '0 auto', padding: '0 clamp(20px,4vw,48px)', textAlign: 'center' }}>
+          <div style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.muted, letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: 12, opacity: 0.6 }}>Media & Event Planners</div>
+          <p style={{ fontFamily: FONT.body, fontSize: '0.9rem', color: C.muted, lineHeight: 1.7, marginBottom: 20 }}>
+            For press kit, high-resolution photos, and media assets, contact us at{' '}
+            <a href="mailto:info@joeprofitneverbroken.com" style={{ color: C.gold, textDecoration: 'none' }}>info@joeprofitneverbroken.com</a>.
+          </p>
+          <a href="/" style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.muted, letterSpacing: '0.2em', textTransform: 'uppercase', textDecoration: 'none', opacity: 0.5 }}>← Back to Joe's Story</a>
+        </div>
+      </section>
+
+      <Footer />
+      <BackToTop />
+    </>
+  );
+}
+
 // ─── APP ───
 export default function App() {
   return (
@@ -1565,6 +1930,7 @@ export default function App() {
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/support" element={<SupportPage />} />
+        <Route path="/speaking" element={<SpeakingPage />} />
       </Routes>
     </BrowserRouter>
   );
