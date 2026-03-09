@@ -1907,10 +1907,249 @@ function SpeakingPage() {
         <div style={{ maxWidth: 760, margin: '0 auto', padding: '0 clamp(20px,4vw,48px)', textAlign: 'center' }}>
           <div style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.muted, letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: 12, opacity: 0.6 }}>Media & Event Planners</div>
           <p style={{ fontFamily: FONT.body, fontSize: '0.9rem', color: C.muted, lineHeight: 1.7, marginBottom: 20 }}>
-            For press kit, high-resolution photos, and media assets, contact us at{' '}
-            <a href="mailto:info@joeprofitneverbroken.com" style={{ color: C.gold, textDecoration: 'none' }}>info@joeprofitneverbroken.com</a>.
+            Bios, approved photos, press coverage, and speaker description — all in one place.
           </p>
-          <a href="/" style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.muted, letterSpacing: '0.2em', textTransform: 'uppercase', textDecoration: 'none', opacity: 0.5 }}>← Back to Joe's Story</a>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <a href="/press" style={{ fontFamily: FONT.body, fontSize: '0.75rem', color: C.gold, border: `1px solid ${C.goldDim}`, padding: '10px 24px', textDecoration: 'none', letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 600, transition: 'border-color 0.3s' }}
+              onMouseEnter={e => e.currentTarget.style.borderColor = C.gold}
+              onMouseLeave={e => e.currentTarget.style.borderColor = C.goldDim}>
+              View Press Kit
+            </a>
+            <a href="/" style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.muted, letterSpacing: '0.2em', textTransform: 'uppercase', textDecoration: 'none', padding: '10px 0', opacity: 0.5 }}>← Joe's Story</a>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+      <BackToTop />
+    </>
+  );
+}
+
+// ─── PRESS PAGE ───
+const PRESS_COVERAGE = [
+  { src: IMG.wallStreet, label: "Wall Street Journal" },
+  { src: IMG.usaToday, label: "USA Today" },
+  { src: IMG.essenceArticle, label: "Essence Magazine" },
+  { src: IMG.ciiArticle, label: "CII Feature" },
+  { src: IMG.noOrdinaryJoe, label: "No Ordinary Joe" },
+  { src: IMG.millionaire, label: "Millionaire Profile" },
+];
+
+const BIO_SHORT = `Joe Profit is a former elite athlete, leader, and mentor whose life story is a testament to resilience and responsibility. Rising from early hardship that could have shaped a life of bitterness, Joe chose discipline, growth, and purpose instead. Through speaking, mentorship, and his book Never Broken, he challenges people of all ages to take ownership of their story and turn adversity into strength.`;
+
+const BIO_LONG = `Joe Profit's life is proof that circumstances do not dictate destiny.
+
+As a young boy, Joe experienced fear and adversity that could have easily hardened his heart and narrowed his future. Instead, he made a different choice — one that would define his life. He chose discipline over resentment, growth over excuses, and purpose over pain.
+
+That mindset carried him into elite athletics, leadership roles, business success, and a lifelong commitment to mentoring young people and leaders facing their own challenges. Joe's journey is not about escaping hardship. It's about transforming it.
+
+After a career in the NFL with the Atlanta Falcons and New Orleans Saints, Joe built CII — a $100 million multimedia company — and went on to serve in ministry, politics, and community leadership. He has stood alongside presidents, world leaders, and icons from Muhammad Ali to Ambassador Andrew Young.
+
+Through his book Never Broken, his speaking, and his mentorship, Joe teaches a powerful truth: pain is part of life, but staying broken is a decision. His message resonates with students, athletes, professionals, and leaders who want to build character, resilience, and personal accountability in a world that often promotes blame instead of growth.
+
+Joe doesn't offer motivation. He offers perspective that changes how people see their own story.`;
+
+function PressPage() {
+  const [bioView, setBioView] = useState('short');
+  const [headRef, headVis] = useScrollReveal(0.1);
+  const [photoRef, photoVis] = useScrollReveal(0.08);
+  const [pressRef, pressVis] = useScrollReveal(0.08);
+
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  const globalStyles = `
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{background:${C.black};overflow-x:hidden}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    a:hover{opacity:0.85}
+    ::selection{background:${C.gold};color:${C.black}}
+    img{-webkit-user-drag:none}
+    @media(max-width:820px){
+      .dnav{display:none!important}
+      .mobile-nav-btn{display:block!important}
+      .pressgrid{grid-template-columns:repeat(2,1fr)!important}
+      .presscovgrid{grid-template-columns:repeat(2,1fr)!important}
+      .presshero{flex-direction:column!important}
+    }
+    @media(max-width:480px){
+      .pressgrid{grid-template-columns:1fr!important}
+    }
+  `;
+
+  return (
+    <>
+      <style>{globalStyles}</style>
+      <Grain />
+      <Nav />
+
+      {/* ── HEADER ── */}
+      <section style={{ paddingTop: 110, paddingBottom: 70, background: `linear-gradient(180deg, ${C.dark3} 0%, ${C.dark} 100%)`, borderBottom: `1px solid ${C.line}` }}>
+        <div ref={headRef} style={{ maxWidth: 900, margin: '0 auto', padding: '0 clamp(20px,4vw,48px)', opacity: headVis ? 1 : 0, transform: headVis ? 'none' : 'translateY(24px)', transition: 'all 0.8s ease' }}>
+          <div style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.gold, letterSpacing: '0.4em', textTransform: 'uppercase', marginBottom: 14 }}>Media Resources</div>
+          <h1 style={{ fontFamily: FONT.display, fontSize: 'clamp(2rem,4vw,3rem)', color: C.cream, fontWeight: 700, marginBottom: 20 }}>
+            Press <span style={{ fontStyle: 'italic', color: C.gold }}>Kit</span>
+          </h1>
+          <p style={{ fontFamily: FONT.body, fontSize: '1rem', color: C.muted, lineHeight: 1.7, maxWidth: 600, marginBottom: 28 }}>
+            For event planners, media contacts, and booking coordinators. All assets below are cleared for editorial and promotional use in connection with Dr. Joe Profit's speaking engagements and book.
+          </p>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <a href="mailto:info@joeprofitneverbroken.com" style={{ fontFamily: FONT.body, fontSize: '0.75rem', color: C.black, background: C.gold, padding: '12px 28px', textDecoration: 'none', letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 700, transition: 'background 0.3s' }}
+              onMouseEnter={e => e.currentTarget.style.background = C.goldLight}
+              onMouseLeave={e => e.currentTarget.style.background = C.gold}>
+              Media Inquiries
+            </a>
+            <a href="/speaking" style={{ fontFamily: FONT.body, fontSize: '0.75rem', color: C.gold, background: 'transparent', padding: '12px 28px', textDecoration: 'none', letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 700, border: `1px solid ${C.goldDim}`, transition: 'border-color 0.3s' }}
+              onMouseEnter={e => e.currentTarget.style.borderColor = C.gold}
+              onMouseLeave={e => e.currentTarget.style.borderColor = C.goldDim}>
+              Book Joe to Speak
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SPEAKER BIO ── */}
+      <section style={{ padding: 'clamp(60px,7vw,90px) 0', background: C.dark }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 clamp(20px,4vw,48px)' }}>
+          <div style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.gold, letterSpacing: '0.4em', textTransform: 'uppercase', marginBottom: 16 }}>Speaker Bio</div>
+          <div className="presshero" style={{ display: 'flex', gap: 48, alignItems: 'flex-start' }}>
+            {/* Photo */}
+            <div style={{ flexShrink: 0 }}>
+              <img src={IMG.joeJoe} alt="Dr. Joe Profit" style={{ width: 'clamp(140px,18vw,200px)', display: 'block', filter: 'drop-shadow(0 4px 24px rgba(0,0,0,0.6))' }} />
+              <p style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.muted, marginTop: 8, textAlign: 'center', opacity: 0.5 }}>Right-click to save</p>
+            </div>
+            {/* Bio */}
+            <div style={{ flex: 1 }}>
+              {/* Toggle */}
+              <div style={{ display: 'flex', gap: 0, marginBottom: 20, border: `1px solid ${C.line}`, width: 'fit-content' }}>
+                {['short', 'long'].map(v => (
+                  <button key={v} onClick={() => setBioView(v)}
+                    style={{ fontFamily: FONT.body, fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase', padding: '8px 20px', border: 'none', cursor: 'pointer', transition: 'all 0.2s', background: bioView === v ? C.gold : 'transparent', color: bioView === v ? C.black : C.muted, fontWeight: bioView === v ? 700 : 400 }}>
+                    {v === 'short' ? 'Short Bio' : 'Full Bio'}
+                  </button>
+                ))}
+              </div>
+              <p style={{ fontFamily: FONT.body, fontSize: '1rem', color: C.creamSoft, lineHeight: 1.85, whiteSpace: 'pre-line', userSelect: 'text' }}>
+                {bioView === 'short' ? BIO_SHORT : BIO_LONG}
+              </p>
+              <p style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.muted, marginTop: 16, opacity: 0.5 }}>Select and copy the text above for your event materials.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SPEAKER QUOTE ── */}
+      <section style={{ padding: 'clamp(36px,4vw,52px) 0', background: C.dark3, borderTop: `1px solid ${C.line}`, borderBottom: `1px solid ${C.line}` }}>
+        <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 clamp(20px,4vw,48px)', textAlign: 'center' }}>
+          <div style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.muted, letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: 14, opacity: 0.6 }}>Approved Speaker Description</div>
+          <p style={{ fontFamily: FONT.display, fontSize: 'clamp(1rem,1.8vw,1.3rem)', color: C.cream, fontStyle: 'italic', lineHeight: 1.65, userSelect: 'text' }}>
+            "Joe delivers real-life perspective on resilience, responsibility, and turning adversity into strength."
+          </p>
+        </div>
+      </section>
+
+      {/* ── AVAILABLE PHOTOS ── */}
+      <section style={{ padding: 'clamp(60px,7vw,90px) 0', background: C.dark }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 clamp(20px,4vw,48px)' }}>
+          <div ref={photoRef} style={{ opacity: photoVis ? 1 : 0, transform: photoVis ? 'none' : 'translateY(20px)', transition: 'all 0.8s ease' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 28, flexWrap: 'wrap', gap: 12 }}>
+              <div>
+                <div style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.gold, letterSpacing: '0.4em', textTransform: 'uppercase', marginBottom: 8 }}>Photo Assets</div>
+                <h2 style={{ fontFamily: FONT.display, fontSize: 'clamp(1.4rem,2.5vw,2rem)', color: C.cream, fontWeight: 600 }}>Available Images</h2>
+              </div>
+              <p style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.muted, maxWidth: 320, lineHeight: 1.6 }}>
+                Right-click any image to save. Professional headshot and stage photography coming soon.
+              </p>
+            </div>
+            {/* Pending notice */}
+            <div style={{ background: 'rgba(212,162,78,0.05)', border: `1px solid ${C.goldDim}`, padding: '14px 20px', marginBottom: 28, display: 'flex', gap: 12, alignItems: 'center' }}>
+              <span style={{ color: C.gold, fontSize: '0.9rem' }}>◆</span>
+              <p style={{ fontFamily: FONT.body, fontSize: '0.82rem', color: C.muted, lineHeight: 1.6 }}>
+                <span style={{ color: C.cream, fontWeight: 600 }}>Professional headshot and speaking-stage photography are in production.</span>{' '}
+                For high-resolution assets or custom needs, email <a href="mailto:info@joeprofitneverbroken.com" style={{ color: C.gold, textDecoration: 'none' }}>info@joeprofitneverbroken.com</a>.
+              </p>
+            </div>
+            <div className="pressgrid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+              {[
+                { src: IMG.joeJoe, label: 'Portrait — Suited' },
+                { src: IMG.speaks, label: 'Live Keynote' },
+                { src: IMG.reagan, label: 'With President Reagan' },
+                { src: IMG.ali, label: 'With Muhammad Ali' },
+                { src: IMG.book, label: 'Never Broken — Book' },
+                { src: IMG.reverend, label: 'Reverend Joe Profit' },
+              ].map(item => (
+                <div key={item.label} style={{ cursor: 'context-menu' }}>
+                  <div style={{ overflow: 'hidden', border: `1px solid ${C.line}`, transition: 'border-color 0.3s' }}
+                    onMouseEnter={e => e.currentTarget.style.borderColor = C.goldDim.replace('0.12','0.35')}
+                    onMouseLeave={e => e.currentTarget.style.borderColor = C.line}>
+                    <img src={item.src} alt={item.label} style={{ width: '100%', height: 180, objectFit: 'cover', display: 'block', transition: 'transform 0.4s', filter: 'brightness(0.92)' }}
+                      onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.03)'}
+                      onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'} />
+                  </div>
+                  <p style={{ fontFamily: FONT.body, fontSize: '0.7rem', color: C.muted, marginTop: 7, letterSpacing: '0.08em' }}>{item.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── PRESS COVERAGE ── */}
+      <section style={{ padding: 'clamp(60px,7vw,90px) 0', background: C.dark3, borderTop: `1px solid ${C.line}` }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 clamp(20px,4vw,48px)' }}>
+          <div ref={pressRef} style={{ opacity: pressVis ? 1 : 0, transform: pressVis ? 'none' : 'translateY(20px)', transition: 'all 0.8s ease' }}>
+            <div style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.gold, letterSpacing: '0.4em', textTransform: 'uppercase', marginBottom: 10 }}>Media Coverage</div>
+            <h2 style={{ fontFamily: FONT.display, fontSize: 'clamp(1.4rem,2.5vw,2rem)', color: C.cream, fontWeight: 600, marginBottom: 32 }}>As Seen In</h2>
+            <div className="presscovgrid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+              {PRESS_COVERAGE.map(item => (
+                <div key={item.label} style={{ border: `1px solid ${C.line}`, overflow: 'hidden', transition: 'border-color 0.3s' }}
+                  onMouseEnter={e => e.currentTarget.style.borderColor = C.goldDim.replace('0.12','0.35')}
+                  onMouseLeave={e => e.currentTarget.style.borderColor = C.line}>
+                  <img src={item.src} alt={item.label} style={{ width: '100%', height: 140, objectFit: 'cover', display: 'block', filter: 'grayscale(30%) brightness(0.85)' }} />
+                  <div style={{ padding: '8px 12px', fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{item.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FAST FACTS ── */}
+      <section style={{ padding: 'clamp(50px,6vw,80px) 0', background: C.dark, borderTop: `1px solid ${C.line}` }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 clamp(20px,4vw,48px)' }}>
+          <div style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.gold, letterSpacing: '0.4em', textTransform: 'uppercase', marginBottom: 28 }}>At a Glance</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 20 }}>
+            {[
+              { stat: 'NFL Career', detail: 'Atlanta Falcons + New Orleans Saints, 1971–' },
+              { stat: '$100M', detail: 'CII Multimedia Company — founded and led' },
+              { stat: 'Never Broken', detail: 'Author — available in hardcover and paperback' },
+              { stat: 'YUP Foundation', detail: 'Youth United for Prosperity — founder' },
+              { stat: '4 Talks', detail: 'Keynote, Youth, Leadership, Athletic Program' },
+              { stat: '30–60 min', detail: 'Flexible formats, add-ons available' },
+            ].map(item => (
+              <div key={item.stat} style={{ borderLeft: `2px solid ${C.goldDim}`, paddingLeft: 16 }}>
+                <div style={{ fontFamily: FONT.display, fontSize: '1.1rem', color: C.gold, fontWeight: 700, marginBottom: 4 }}>{item.stat}</div>
+                <div style={{ fontFamily: FONT.body, fontSize: '0.82rem', color: C.muted, lineHeight: 1.55 }}>{item.detail}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CONTACT ── */}
+      <section style={{ padding: 'clamp(40px,5vw,60px) 0', background: C.dark3, borderTop: `1px solid ${C.line}` }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 clamp(20px,4vw,48px)', display: 'flex', gap: 40, flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <div style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.muted, letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: 8, opacity: 0.6 }}>Media Contact</div>
+            <p style={{ fontFamily: FONT.body, fontSize: '0.95rem', color: C.cream, marginBottom: 4 }}>info@joeprofitneverbroken.com</p>
+            <p style={{ fontFamily: FONT.body, fontSize: '0.82rem', color: C.muted }}>For interviews, additional assets, and booking inquiries.</p>
+          </div>
+          <div style={{ display: 'flex', gap: 12 }}>
+            <a href="/speaking#booking-form" style={{ fontFamily: FONT.body, fontSize: '0.75rem', color: C.black, background: C.gold, padding: '12px 28px', textDecoration: 'none', letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 700 }}>Book Joe</a>
+            <a href="/" style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.muted, letterSpacing: '0.2em', textTransform: 'uppercase', textDecoration: 'none', padding: '12px 0', opacity: 0.5 }}>← Joe's Story</a>
+          </div>
         </div>
       </section>
 
@@ -1931,6 +2170,7 @@ export default function App() {
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/support" element={<SupportPage />} />
         <Route path="/speaking" element={<SpeakingPage />} />
+        <Route path="/press" element={<PressPage />} />
       </Routes>
     </BrowserRouter>
   );
