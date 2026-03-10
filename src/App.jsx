@@ -954,7 +954,31 @@ const TESTIMONIALS = [
     name: "Dave Emanuel",
     title: "",
   },
-  // Add more testimonials here as they come in
+  {
+    quote: "Joe Profit's story is one of grit, grace, and triumph. His perseverance—through challenges both seen and unseen—reveals a strength of character few ever develop.",
+    name: "Joe R. Reeder",
+    title: "Managing Shareholder, Greenberg Traurig LLP · Former Under Secretary of the U.S. Army",
+  },
+  {
+    quote: "Even as a young boy, Joe had the mind of an entrepreneur and the heart of a champion. His story is long overdue—and deeply inspiring.",
+    name: "Don Zimmerman",
+    title: "Former NFL Wide Receiver, Philadelphia Eagles · Childhood Friend",
+  },
+  {
+    quote: "Joe could not be outrun, outworked by anybody on the team. His emotional and spiritual strength continues to inspire generations through his Youth United for Prosperity Foundation.",
+    name: "Van Lambert",
+    title: "NLU/ULM College Teammate",
+  },
+  {
+    quote: "Joe Profit has one of the most insightful business minds I've ever advised. This book will reignite your belief in what is possible.",
+    name: "James Blackwell",
+    title: "Financial Advisor, Merrill Lynch & UBS",
+  },
+  {
+    quote: "Dr. Joe Profit had an extraordinary ability to unite our staff into one focused, high-performing team. His leadership and no-quit attitude positioned us to compete for and win major multimedia contracts around the world.",
+    name: "Abbas Jezghani",
+    title: "Chief Engineer, Communications International, Inc.",
+  },
 ];
 
 function TestimonialsSection() {
