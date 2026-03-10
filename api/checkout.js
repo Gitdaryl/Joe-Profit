@@ -26,9 +26,9 @@ module.exports = async function handler(req, res) {
       mode: 'payment',
       success_url: `${siteUrl}?order=success#book`,
       cancel_url: `${siteUrl}#book`,
-      shipping_address_collection: {
-        allowed_countries: ['US', 'CA'],
-      },
+      shipping_options: process.env.STRIPE_SHIPPING_RATE_ID
+        ? [{ shipping_rate: process.env.STRIPE_SHIPPING_RATE_ID }]
+        : undefined,
       metadata: {
         product: 'Never Broken',
         edition,
