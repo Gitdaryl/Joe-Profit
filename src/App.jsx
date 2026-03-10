@@ -398,7 +398,7 @@ function HeroSection() {
           <div style={{ display: "flex", alignItems: "flex-start", gap: 20, marginTop: 24 }}>
             <img src={IMG.book} alt="Never Broken — the book" style={{ width: 120, height: "auto", flexShrink: 0, boxShadow: "0 8px 32px rgba(0,0,0,0.6), 0 2px 8px rgba(212,162,78,0.15)", borderRadius: 2, opacity: loaded ? 0.95 : 0, transition: "opacity 1.5s ease 0.4s" }} />
             <p style={{ fontFamily: FONT.body, fontSize: "clamp(1rem, 1.6vw, 1.15rem)", color: C.mutedLight, maxWidth: 440, margin: 0, lineHeight: 1.7, opacity: loaded ? 0.85 : 0, transition: "opacity 1.5s ease 0.4s" }}>
-              From cotton fields to the NFL. From the White House to the boardroom. The story of Dr. Joe Profit — a man who refused to stay down.
+              From cotton fields to the NFL football field. From the boardroom to the White House. The story of Dr. Joe Profit — a man who refused to break under pressure.
             </p>
           </div>
         </div>
@@ -549,7 +549,7 @@ function StorySection({ onOpenChapter }) {
       <div ref={ref} style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)" }}>
         <div style={{ marginBottom: 60, opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(30px)", transition: "all 0.8s ease" }}>
           <div style={{ fontFamily: FONT.body, fontSize: "1rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Book Snippets</div>
-          <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(2.6rem, 5.5vw, 4.2rem)", color: C.cream, fontWeight: 600, margin: 0, lineHeight: 1.1 }}>A Life in <span style={{ fontStyle: "italic", color: C.gold }}>Six Acts</span></h2>
+          <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(2.6rem, 5.5vw, 4.2rem)", color: C.cream, fontWeight: 600, margin: 0, lineHeight: 1.1 }}>A Life of <span style={{ fontStyle: "italic", color: C.gold }}>Challenges. And Successes</span></h2>
         </div>
         <div className="chgrid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 3 }}>
           {chapters.map((ch, i) => <ChapterCard key={i} ch={ch} i={i} onClick={() => onOpenChapter(ch.slug)} />)}
@@ -567,7 +567,6 @@ function ChapterCard({ ch, i, onClick }) {
       style={{ position: "relative", aspectRatio: "3/4", overflow: "hidden", cursor: "pointer", opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(40px)", transition: `all 0.7s cubic-bezier(0.23,1,0.32,1) ${i * 0.1}s` }}>
       <div style={{ position: "absolute", inset: 0, background: `url(${ch.img}) center/cover`, transform: hover ? "scale(1.08)" : "scale(1)", transition: "transform 0.8s cubic-bezier(0.23,1,0.32,1)", filter: "brightness(0.5) contrast(1.05)" }} />
       <div style={{ position: "absolute", inset: 0, background: `linear-gradient(180deg, transparent 30%, rgba(10,9,8,0.9) 100%)` }} />
-      <div style={{ position: "absolute", top: 16, left: 16, fontFamily: FONT.display, fontSize: "0.7rem", color: C.gold, fontStyle: "italic", opacity: 0.7 }}>{ch.num}</div>
       <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "24px 20px", transform: hover ? "translateY(0)" : "translateY(8px)", transition: "transform 0.5s ease" }}>
         <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.gold, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 4 }}>{ch.sub}</div>
         <h3 style={{ fontFamily: FONT.display, fontSize: "clamp(1.1rem, 2vw, 1.4rem)", color: C.cream, fontWeight: 600, margin: "0 0 8px 0", lineHeight: 1.2 }}>{ch.title}</h3>
@@ -619,9 +618,9 @@ function ArchiveSection() {
         {/* Header */}
         <div style={{ marginBottom: 20, opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(30px)", transition: "all 0.8s ease" }}>
           <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>The Archive</div>
-          <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(2rem, 4vw, 3rem)", color: C.cream, fontWeight: 600, margin: "0 0 8px 0" }}>A Legacy <span style={{ fontStyle: "italic", color: C.gold }}>Reclaimed</span></h2>
+          <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(2rem, 4vw, 3rem)", color: C.cream, fontWeight: 600, margin: "0 0 8px 0" }}>An <span style={{ fontStyle: "italic", color: C.gold }}>Ongoing Legacy</span></h2>
           <p style={{ fontFamily: FONT.body, fontSize: "0.95rem", color: C.muted, maxWidth: 600, lineHeight: 1.7, margin: 0 }}>
-            A house fire nearly erased decades of history. This archive exists because someone refused to let that story disappear.
+            The archive highlights key moments from Joe's journey and his successes along the way.
           </p>
         </div>
         {/* Category Filters */}
@@ -1162,8 +1161,8 @@ function AudioPlayer({ src, title }) {
           )}
         </button>
         <div style={{ flex: 1 }}>
-          <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 4 }}>Listen to Joe Tell This Story</div>
-          <div style={{ fontFamily: FONT.display, fontSize: "1rem", color: C.cream, fontStyle: "italic" }}>{title}</div>
+          <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 4 }}>Listen to Joe's adaptability, in his own words</div>
+          <div style={{ fontFamily: FONT.display, fontSize: "1rem", color: C.cream, fontStyle: "italic" }}>A 30-second declaration …</div>
         </div>
         <div style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.muted, fontVariantNumeric: "tabular-nums" }}>
           {fmt(currentTime)} / {fmt(duration || 0)}
@@ -1218,6 +1217,7 @@ function ChapterPage({ chapter, onBack, onNavigate }) {
       <section style={{ maxWidth: 780, margin: "0 auto", padding: "clamp(40px, 6vw, 80px) clamp(20px, 4vw, 40px)" }}>
         {/* Audio Player */}
         <AudioPlayer src={chapter.audio} title={`Chapter ${chapter.num}: ${chapter.title}`} />
+        <div style={{ fontFamily: FONT.body, fontSize: "0.85rem", color: C.muted, marginTop: -16, marginBottom: 32, fontStyle: "italic" }}>Read more in Chapter {chapter.num}.</div>
 
         {/* Pull Quote */}
         <blockquote style={{ fontFamily: FONT.display, fontSize: "clamp(1.4rem, 2.8vw, 1.9rem)", color: C.gold, fontStyle: "italic", lineHeight: 1.5, margin: "0 0 40px 0", padding: "24px 0 24px 24px", borderLeft: `2px solid ${C.gold}`, opacity: 0.9 }}>
