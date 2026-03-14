@@ -395,7 +395,7 @@ function HeroSection() {
           <h1 style={{ fontFamily: FONT.display, fontSize: "clamp(3rem, 8vw, 7rem)", fontWeight: 700, color: C.cream, lineHeight: 0.92, margin: 0, letterSpacing: "-0.02em" }}>
             Never<br /><span style={{ fontStyle: "italic", color: C.gold }}>Broken</span>
           </h1>
-          <div style={{ display: "flex", alignItems: "flex-start", gap: 20, marginTop: 24 }}>
+          <div className="hero-book-row" style={{ display: "flex", alignItems: "flex-start", gap: 20, marginTop: 24, flexWrap: "wrap" }}>
             <img src={IMG.book} alt="Never Broken — the book" style={{ width: 120, height: "auto", flexShrink: 0, boxShadow: "0 8px 32px rgba(0,0,0,0.6), 0 2px 8px rgba(212,162,78,0.15)", borderRadius: 2, opacity: loaded ? 0.95 : 0, transition: "opacity 1.5s ease 0.4s" }} />
             <p style={{ fontFamily: FONT.body, fontSize: "clamp(1rem, 1.6vw, 1.15rem)", color: C.mutedLight, maxWidth: 440, margin: 0, lineHeight: 1.7, opacity: loaded ? 0.85 : 0, transition: "opacity 1.5s ease 0.4s" }}>
               From cotton fields to the NFL football field. From the boardroom to the White House. The story of Dr. Joe Profit — a man who refused to break under pressure.
@@ -416,7 +416,7 @@ function HeroSection() {
         </div>
       </div>
       {/* Joe portrait — right side */}
-      <div style={{ position: "absolute", bottom: 0, right: 0, width: "clamp(260px, 38vw, 560px)", height: "92%", zIndex: 1, display: "flex", alignItems: "flex-end", justifyContent: "flex-end", opacity: loaded ? 1 : 0, transition: "opacity 1.8s ease 0.6s" }}>
+      <div className="hero-portrait" style={{ position: "absolute", bottom: 0, right: 0, width: "clamp(260px, 38vw, 560px)", height: "92%", zIndex: 1, display: "flex", alignItems: "flex-end", justifyContent: "flex-end", opacity: loaded ? 1 : 0, transition: "opacity 1.8s ease 0.6s" }}>
         <img src={IMG.joeJoe} alt="Dr. Joe Profit" style={{ height: "100%", width: "auto", objectFit: "contain", objectPosition: "bottom center", maskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 18%, black 38%)", WebkitMaskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 18%, black 38%)", filter: "drop-shadow(-24px 0 48px rgba(212,162,78,0.12))" }} />
       </div>
       {/* Scroll indicator */}
@@ -534,7 +534,7 @@ function HeroAudioHook() {
           </div>
         </div>
         {/* Decorative divider */}
-        <div style={{ flexShrink: 0, width: 1, height: 52, background: `linear-gradient(to bottom, transparent, ${C.gold}, transparent)`, opacity: 0.2, display: "clamp(0px, 1px, 1px)" }} />
+        <div style={{ flexShrink: 0, width: 1, height: 52, background: `linear-gradient(to bottom, transparent, ${C.gold}, transparent)`, opacity: 0.2 }} />
       </div>
     </section>
   );
@@ -701,7 +701,7 @@ function TimelineSection() {
           <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(2rem, 4vw, 3rem)", color: C.cream, fontWeight: 600, margin: 0 }}>Seven <span style={{ fontStyle: "italic", color: C.gold }}>Decades</span></h2>
         </div>
         <div style={{ position: "relative" }}>
-          <div style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: 1, background: `linear-gradient(to bottom, transparent, ${C.gold}, ${C.gold}, transparent)`, opacity: 0.2 }} />
+          <div className="tl-center-line" style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: 1, background: `linear-gradient(to bottom, transparent, ${C.gold}, ${C.gold}, transparent)`, opacity: 0.2 }} />
           {events.map((ev, i) => <TimelineItem key={i} ev={ev} i={i} isLeft={i % 2 === 0} />)}
         </div>
       </div>
@@ -712,9 +712,9 @@ function TimelineSection() {
 function TimelineItem({ ev, i, isLeft }) {
   const [ref, vis] = useScrollReveal(0.2);
   return (
-    <div ref={ref} style={{ display: "flex", justifyContent: isLeft ? "flex-end" : "flex-start", paddingLeft: isLeft ? 0 : "52%", paddingRight: isLeft ? "52%" : 0, marginBottom: 40, position: "relative", opacity: vis ? 1 : 0, transform: vis ? "none" : `translateX(${isLeft ? -30 : 30}px)`, transition: `all 0.7s ease ${i * 0.05}s` }}>
-      <div style={{ position: "absolute", left: "50%", top: 8, transform: "translateX(-50%)", width: 10, height: 10, borderRadius: "50%", background: vis ? C.gold : C.dark, border: `2px solid ${C.gold}`, transition: "background 0.5s ease", zIndex: 2 }} />
-      <div style={{ textAlign: isLeft ? "right" : "left" }}>
+    <div className="tl-item" ref={ref} style={{ display: "flex", justifyContent: isLeft ? "flex-end" : "flex-start", paddingLeft: isLeft ? 0 : "52%", paddingRight: isLeft ? "52%" : 0, marginBottom: 40, position: "relative", opacity: vis ? 1 : 0, transform: vis ? "none" : `translateX(${isLeft ? -30 : 30}px)`, transition: `all 0.7s ease ${i * 0.05}s` }}>
+      <div className="tl-dot" style={{ position: "absolute", left: "50%", top: 8, transform: "translateX(-50%)", width: 10, height: 10, borderRadius: "50%", background: vis ? C.gold : C.dark, border: `2px solid ${C.gold}`, transition: "background 0.5s ease", zIndex: 2 }} />
+      <div className="tl-item-text" style={{ textAlign: isLeft ? "right" : "left" }}>
         <div style={{ fontFamily: FONT.display, fontSize: "1rem", color: C.gold, fontStyle: "italic", marginBottom: 4 }}>{ev.year}</div>
         <div style={{ fontFamily: FONT.display, fontSize: "1rem", color: C.cream, fontWeight: 600, marginBottom: 4 }}>{ev.title}</div>
         <div style={{ fontFamily: FONT.body, fontSize: "0.9rem", color: C.muted, lineHeight: 1.6 }}>{ev.text}</div>
@@ -992,7 +992,7 @@ function TestimonialsSection() {
             What They <span style={{ fontStyle: "italic", color: C.gold }}>Say</span>
           </h2>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: `repeat(${TESTIMONIALS.length === 1 ? 1 : TESTIMONIALS.length === 2 ? 2 : 3}, 1fr)`, gap: 24, maxWidth: TESTIMONIALS.length === 1 ? 680 : "100%", margin: "0 auto" }}>
+        <div className="testimgrid" style={{ display: "grid", gridTemplateColumns: `repeat(${TESTIMONIALS.length === 1 ? 1 : TESTIMONIALS.length === 2 ? 2 : 3}, 1fr)`, gap: 24, maxWidth: TESTIMONIALS.length === 1 ? 680 : "100%", margin: "0 auto" }}>
           {TESTIMONIALS.map((t, i) => (
             <TestimonialCard key={i} t={t} i={i} />
           ))}
@@ -1044,29 +1044,133 @@ function PortraitSection() {
   );
 }
 
+// ─── LEGENDS COMMISSION ───
+function LegendsCommission() {
+  const [ref, vis] = useScrollReveal(0.08);
+  const pillars = [
+    {
+      num: "01",
+      label: "Deep Research & Documentation",
+      text: "Years of archival research into your life, career, relationships, and milestones. Interviews. Historical context. The kind of disciplined work that turns a life story into an enduring record.",
+    },
+    {
+      num: "02",
+      label: "Ghost Writing & Narrative",
+      text: "Your story, in your voice. Working with you across months, we craft a written narrative that captures not just what happened — but what it meant. The decisions, the costs, the victories.",
+    },
+    {
+      num: "03",
+      label: "Photo Restoration & Archive",
+      text: "Historical images recovered, digitized, and restored. Decades-old photographs — some never seen publicly — curated into a permanent visual record of your life.",
+    },
+  ];
+  return (
+    <section style={{ background: C.black, padding: "clamp(90px, 14vw, 160px) 0", borderTop: `1px solid ${C.lineBright}` }}>
+      <div ref={ref} style={{ maxWidth: 980, margin: "0 auto", padding: "0 clamp(24px, 5vw, 60px)", opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(40px)", transition: "all 1.1s cubic-bezier(0.23,1,0.32,1)" }}>
+
+        {/* Header */}
+        <div style={{ textAlign: "center", marginBottom: 72 }}>
+          <div style={{ width: 40, height: 1, background: C.gold, margin: "0 auto 32px", opacity: 0.5 }} />
+          <div style={{ fontFamily: FONT.body, fontSize: "0.66rem", color: C.gold, letterSpacing: "0.55em", textTransform: "uppercase", marginBottom: 24, opacity: 0.85 }}>
+            A Legends Commission Production
+          </div>
+          <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(2.4rem, 5.5vw, 4rem)", color: C.cream, fontWeight: 400, lineHeight: 1.08, margin: "0 0 24px" }}>
+            Your Story Deserves<br /><em style={{ color: C.gold }}>To Be Preserved</em>
+          </h2>
+          <p style={{ fontFamily: FONT.body, fontSize: "clamp(1rem, 1.6vw, 1.15rem)", color: C.muted, lineHeight: 1.9, maxWidth: 620, margin: "0 auto 20px" }}>
+            What you see here took a lifetime to live and a team to preserve. Every great life deserves a monument. Most are forgotten.
+          </p>
+          <p style={{ fontFamily: FONT.display, fontSize: "clamp(1.05rem, 1.8vw, 1.35rem)", color: C.creamSoft, fontStyle: "italic", lineHeight: 1.65, maxWidth: 540, margin: "0 auto" }}>
+            "When they're gone, all that remains is what was written down."
+          </p>
+        </div>
+
+        {/* 3 Pillars */}
+        <div className="lcgrid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2, marginBottom: 2 }}>
+          {pillars.map((p, i) => (
+            <div key={i} style={{ padding: "clamp(28px, 4vw, 44px)", border: `1px solid ${C.line}`, background: "rgba(212,162,78,0.015)", display: "flex", flexDirection: "column", gap: 18 }}>
+              <div style={{ fontFamily: FONT.display, fontSize: "2.8rem", color: C.gold, opacity: 0.12, fontWeight: 700, lineHeight: 1 }}>{p.num}</div>
+              <div style={{ fontFamily: FONT.display, fontSize: "clamp(1rem, 1.5vw, 1.15rem)", color: C.cream, fontWeight: 600, lineHeight: 1.3 }}>{p.label}</div>
+              <p style={{ fontFamily: FONT.body, fontSize: "0.9rem", color: C.muted, lineHeight: 1.8, margin: 0, flex: 1 }}>{p.text}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Pillar 4 — Digital Platform */}
+        <div className="lcfull" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0, marginBottom: 72, border: `1px solid ${C.lineBright}`, borderTop: "none" }}>
+          <div style={{ padding: "clamp(32px, 5vw, 52px)", borderRight: `1px solid ${C.line}`, background: "rgba(212,162,78,0.025)" }}>
+            <div style={{ fontFamily: FONT.body, fontSize: "0.66rem", color: C.gold, letterSpacing: "0.35em", textTransform: "uppercase", marginBottom: 16 }}>04 — The Platform</div>
+            <h3 style={{ fontFamily: FONT.display, fontSize: "clamp(1.5rem, 2.5vw, 2rem)", color: C.cream, fontWeight: 600, lineHeight: 1.15, margin: "0 0 18px" }}>
+              A Digital Monument,<br /><em style={{ color: C.gold }}>Built to Last</em>
+            </h3>
+            <p style={{ fontFamily: FONT.body, fontSize: "0.92rem", color: C.muted, lineHeight: 1.85, margin: 0 }}>
+              Not a template. Not a social profile. A purpose-built digital home for your legacy — designed to exist decades from now, accessible to your family, your community, and future generations who never got to meet you.
+            </p>
+          </div>
+          <div style={{ padding: "clamp(32px, 5vw, 52px)", display: "flex", flexDirection: "column", gap: 14, justifyContent: "center" }}>
+            {[
+              "Custom design, built to reflect your life and era",
+              "Narrative chapters written in your voice",
+              "Visual timeline of milestones — decade by decade",
+              "Curated photo and video archive",
+              "Audio recordings — your voice, preserved",
+              "Permanently hosted. Maintained for generations.",
+            ].map((item, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
+                <div style={{ width: 5, height: 1, background: C.gold, marginTop: 10, flexShrink: 0, opacity: 0.7 }} />
+                <span style={{ fontFamily: FONT.body, fontSize: "0.88rem", color: C.creamSoft, lineHeight: 1.55 }}>{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div style={{ textAlign: "center" }}>
+          <div style={{ fontFamily: FONT.body, fontSize: "0.72rem", color: C.muted, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: 24, opacity: 0.65 }}>
+            We accept a limited number of commissions each year
+          </div>
+          <a
+            href="mailto:info@joeprofitneverbroken.com?subject=Legends%20Commission%20Inquiry"
+            style={{ display: "inline-block", fontFamily: FONT.body, fontSize: "0.78rem", color: C.black, background: C.gold, padding: "18px 52px", textDecoration: "none", letterSpacing: "0.22em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.35s" }}
+            onMouseEnter={e => { e.currentTarget.style.background = C.goldLight; e.currentTarget.style.transform = "translateY(-2px)"; }}
+            onMouseLeave={e => { e.currentTarget.style.background = C.gold; e.currentTarget.style.transform = "none"; }}
+          >
+            Begin the Conversation
+          </a>
+          <div style={{ fontFamily: FONT.body, fontSize: "0.76rem", color: C.muted, marginTop: 16, opacity: 0.55, letterSpacing: "0.04em" }}>
+            All commissions are confidential. Packages begin at $50,000.
+          </div>
+          <div style={{ width: 40, height: 1, background: C.gold, margin: "52px auto 0", opacity: 0.25 }} />
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
 // ─── CONTACT ───
 function ContactSection() {
   const [ref, vis] = useScrollReveal(0.15);
   return (
     <section id="contact" style={{ padding: "clamp(60px, 10vw, 100px) 0", background: C.dark, borderTop: `1px solid ${C.line}` }}>
       <div ref={ref} style={{ maxWidth: 700, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)", textAlign: "center", opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(30px)", transition: "all 0.8s ease" }}>
-        <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>Get in Touch</div>
-        <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)", color: C.cream, fontWeight: 600, margin: "0 0 16px 0" }}>Continue the <span style={{ fontStyle: "italic", color: C.gold }}>Conversation</span></h2>
-        <p style={{ fontFamily: FONT.body, fontSize: "0.85rem", color: C.muted, lineHeight: 1.7, marginBottom: 32 }}>
-          For book orders, speaking engagements, charitable donations, or media inquiries.
+        <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>Reach Out</div>
+        <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)", color: C.cream, fontWeight: 600, margin: "0 0 16px 0" }}>Every Great Story Begins<br /><span style={{ fontStyle: "italic", color: C.gold }}>With a Conversation</span></h2>
+        <p style={{ fontFamily: FONT.body, fontSize: "0.88rem", color: C.muted, lineHeight: 1.75, marginBottom: 32 }}>
+          For the book, speaking engagements, the YUP Foundation, or media inquiries — we're here.
         </p>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-          <a href="mailto:info@joeprofitneverbroken.com" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.black, background: C.gold, padding: "14px 32px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
-            onMouseEnter={e => e.target.style.background = C.goldLight}
-            onMouseLeave={e => e.target.style.background = C.gold}>
-            Email Us
+          <a href="mailto:info@joeprofitneverbroken.com" style={{ fontFamily: FONT.body, fontSize: "0.78rem", color: C.black, background: C.gold, padding: "14px 36px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
+            onMouseEnter={e => { e.target.style.background = C.goldLight; e.target.style.transform = "translateY(-1px)"; }}
+            onMouseLeave={e => { e.target.style.background = C.gold; e.target.style.transform = "none"; }}>
+            Get in Touch
           </a>
         </div>
         <div style={{ marginTop: 40, display: "flex", gap: 32, justifyContent: "center", flexWrap: "wrap" }}>
           {[
-            { label: "Order the Book", desc: "Hardcover, softcover & digital", icon: "📖", href: "/shop" },
-            { label: "Donate to Foundation", desc: "Support youth literacy", icon: "🎓", href: "https://youthunitedpro.com/donate.php" },
-            { label: "Book Joe to Speak", desc: "Keynotes & events", icon: "🎤", href: "/speaking" },
+            { label: "Order the Book", desc: "Hardcover, softcover & digital", href: "/shop" },
+            { label: "Support the Foundation", desc: "Youth literacy & mentorship", href: "https://youthunitedpro.com/donate.php" },
+            { label: "Book Joe to Speak", desc: "Keynotes & live events", href: "/speaking" },
           ].map(item => {
             const Tag = item.href ? "a" : "div";
             return (
@@ -1074,9 +1178,9 @@ function ContactSection() {
                 style={{ textAlign: "center", padding: 20, border: `1px solid ${C.line}`, flex: "1 1 160px", maxWidth: 200, transition: "all 0.3s", cursor: "pointer", textDecoration: "none", display: "block" }}
                 onMouseEnter={e => e.currentTarget.style.borderColor = C.gold}
                 onMouseLeave={e => e.currentTarget.style.borderColor = C.line}>
-                <div style={{ fontSize: "1.5rem", marginBottom: 8 }}>{item.icon}</div>
-                <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.cream, fontWeight: 600, letterSpacing: "0.08em", marginBottom: 4 }}>{item.label}</div>
-                <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.muted }}>{item.desc}</div>
+                <div style={{ width: 24, height: 1, background: C.gold, opacity: 0.4, margin: "0 auto 16px" }} />
+                <div style={{ fontFamily: FONT.display, fontSize: "0.95rem", color: C.cream, fontWeight: 600, marginBottom: 6, fontStyle: "italic" }}>{item.label}</div>
+                <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.muted, letterSpacing: "0.04em" }}>{item.desc}</div>
               </Tag>
             );
           })}
@@ -1098,7 +1202,7 @@ function BackToTop() {
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       style={{
-        position: "fixed", bottom: 28, left: 28, zIndex: 999,
+        position: "fixed", bottom: 28, right: 28, zIndex: 999,
         background: "rgba(10,9,8,0.85)", border: `1px solid ${C.goldDim}`,
         color: C.gold, fontFamily: FONT.body, fontSize: "0.65rem",
         letterSpacing: "0.18em", textTransform: "uppercase",
@@ -1123,7 +1227,11 @@ function Footer() {
       <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.muted, letterSpacing: "0.15em" }}>
         <span>© {new Date().getFullYear()} All rights reserved.</span>
       </div>
-      <a href="https://yeti-signature-films.vercel.app" target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: "rgba(154,142,127,0.3)", letterSpacing: "0.3em", textTransform: "uppercase", textDecoration: "none" }}>A Legends Commission Production</a>
+      <a href="https://yeti-signature-films.vercel.app" target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT.body, fontSize: "0.72rem", color: C.gold, letterSpacing: "0.3em", textTransform: "uppercase", textDecoration: "none", opacity: 0.65, transition: "opacity 0.3s" }}
+        onMouseEnter={e => e.currentTarget.style.opacity = "1"}
+        onMouseLeave={e => e.currentTarget.style.opacity = "0.65"}>
+        A Legends Commission Production
+      </a>
       <div style={{ display: "flex", gap: 20, marginTop: 4 }}>
         <a href="/privacy" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>Privacy Policy</a>
         <a href="/terms" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>Terms of Service</a>
@@ -1262,7 +1370,7 @@ function ChapterPage({ chapter, onBack, onNavigate }) {
 
         {/* Book CTA */}
         <div style={{ marginTop: 60, padding: "32px", background: "rgba(212,162,78,0.04)", border: `1px solid ${C.goldDim}`, display: "flex", gap: 28, alignItems: "center", flexWrap: "wrap" }}>
-          <img src={IMG.book} alt="Never Broken" style={{ width: 280, height: "auto", flexShrink: 0, boxShadow: "12px 12px 40px rgba(0,0,0,0.5), -2px -2px 12px rgba(212,162,78,0.08)", borderRadius: 2 }} />
+          <img src={IMG.book} alt="Never Broken" style={{ width: "clamp(100px, 28vw, 200px)", height: "auto", flexShrink: 0, boxShadow: "12px 12px 40px rgba(0,0,0,0.5), -2px -2px 12px rgba(212,162,78,0.08)", borderRadius: 2 }} />
           <div style={{ flex: 1, minWidth: 200 }}>
             <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.gold, letterSpacing: "0.35em", textTransform: "uppercase", marginBottom: 10 }}>The Complete Story</div>
             <p style={{ fontFamily: FONT.display, fontSize: "clamp(1.2rem, 2.5vw, 1.6rem)", color: C.cream, lineHeight: 1.3, margin: "0 0 8px 0", fontWeight: 600 }}>
@@ -1668,6 +1776,19 @@ function HomePage() {
           .mobile-nav-btn{display:block!important}
           .chgrid{grid-template-columns:1fr!important;direction:ltr!important}
           .bkgrid{grid-template-columns:1fr!important}
+          .testimgrid{grid-template-columns:1fr 1fr!important}
+          .hero-portrait{width:clamp(120px,25vw,220px)!important}
+          .hero-book-row{flex-wrap:wrap!important}
+          .lcgrid{grid-template-columns:1fr!important}
+          .lcfull{grid-template-columns:1fr!important}
+        }
+        @media(max-width:600px){
+          .testimgrid{grid-template-columns:1fr!important}
+          .hero-portrait{display:none!important}
+          .tl-center-line{left:16px!important}
+          .tl-dot{left:16px!important}
+          .tl-item{padding-left:40px!important;padding-right:0!important;justify-content:flex-start!important}
+          .tl-item-text{text-align:left!important}
         }
       `}</style>
       <Grain />
@@ -1690,6 +1811,7 @@ function HomePage() {
       {/* <BookTrailerSection /> — restore when trailer Vimeo ID is ready */}
       <TestimonialsSection />
       <PortraitSection />
+      <LegendsCommission />
       <ContactSection />
       <Footer />
       <BackToTop />
