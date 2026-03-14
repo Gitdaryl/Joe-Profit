@@ -1045,109 +1045,6 @@ function PortraitSection() {
 }
 
 // ─── LEGENDS COMMISSION ───
-function LegendsCommission() {
-  const [ref, vis] = useScrollReveal(0.08);
-  const pillars = [
-    {
-      num: "01",
-      label: "Deep Research & Documentation",
-      text: "Years of archival research into your life, career, relationships, and milestones. Interviews. Historical context. The kind of disciplined work that turns a life story into an enduring record.",
-    },
-    {
-      num: "02",
-      label: "Ghost Writing & Narrative",
-      text: "Your story, in your voice. Working with you across months, we craft a written narrative that captures not just what happened — but what it meant. The decisions, the costs, the victories.",
-    },
-    {
-      num: "03",
-      label: "Photo Restoration & Archive",
-      text: "Historical images recovered, digitized, and restored. Decades-old photographs — some never seen publicly — curated into a permanent visual record of your life.",
-    },
-  ];
-  return (
-    <section style={{ background: C.black, padding: "clamp(90px, 14vw, 160px) 0", borderTop: `1px solid ${C.lineBright}` }}>
-      <div ref={ref} style={{ maxWidth: 980, margin: "0 auto", padding: "0 clamp(24px, 5vw, 60px)", opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(40px)", transition: "all 1.1s cubic-bezier(0.23,1,0.32,1)" }}>
-
-        {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 72 }}>
-          <div style={{ width: 40, height: 1, background: C.gold, margin: "0 auto 32px", opacity: 0.5 }} />
-          <div style={{ fontFamily: FONT.body, fontSize: "0.66rem", color: C.gold, letterSpacing: "0.55em", textTransform: "uppercase", marginBottom: 24, opacity: 0.85 }}>
-            A Legends Commission Production
-          </div>
-          <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(2.4rem, 5.5vw, 4rem)", color: C.cream, fontWeight: 400, lineHeight: 1.08, margin: "0 0 24px" }}>
-            Your Story Deserves<br /><em style={{ color: C.gold }}>To Be Preserved</em>
-          </h2>
-          <p style={{ fontFamily: FONT.body, fontSize: "clamp(1rem, 1.6vw, 1.15rem)", color: C.muted, lineHeight: 1.9, maxWidth: 620, margin: "0 auto 20px" }}>
-            What you see here took a lifetime to live and a team to preserve. Every great life deserves a monument. Most are forgotten.
-          </p>
-          <p style={{ fontFamily: FONT.display, fontSize: "clamp(1.05rem, 1.8vw, 1.35rem)", color: C.creamSoft, fontStyle: "italic", lineHeight: 1.65, maxWidth: 540, margin: "0 auto" }}>
-            "When they're gone, all that remains is what was written down."
-          </p>
-        </div>
-
-        {/* 3 Pillars */}
-        <div className="lcgrid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2, marginBottom: 2 }}>
-          {pillars.map((p, i) => (
-            <div key={i} style={{ padding: "clamp(28px, 4vw, 44px)", border: `1px solid ${C.line}`, background: "rgba(212,162,78,0.015)", display: "flex", flexDirection: "column", gap: 18 }}>
-              <div style={{ fontFamily: FONT.display, fontSize: "2.8rem", color: C.gold, opacity: 0.12, fontWeight: 700, lineHeight: 1 }}>{p.num}</div>
-              <div style={{ fontFamily: FONT.display, fontSize: "clamp(1rem, 1.5vw, 1.15rem)", color: C.cream, fontWeight: 600, lineHeight: 1.3 }}>{p.label}</div>
-              <p style={{ fontFamily: FONT.body, fontSize: "0.9rem", color: C.muted, lineHeight: 1.8, margin: 0, flex: 1 }}>{p.text}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Pillar 4 — Digital Platform */}
-        <div className="lcfull" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0, marginBottom: 72, border: `1px solid ${C.lineBright}`, borderTop: "none" }}>
-          <div style={{ padding: "clamp(32px, 5vw, 52px)", borderRight: `1px solid ${C.line}`, background: "rgba(212,162,78,0.025)" }}>
-            <div style={{ fontFamily: FONT.body, fontSize: "0.66rem", color: C.gold, letterSpacing: "0.35em", textTransform: "uppercase", marginBottom: 16 }}>04 — The Platform</div>
-            <h3 style={{ fontFamily: FONT.display, fontSize: "clamp(1.5rem, 2.5vw, 2rem)", color: C.cream, fontWeight: 600, lineHeight: 1.15, margin: "0 0 18px" }}>
-              A Digital Monument,<br /><em style={{ color: C.gold }}>Built to Last</em>
-            </h3>
-            <p style={{ fontFamily: FONT.body, fontSize: "0.92rem", color: C.muted, lineHeight: 1.85, margin: 0 }}>
-              Not a template. Not a social profile. A purpose-built digital home for your legacy — designed to exist decades from now, accessible to your family, your community, and future generations who never got to meet you.
-            </p>
-          </div>
-          <div style={{ padding: "clamp(32px, 5vw, 52px)", display: "flex", flexDirection: "column", gap: 14, justifyContent: "center" }}>
-            {[
-              "Custom design, built to reflect your life and era",
-              "Narrative chapters written in your voice",
-              "Visual timeline of milestones — decade by decade",
-              "Curated photo and video archive",
-              "Audio recordings — your voice, preserved",
-              "Permanently hosted. Maintained for generations.",
-            ].map((item, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
-                <div style={{ width: 5, height: 1, background: C.gold, marginTop: 10, flexShrink: 0, opacity: 0.7 }} />
-                <span style={{ fontFamily: FONT.body, fontSize: "0.88rem", color: C.creamSoft, lineHeight: 1.55 }}>{item}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* CTA */}
-        <div style={{ textAlign: "center" }}>
-          <div style={{ fontFamily: FONT.body, fontSize: "0.72rem", color: C.muted, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: 24, opacity: 0.65 }}>
-            We accept a limited number of commissions each year
-          </div>
-          <a
-            href="mailto:info@joeprofitneverbroken.com?subject=Legends%20Commission%20Inquiry"
-            style={{ display: "inline-block", fontFamily: FONT.body, fontSize: "0.78rem", color: C.black, background: C.gold, padding: "18px 52px", textDecoration: "none", letterSpacing: "0.22em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.35s" }}
-            onMouseEnter={e => { e.currentTarget.style.background = C.goldLight; e.currentTarget.style.transform = "translateY(-2px)"; }}
-            onMouseLeave={e => { e.currentTarget.style.background = C.gold; e.currentTarget.style.transform = "none"; }}
-          >
-            Begin the Conversation
-          </a>
-          <div style={{ fontFamily: FONT.body, fontSize: "0.76rem", color: C.muted, marginTop: 16, opacity: 0.55, letterSpacing: "0.04em" }}>
-            All commissions are confidential. Packages begin at $50,000.
-          </div>
-          <div style={{ width: 40, height: 1, background: C.gold, margin: "52px auto 0", opacity: 0.25 }} />
-        </div>
-
-      </div>
-    </section>
-  );
-}
-
 // ─── CONTACT ───
 function ContactSection() {
   const [ref, vis] = useScrollReveal(0.15);
@@ -1811,7 +1708,6 @@ function HomePage() {
       {/* <BookTrailerSection /> — restore when trailer Vimeo ID is ready */}
       <TestimonialsSection />
       <PortraitSection />
-      <LegendsCommission />
       <ContactSection />
       <Footer />
       <BackToTop />
