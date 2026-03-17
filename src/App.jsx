@@ -1587,7 +1587,7 @@ function ShopPage() {
             <div style={{ background: C.dark, border: `1px solid ${C.lineBright}`, padding: 'clamp(28px, 4vw, 40px)', display: 'flex', flexDirection: 'column' }}>
               <div style={{ fontSize: '2.4rem', marginBottom: 20 }}>🎧</div>
               <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.gold, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 8 }}>Audiobook</div>
-              <div style={{ fontFamily: FONT.display, fontSize: '1.6rem', color: C.gold, fontStyle: 'italic', marginBottom: 12 }}>$14.95</div>
+              <div style={{ fontFamily: FONT.display, fontSize: '1.6rem', color: C.gold, fontStyle: 'italic', marginBottom: 12 }}>$9.99</div>
               <p style={{ fontFamily: FONT.body, fontSize: '0.9rem', color: C.muted, lineHeight: 1.7, marginBottom: 8, flex: 1 }}>
                 18 chapters. Joe's full story in his own voice — a voice preservation project unlike any other.
               </p>
