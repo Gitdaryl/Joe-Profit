@@ -346,8 +346,10 @@ function Nav() {
   }, []);
   const links = [
     { label: "Story", href: "/#story" }, { label: "Archive", href: "/#archive" },
-    { label: "Timeline", href: "/#timeline" }, { label: "Youth United for Prosperity", href: "/#charity" },
-    { label: "Shop", href: "/shop" }, { label: "Speaking", href: "/speaking" }, { label: "Contact", href: "/#contact" },
+    { label: "Timeline", href: "/#timeline" }, { label: "YUP Foundation", href: "/#charity" },
+    { label: "Shop", href: "/shop" }, { label: "Speaking", href: "/speaking" },
+    { label: "My Books", href: "/audiobook", sub: [{ label: "Audiobook", href: "/audiobook" }, { label: "eBook", href: "/ebook" }, { label: "Read Along", href: "/read-along" }] },
+    { label: "Contact", href: "/#contact" },
   ];
   const navBg = scrolled ? "rgba(10,9,8,0.92)" : "transparent";
   const navBorder = scrolled ? C.lineBright : "transparent";
@@ -359,7 +361,22 @@ function Nav() {
           <span style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.muted, letterSpacing: "0.3em", textTransform: "uppercase" }}>Never Broken</span>
         </a>
         <div className="dnav" style={{ display: "flex", gap: 32, alignItems: "center" }}>
-          {links.map(l => (
+          {links.map(l => l.sub ? (
+            <div key={l.label} style={{ position: "relative" }} className="nav-dropdown-wrap">
+              <a href={l.href} style={{ fontFamily: FONT.body, fontSize: "0.9rem", color: C.gold, textDecoration: "none", letterSpacing: "0.1em", textTransform: "uppercase", transition: "color 0.3s", borderBottom: `1px solid ${C.gold}`, paddingBottom: 2 }}>
+                {l.label}
+              </a>
+              <div className="nav-dropdown" style={{ position: "absolute", top: "calc(100% + 12px)", right: 0, background: "rgba(10,9,8,0.96)", border: `1px solid ${C.lineBright}`, backdropFilter: "blur(20px)", minWidth: 160, display: "none", flexDirection: "column" }}>
+                {l.sub.map(s => (
+                  <a key={s.label} href={s.href} style={{ fontFamily: FONT.body, fontSize: "0.78rem", color: C.muted, textDecoration: "none", letterSpacing: "0.12em", textTransform: "uppercase", padding: "12px 18px", transition: "all 0.2s", borderBottom: `1px solid ${C.line}` }}
+                    onMouseEnter={e => { e.currentTarget.style.color = C.gold; e.currentTarget.style.background = C.goldDim; }}
+                    onMouseLeave={e => { e.currentTarget.style.color = C.muted; e.currentTarget.style.background = "transparent"; }}>
+                    {s.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          ) : (
             <a key={l.label} href={l.href} style={{ fontFamily: FONT.body, fontSize: "0.9rem", color: C.muted, textDecoration: "none", letterSpacing: "0.1em", textTransform: "uppercase", transition: "color 0.3s" }}
               onMouseEnter={e => e.target.style.color = C.gold} onMouseLeave={e => e.target.style.color = C.muted}>{l.label}
             </a>
@@ -369,7 +386,14 @@ function Nav() {
       </div>
       {mobileOpen && (
         <div style={{ background: C.black, padding: "16px 24px", display: "flex", flexDirection: "column", gap: 16, borderTop: `1px solid ${C.line}` }}>
-          {links.map(l => (
+          {links.map(l => l.sub ? (
+            <div key={l.label}>
+              <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.gold, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 8 }}>{l.label}</div>
+              {l.sub.map(s => (
+                <a key={s.label} href={s.href} onClick={() => setMobileOpen(false)} style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.mutedLight, textDecoration: "none", letterSpacing: "0.12em", textTransform: "uppercase", display: "block", paddingLeft: 12, marginBottom: 8 }}>{s.label}</a>
+              ))}
+            </div>
+          ) : (
             <a key={l.label} href={l.href} onClick={() => setMobileOpen(false)} style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.cream, textDecoration: "none", letterSpacing: "0.12em", textTransform: "uppercase" }}>{l.label}</a>
           ))}
         </div>
@@ -407,7 +431,7 @@ function HeroSection() {
           <a href="#story" style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.black, background: C.gold, padding: "14px 32px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s", borderRadius: 0 }}
             onMouseEnter={e => { e.target.style.background = C.goldLight; e.target.style.transform = "translateY(-2px)"; }}
             onMouseLeave={e => { e.target.style.background = C.gold; e.target.style.transform = "translateY(0)"; }}>
-            Enter the Story
+            Snippets of the Story
           </a>
           <a href="/shop" style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.gold, border: `1px solid ${C.gold}`, padding: "14px 32px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 500, transition: "all 0.3s" }}
             onMouseEnter={e => { e.target.style.background = C.goldDim; }}
@@ -445,7 +469,7 @@ function Marquee() {
 function PressLogoWall() {
   const [ref, vis] = useScrollReveal(0.2);
   const logos = [
-    { src: IMG.logoWSJ,     alt: "The Wall Street Journal" },
+    { src: null,             alt: "The Wall Street Journal" },
     { src: IMG.logoUSAToday, alt: "USA Today" },
     { src: IMG.logoEssence,  alt: "Essence Magazine" },
     { src: IMG.logoINC500,   alt: "INC. 500" },
@@ -457,7 +481,7 @@ function PressLogoWall() {
           As Featured In
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "clamp(28px, 6vw, 72px)", flexWrap: "wrap" }}>
-          {logos.map((logo, i) => (
+          {logos.map((logo, i) => logo.src ? (
             <img
               key={i}
               src={logo.src}
@@ -473,6 +497,12 @@ function PressLogoWall() {
               onMouseEnter={e => e.currentTarget.style.filter = "brightness(0) invert(1) brightness(1.4)"}
               onMouseLeave={e => e.currentTarget.style.filter = "brightness(0) invert(1)"}
             />
+          ) : (
+            <span key={i} style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(0.85rem, 1.8vw, 1.15rem)", color: "rgba(255,255,255,0.85)", fontWeight: 700, letterSpacing: "0.02em", transition: "color 0.4s ease", whiteSpace: "nowrap" }}
+              onMouseEnter={e => e.currentTarget.style.color = "#fff"}
+              onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.85)"}>
+              {logo.alt}
+            </span>
           ))}
         </div>
       </div>
@@ -524,6 +554,9 @@ function HeroAudioHook() {
         </button>
         {/* Text */}
         <div style={{ flex: 1 }}>
+          <div style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: C.muted, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 10, opacity: 0.7 }}>
+            Scroll down to explore snippets of Joe's life ↓
+          </div>
           <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.gold, letterSpacing: "0.35em", textTransform: "uppercase", marginBottom: 6 }}>
             {playing ? "Now Playing" : "Hear Joe's Story"}
           </div>
@@ -555,6 +588,16 @@ function StorySection({ onOpenChapter }) {
         <div className="chgrid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 3 }}>
           {chapters.map((ch, i) => <ChapterCard key={i} ch={ch} i={i} onClick={() => onOpenChapter(ch.slug)} />)}
         </div>
+        <div style={{ textAlign: "center", marginTop: 52 }}>
+          <p style={{ fontFamily: FONT.display, fontSize: "clamp(1rem, 2vw, 1.25rem)", color: C.mutedLight, fontStyle: "italic", marginBottom: 20 }}>
+            There's a whole lot more of this in the book.
+          </p>
+          <a href="/shop" style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.black, background: C.gold, padding: "14px 36px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s", display: "inline-block" }}
+            onMouseEnter={e => { e.currentTarget.style.background = C.goldLight; e.currentTarget.style.transform = "translateY(-1px)"; }}
+            onMouseLeave={e => { e.currentTarget.style.background = C.gold; e.currentTarget.style.transform = "none"; }}>
+            Get the Full Story →
+          </a>
+        </div>
       </div>
     </section>
   );
@@ -572,7 +615,7 @@ function ChapterCard({ ch, i, onClick }) {
         <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.gold, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 4 }}>{ch.sub}</div>
         <h3 style={{ fontFamily: FONT.display, fontSize: "clamp(1.1rem, 2vw, 1.4rem)", color: C.cream, fontWeight: 600, margin: "0 0 8px 0", lineHeight: 1.2 }}>{ch.title}</h3>
         <p style={{ fontFamily: FONT.body, fontSize: "0.9rem", color: C.mutedLight, lineHeight: 1.6, margin: 0, opacity: hover ? 1 : 0, maxHeight: hover ? 100 : 0, transition: "all 0.5s ease" }}>{ch.text}</p>
-        <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.gold, letterSpacing: "0.2em", textTransform: "uppercase", marginTop: 8, opacity: hover ? 0.8 : 0, transition: "opacity 0.4s ease 0.1s" }}>Read Chapter →</div>
+        <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.gold, letterSpacing: "0.2em", textTransform: "uppercase", marginTop: 8, opacity: hover ? 1 : 0.5, transition: "opacity 0.4s ease 0.1s" }}>Tap to Read →</div>
       </div>
     </div>
   );
@@ -3291,6 +3334,7 @@ function HomePage() {
         a:hover{opacity:0.85}
         ::selection{background:${C.gold};color:${C.black}}
         img{-webkit-user-drag:none}
+        .nav-dropdown-wrap:hover .nav-dropdown{display:flex!important}
         @media(max-width:820px){
           .dnav{display:none!important}
           .mobile-nav-btn{display:block!important}
@@ -3417,7 +3461,7 @@ function PrivacyPage() {
       <p style={LS.p}>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated date.</p>
 
       <h2 style={LS.h2}>Contact</h2>
-      <p style={LS.p}>Questions about this policy? Contact us at: <a href="mailto:jprofit23@gmail.com" style={LS.a}>jprofit23@gmail.com</a></p>
+      <p style={LS.p}>Questions about this policy? Contact us at: <a href="mailto:info@joeprofitneverbroken.com" style={LS.a}>info@joeprofitneverbroken.com</a></p>
       <p style={LS.p}>Yeti Groove Media LLC · Adrian, Michigan</p>
     </LegalPage>
   );
@@ -3447,7 +3491,7 @@ function TermsPage() {
       <p style={LS.p}>Physical products (books) are shipped to the address you provide at checkout. Estimated delivery times are provided at checkout and are not guaranteed. We are not responsible for delays caused by shipping carriers or customs.</p>
 
       <h2 style={LS.h2}>Returns and Refunds</h2>
-      <p style={LS.p}>If you receive a damaged or defective product, contact us within 14 days of delivery at <a href="mailto:jprofit23@gmail.com" style={LS.a}>jprofit23@gmail.com</a> and we will arrange a replacement or full refund. Digital products (audiobooks, downloads) are non-refundable once accessed.</p>
+      <p style={LS.p}>If you receive a damaged or defective product, contact us within 14 days of delivery at <a href="mailto:info@joeprofitneverbroken.com" style={LS.a}>info@joeprofitneverbroken.com</a> and we will arrange a replacement or full refund. Digital products (audiobooks, downloads) are non-refundable once accessed.</p>
 
       <h2 style={LS.h2}>Intellectual Property</h2>
       <p style={LS.p}>All content on this Site — including text, images, audio, video, and design — is owned by Yeti Groove Media LLC or Dr. Joe Profit and is protected by copyright and other intellectual property laws. No content may be reproduced without express written consent.</p>
@@ -3465,7 +3509,7 @@ function TermsPage() {
       <p style={LS.p}>We reserve the right to modify these Terms at any time. Continued use of the Site after changes constitutes acceptance of the updated Terms.</p>
 
       <h2 style={LS.h2}>Contact</h2>
-      <p style={LS.p}>Questions? Contact us at: <a href="mailto:jprofit23@gmail.com" style={LS.a}>jprofit23@gmail.com</a></p>
+      <p style={LS.p}>Questions? Contact us at: <a href="mailto:info@joeprofitneverbroken.com" style={LS.a}>info@joeprofitneverbroken.com</a></p>
       <p style={LS.p}>Yeti Groove Media LLC · Adrian, Michigan</p>
     </LegalPage>
   );
@@ -3478,7 +3522,7 @@ function SupportPage() {
       <p style={LS.p}>We're here to help. Whether you have a question about your order, received a damaged book, or need assistance with anything related to your purchase — reach out and we'll make it right.</p>
 
       <h2 style={LS.h2}>Contact Us</h2>
-      <p style={LS.p}>Email us at: <a href="mailto:jprofit23@gmail.com" style={LS.a}>jprofit23@gmail.com</a></p>
+      <p style={LS.p}>Email us at: <a href="mailto:info@joeprofitneverbroken.com" style={LS.a}>info@joeprofitneverbroken.com</a></p>
       <p style={LS.p}>We respond within 1–2 business days.</p>
 
       <h2 style={LS.h2}>Order Issues</h2>
@@ -3488,7 +3532,7 @@ function SupportPage() {
       <p style={LS.p}>Damaged or defective physical books qualify for a full refund or replacement within 14 days of delivery. Digital products are non-refundable once accessed. See our <a href="/terms" style={LS.a}>Terms of Service</a> for full details.</p>
 
       <h2 style={LS.h2}>Speaking & Booking Inquiries</h2>
-      <p style={LS.p}>For speaking engagement requests or media inquiries, email us at: <a href="mailto:jprofit23@gmail.com" style={LS.a}>jprofit23@gmail.com</a></p>
+      <p style={LS.p}>For speaking engagement requests or media inquiries, email us at: <a href="mailto:info@joeprofitneverbroken.com" style={LS.a}>info@joeprofitneverbroken.com</a></p>
 
       <h2 style={LS.h2}>General Questions</h2>
       <p style={LS.p}>For anything else — foundation partnerships, media, or general questions about Dr. Joe Profit's story and work — we'd love to hear from you.</p>
@@ -3829,7 +3873,7 @@ function SpeakingPage() {
               {/* Submit */}
               {formState === 'error' && (
                 <p style={{ fontFamily: FONT.body, fontSize: '0.85rem', color: '#E57373', textAlign: 'center' }}>
-                  Something went wrong. Please try again or email <a href="mailto:jprofit23@gmail.com" style={{ color: C.gold }}>jprofit23@gmail.com</a>.
+                  Something went wrong. Please try again or email <a href="mailto:info@joeprofitneverbroken.com" style={{ color: C.gold }}>info@joeprofitneverbroken.com</a>.
                 </p>
               )}
               <button type="submit" disabled={formState === 'loading'}
