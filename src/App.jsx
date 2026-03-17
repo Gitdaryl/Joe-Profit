@@ -1221,6 +1221,27 @@ function ChapterPage({ chapter, onBack, onNavigate }) {
   const prevIdx = CHAPTERS.findIndex(c => c.slug === chapter.slug) - 1;
   const prevCh = prevIdx >= 0 ? CHAPTERS[prevIdx] : null;
 
+  // Double-tap ← : 1st tap = restart (scroll to top), 2nd tap within 600ms = prev chapter
+  const prevClickRef = useRef(null);
+  const prevHintTimerRef = useRef(null);
+  const [prevHint, setPrevHint] = useState(false);
+  const handlePrevTap = () => {
+    const now = Date.now();
+    if (prevClickRef.current && now - prevClickRef.current < 600) {
+      // Double tap — go to prev chapter
+      clearTimeout(prevHintTimerRef.current);
+      setPrevHint(false);
+      prevClickRef.current = null;
+      onNavigate(prevCh.slug);
+    } else {
+      // First tap — scroll to top, show hint
+      prevClickRef.current = now;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setPrevHint(true);
+      prevHintTimerRef.current = setTimeout(() => { setPrevHint(false); prevClickRef.current = null; }, 600);
+    }
+  };
+
   return (
     <div style={{ minHeight: "100vh", background: C.black }}>
       {/* Back button */}
@@ -1292,11 +1313,13 @@ function ChapterPage({ chapter, onBack, onNavigate }) {
         {/* Chapter Navigation */}
         <div style={{ marginTop: 60, paddingTop: 40, borderTop: `1px solid ${C.line}`, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
           {prevCh ? (
-            <button onClick={() => onNavigate(prevCh.slug)} style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.muted, background: "none", border: `1px solid ${C.line}`, padding: "12px 24px", cursor: "pointer", letterSpacing: "0.12em", textTransform: "uppercase", transition: "all 0.3s" }}
-              onMouseEnter={e => { e.target.style.color = C.gold; e.target.style.borderColor = C.gold; }}
-              onMouseLeave={e => { e.target.style.color = C.muted; e.target.style.borderColor = C.line; }}>
-              ← {prevCh.title}
-            </button>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 6 }}>
+              <button onClick={handlePrevTap} style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: prevHint ? C.gold : C.muted, background: "none", border: `1px solid ${prevHint ? C.gold : C.line}`, padding: "12px 24px", cursor: "pointer", letterSpacing: "0.12em", textTransform: "uppercase", transition: "all 0.3s" }}
+                onMouseEnter={e => { e.currentTarget.style.color = C.gold; e.currentTarget.style.borderColor = C.gold; }}
+                onMouseLeave={e => { e.currentTarget.style.color = prevHint ? C.gold : C.muted; e.currentTarget.style.borderColor = prevHint ? C.gold : C.line; }}>
+                ← {prevHint ? 'Tap again for previous chapter' : prevCh.title}
+              </button>
+            </div>
           ) : <div />}
           {nextCh ? (
             <button onClick={() => onNavigate(nextCh.slug)} style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.black, background: C.gold, border: "none", padding: "12px 24px", cursor: "pointer", letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
@@ -2612,6 +2635,20 @@ function ReadAlongPage() {
   const audioTrackData = AUDIOBOOK_TRACKS[audioTrack];
   const fmt = (s) => { const m = Math.floor(s / 60); const sec = Math.floor(s % 60); return `${m}:${sec < 10 ? '0' : ''}${sec}`; };
 
+  // Onboarding modal
+  const [showOnboarding, setShowOnboarding] = useState(() => !localStorage.getItem('jp_read_along_onboarded'));
+  const guideAudioRef = useRef(null);
+  const dismissOnboarding = () => {
+    if (guideAudioRef.current) { guideAudioRef.current.pause(); guideAudioRef.current.currentTime = 0; }
+    localStorage.setItem('jp_read_along_onboarded', '1');
+    setShowOnboarding(false);
+  };
+  useEffect(() => {
+    if (showOnboarding && guideAudioRef.current) {
+      guideAudioRef.current.play().catch(() => {}); // autoplay may be blocked; fails silently
+    }
+  }, [showOnboarding]);
+
   // Audio chapter → ebook image mapping (from Table of Contents)
   const CHAPTER_TO_PAGE = [
     6,   // 0: Acknowledgments → image 7 (0-indexed: 6)
@@ -2877,6 +2914,53 @@ function ReadAlongPage() {
       <Grain />
       <Nav />
       <audio ref={audioRef} src={`${AUDIOBOOK_BASE}${encodeURIComponent(audioTrackData.file)}`} preload="metadata" />
+      <audio ref={guideAudioRef} src="/audio/read-along-guide.mp3" preload="auto" />
+
+      {/* ── Onboarding Modal ── */}
+      {showOnboarding && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 999, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
+          <div style={{ background: '#111008', border: `1px solid ${C.goldDim}`, maxWidth: 460, width: '100%', padding: 'clamp(28px, 5vw, 44px)', position: 'relative' }}>
+            {/* Header */}
+            <div style={{ textAlign: 'center', marginBottom: 28 }}>
+              <div style={{ fontSize: '2rem', marginBottom: 12 }}>📖🎧</div>
+              <h2 style={{ fontFamily: FONT.display, fontSize: 'clamp(1.4rem, 3vw, 1.9rem)', color: C.cream, fontWeight: 400, margin: 0 }}>
+                How to Use <em style={{ color: C.gold }}>Read Along</em>
+              </h2>
+            </div>
+
+            {/* Steps */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginBottom: 32 }}>
+              {[
+                { icon: '▶', label: 'Press Play', desc: 'Hit the Play button in the audio player at the bottom of the screen to start listening.' },
+                { icon: '📄', label: 'Flip pages manually', desc: 'Use the Prev / Next buttons below the book — or swipe on a phone. The audio does not flip pages automatically.' },
+                { icon: '🔖', label: 'Chapters jump automatically', desc: 'When the audio starts a new chapter, the book will jump to that section for you.' },
+              ].map(({ icon, label, desc }) => (
+                <div key={label} style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+                  <div style={{ fontSize: '1.3rem', lineHeight: 1, marginTop: 2, flexShrink: 0 }}>{icon}</div>
+                  <div>
+                    <div style={{ fontFamily: FONT.body, fontSize: '0.8rem', color: C.gold, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 4 }}>{label}</div>
+                    <div style={{ fontFamily: FONT.body, fontSize: '0.88rem', color: C.muted, lineHeight: 1.6 }}>{desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Audio hint */}
+            <div style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.muted, fontStyle: 'italic', textAlign: 'center', marginBottom: 20, opacity: 0.7 }}>
+              🔊 Audio guide playing — listen along
+            </div>
+
+            {/* Dismiss */}
+            <button
+              onClick={dismissOnboarding}
+              onMouseEnter={e => e.currentTarget.style.background = C.goldLight}
+              onMouseLeave={e => e.currentTarget.style.background = C.gold}
+              style={{ width: '100%', fontFamily: FONT.body, fontSize: '0.78rem', color: C.black, background: C.gold, border: 'none', padding: '16px 24px', cursor: 'pointer', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, transition: 'background 0.3s' }}>
+              Got it — Start Reading →
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Compact header */}
       <section style={{ background: C.black, paddingTop: 88, paddingBottom: 0 }}>
