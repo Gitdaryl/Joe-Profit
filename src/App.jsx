@@ -2637,17 +2637,19 @@ function ReadAlongPage() {
 
   // Onboarding modal
   const [showOnboarding, setShowOnboarding] = useState(() => !localStorage.getItem('jp_read_along_onboarded'));
+  const [guidePlaying, setGuidePlaying] = useState(false);
   const guideAudioRef = useRef(null);
   const dismissOnboarding = () => {
     if (guideAudioRef.current) { guideAudioRef.current.pause(); guideAudioRef.current.currentTime = 0; }
+    setGuidePlaying(false);
     localStorage.setItem('jp_read_along_onboarded', '1');
     setShowOnboarding(false);
   };
-  useEffect(() => {
-    if (showOnboarding && guideAudioRef.current) {
-      guideAudioRef.current.play().catch(() => {}); // autoplay may be blocked; fails silently
-    }
-  }, [showOnboarding]);
+  const toggleGuide = () => {
+    if (!guideAudioRef.current) return;
+    if (guidePlaying) { guideAudioRef.current.pause(); setGuidePlaying(false); }
+    else { guideAudioRef.current.play().catch(() => {}); setGuidePlaying(true); }
+  };
 
   // Audio chapter → ebook image mapping (from Table of Contents)
   const CHAPTER_TO_PAGE = [
@@ -2946,10 +2948,13 @@ function ReadAlongPage() {
               ))}
             </div>
 
-            {/* Audio hint */}
-            <div style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.muted, fontStyle: 'italic', textAlign: 'center', marginBottom: 20, opacity: 0.7 }}>
-              🔊 Audio guide playing — listen along
-            </div>
+            {/* Audio guide play button */}
+            <button onClick={toggleGuide}
+              onMouseEnter={e => e.currentTarget.style.borderColor = C.gold}
+              onMouseLeave={e => e.currentTarget.style.borderColor = C.lineBright}
+              style={{ width: '100%', fontFamily: FONT.body, fontSize: '0.75rem', color: C.gold, background: 'transparent', border: `1px solid ${C.lineBright}`, padding: '10px 16px', cursor: 'pointer', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 16, transition: 'border-color 0.3s' }}>
+              {guidePlaying ? '⏸ Pause audio guide' : '🔊 Play audio guide'}
+            </button>
 
             {/* Dismiss */}
             <button
