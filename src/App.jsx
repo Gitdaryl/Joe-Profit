@@ -2923,38 +2923,41 @@ function ReadAlongPage() {
       {showOnboarding && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 999, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
           <div style={{ background: '#111008', border: `1px solid ${C.goldDim}`, maxWidth: 460, width: '100%', padding: 'clamp(28px, 5vw, 44px)', position: 'relative' }}>
-            {/* Header */}
+
+            {/* Big play button — top and center */}
             <div style={{ textAlign: 'center', marginBottom: 28 }}>
-              <div style={{ fontSize: '2rem', marginBottom: 12 }}>📖🎧</div>
-              <h2 style={{ fontFamily: FONT.display, fontSize: 'clamp(1.4rem, 3vw, 1.9rem)', color: C.cream, fontWeight: 400, margin: 0 }}>
-                How to Use <em style={{ color: C.gold }}>Read Along</em>
-              </h2>
+              <button onClick={toggleGuide}
+                onMouseEnter={e => { e.currentTarget.style.background = guidePlaying ? 'rgba(212,162,78,0.25)' : C.goldLight; e.currentTarget.style.transform = 'scale(1.08)'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = guidePlaying ? 'rgba(212,162,78,0.15)' : 'transparent'; e.currentTarget.style.transform = 'scale(1)'; }}
+                style={{ width: 80, height: 80, borderRadius: '50%', border: `3px solid ${C.gold}`, background: guidePlaying ? 'rgba(212,162,78,0.15)' : 'transparent', color: C.gold, fontSize: '2rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.25s', marginBottom: 10 }}>
+                {guidePlaying ? '⏸' : '▶'}
+              </button>
+              <div style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.gold, letterSpacing: '0.25em', textTransform: 'uppercase', fontWeight: 700 }}>
+                {guidePlaying ? 'Playing…' : 'Press Play'}
+              </div>
+              <div style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.muted, marginTop: 4 }}>
+                Hear how it works
+              </div>
             </div>
 
+            {/* Divider */}
+            <div style={{ borderTop: `1px solid ${C.line}`, marginBottom: 24 }} />
+
             {/* Steps */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginBottom: 32 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 28 }}>
               {[
-                { icon: '▶', label: 'Press Play', desc: 'Hit the Play button in the audio player at the bottom of the screen to start listening.' },
-                { icon: '📄', label: 'Flip pages manually', desc: 'Use the Prev / Next buttons below the book — or swipe on a phone. The audio does not flip pages automatically.' },
-                { icon: '🔖', label: 'Chapters jump automatically', desc: 'When the audio starts a new chapter, the book will jump to that section for you.' },
+                { icon: '📄', label: 'Flip pages manually', desc: 'Use Prev / Next below the book — or swipe. Pages do not turn automatically.' },
+                { icon: '🔖', label: 'Chapters jump automatically', desc: 'When audio reaches a new chapter, the book jumps to that section for you.' },
               ].map(({ icon, label, desc }) => (
-                <div key={label} style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-                  <div style={{ fontSize: '1.3rem', lineHeight: 1, marginTop: 2, flexShrink: 0 }}>{icon}</div>
+                <div key={label} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                  <div style={{ fontSize: '1.2rem', lineHeight: 1, marginTop: 2, flexShrink: 0 }}>{icon}</div>
                   <div>
-                    <div style={{ fontFamily: FONT.body, fontSize: '0.8rem', color: C.gold, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 4 }}>{label}</div>
-                    <div style={{ fontFamily: FONT.body, fontSize: '0.88rem', color: C.muted, lineHeight: 1.6 }}>{desc}</div>
+                    <div style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.gold, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 3 }}>{label}</div>
+                    <div style={{ fontFamily: FONT.body, fontSize: '0.85rem', color: C.muted, lineHeight: 1.6 }}>{desc}</div>
                   </div>
                 </div>
               ))}
             </div>
-
-            {/* Audio guide play button */}
-            <button onClick={toggleGuide}
-              onMouseEnter={e => e.currentTarget.style.borderColor = C.gold}
-              onMouseLeave={e => e.currentTarget.style.borderColor = C.lineBright}
-              style={{ width: '100%', fontFamily: FONT.body, fontSize: '0.75rem', color: C.gold, background: 'transparent', border: `1px solid ${C.lineBright}`, padding: '10px 16px', cursor: 'pointer', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 16, transition: 'border-color 0.3s' }}>
-              {guidePlaying ? '⏸ Pause audio guide' : '🔊 Play audio guide'}
-            </button>
 
             {/* Dismiss */}
             <button
