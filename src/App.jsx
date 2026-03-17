@@ -2678,7 +2678,8 @@ function ReadAlongPage() {
   // Auto-flip book when audio chapter changes
   useEffect(() => {
     if (flipBookRef.current && CHAPTER_TO_PAGE[audioTrack] != null) {
-      flipBookRef.current.pageFlip().turnToPage(CHAPTER_TO_PAGE[audioTrack]);
+      const pf = flipBookRef.current.pageFlip();
+      if (pf) pf.turnToPage(CHAPTER_TO_PAGE[audioTrack]);
     }
   }, [audioTrack]);
 
