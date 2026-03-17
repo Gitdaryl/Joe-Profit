@@ -2180,20 +2180,50 @@ function AudiobookPage() {
 // ─── EBOOK PAGE (forwardRef) ───
 const EBOOK_TOTAL_PAGES = 298;
 
-const EbookPageImage = forwardRef(({ pageNum }, ref) => (
-  <div ref={ref} style={{ background: '#fff' }}>
+const EbookPageImage = forwardRef(({ pageNum, onZoom }, ref) => (
+  <div ref={ref} style={{ background: '#fff', cursor: 'zoom-in' }} onClick={(e) => { e.stopPropagation(); if (onZoom) onZoom(pageNum); }}>
     <img
       src={`/ebook/pages/page-${String(pageNum).padStart(3, '0')}.jpg`}
       alt={`Page ${pageNum}`}
-      style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+      style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', pointerEvents: 'none' }}
       loading="lazy"
     />
   </div>
 ));
 
+// Page-flip sound synthesizer (no external audio file needed)
+function playPageFlipSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const duration = 0.15;
+    const bufferSize = ctx.sampleRate * duration;
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    // White noise burst shaped like paper friction
+    for (let i = 0; i < bufferSize; i++) {
+      const t = i / bufferSize;
+      const envelope = Math.sin(t * Math.PI) * (1 - t * 0.5);
+      data[i] = (Math.random() * 2 - 1) * envelope * 0.12;
+    }
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    // Bandpass filter to sound like paper, not static
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.value = 3000;
+    filter.Q.value = 0.7;
+    source.connect(filter);
+    filter.connect(ctx.destination);
+    source.start();
+    source.onended = () => ctx.close();
+  } catch { /* Audio not supported — fail silently */ }
+}
+
 function EbookPage() {
   const [access, setAccess] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
+  const [zoomPage, setZoomPage] = useState(null); // null = no zoom, number = page being zoomed
+  const [soundEnabled, setSoundEnabled] = useState(true);
   const flipBookRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 400, height: 600 });
 
@@ -2284,7 +2314,8 @@ function EbookPage() {
   const onFlip = useCallback((e) => {
     setCurrentPage(e.data);
     saveProgress(e.data);
-  }, [saveProgress]);
+    if (soundEnabled) playPageFlipSound();
+  }, [saveProgress, soundEnabled]);
 
   const goToPage = (n) => {
     if (flipBookRef.current) flipBookRef.current.pageFlip().flip(n);
@@ -2385,7 +2416,7 @@ function EbookPage() {
           style={{ margin: '0 auto' }}
         >
           {Array.from({ length: EBOOK_TOTAL_PAGES }, (_, i) => (
-            <EbookPageImage key={i} pageNum={i + 1} />
+            <EbookPageImage key={i} pageNum={i + 1} onZoom={setZoomPage} />
           ))}
         </HTMLFlipBook>
       </section>
@@ -2408,21 +2439,33 @@ function EbookPage() {
             </button>
           </div>
 
-          {/* Page jump */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-            <span style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.muted, letterSpacing: '0.15em', textTransform: 'uppercase' }}>Go to page</span>
-            <input
-              type="number"
-              min={1}
-              max={EBOOK_TOTAL_PAGES}
-              placeholder="1"
-              onKeyDown={(e) => { if (e.key === 'Enter') goToPage(parseInt(e.target.value, 10) - 1); }}
-              style={{
-                width: 60, padding: '6px 8px', fontFamily: FONT.body, fontSize: '0.78rem',
-                background: C.dark, border: `1px solid ${C.lineBright}`, color: C.cream,
-                textAlign: 'center', outline: 'none',
-              }}
-            />
+          {/* Page jump + sound toggle */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.muted, letterSpacing: '0.15em', textTransform: 'uppercase' }}>Go to page</span>
+              <input
+                type="number"
+                min={1}
+                max={EBOOK_TOTAL_PAGES}
+                placeholder="1"
+                onKeyDown={(e) => { if (e.key === 'Enter') goToPage(parseInt(e.target.value, 10) - 1); }}
+                style={{
+                  width: 60, padding: '6px 8px', fontFamily: FONT.body, fontSize: '0.78rem',
+                  background: C.dark, border: `1px solid ${C.lineBright}`, color: C.cream,
+                  textAlign: 'center', outline: 'none',
+                }}
+              />
+            </div>
+            <button onClick={() => setSoundEnabled(!soundEnabled)}
+              style={{ background: 'none', border: `1px solid ${C.lineBright}`, color: soundEnabled ? C.gold : C.muted, cursor: 'pointer', padding: '6px 14px', fontFamily: FONT.body, fontSize: '0.68rem', letterSpacing: '0.1em', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: 6 }}
+              title={soundEnabled ? 'Mute page flip sound' : 'Enable page flip sound'}>
+              {soundEnabled ? '🔊' : '🔇'} Sound {soundEnabled ? 'On' : 'Off'}
+            </button>
+            <button onClick={() => setZoomPage(currentPage + 1)}
+              style={{ background: 'none', border: `1px solid ${C.lineBright}`, color: C.muted, cursor: 'pointer', padding: '6px 14px', fontFamily: FONT.body, fontSize: '0.68rem', letterSpacing: '0.1em', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: 6 }}
+              title="Zoom current page">
+              🔍 Zoom
+            </button>
           </div>
 
           {/* 100% proceeds notice */}
@@ -2433,6 +2476,69 @@ function EbookPage() {
           </div>
         </div>
       </section>
+
+      {/* Fullscreen zoom overlay */}
+      {zoomPage && (
+        <div
+          onClick={() => setZoomPage(null)}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') setZoomPage(null);
+            if (e.key === 'ArrowLeft' && zoomPage > 1) setZoomPage(zoomPage - 1);
+            if (e.key === 'ArrowRight' && zoomPage < EBOOK_TOTAL_PAGES) setZoomPage(zoomPage + 1);
+          }}
+          tabIndex={0}
+          ref={(el) => el && el.focus()}
+          style={{
+            position: 'fixed', inset: 0, zIndex: 9999,
+            background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(8px)',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+            cursor: 'zoom-out', outline: 'none',
+          }}
+        >
+          {/* Close button */}
+          <button onClick={() => setZoomPage(null)} style={{
+            position: 'absolute', top: 20, right: 24, background: 'none', border: `1px solid ${C.lineBright}`,
+            color: C.cream, cursor: 'pointer', padding: '8px 16px', fontFamily: FONT.body, fontSize: '0.72rem',
+            letterSpacing: '0.1em', zIndex: 10, transition: 'all 0.2s',
+          }}>
+            ESC &times; Close
+          </button>
+
+          {/* Prev/Next in zoom */}
+          <div style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', zIndex: 10 }}>
+            {zoomPage > 1 && (
+              <button onClick={(e) => { e.stopPropagation(); setZoomPage(zoomPage - 1); }} style={{
+                background: 'rgba(0,0,0,0.6)', border: `1px solid ${C.lineBright}`, color: C.cream,
+                cursor: 'pointer', padding: '12px 16px', fontSize: '1.2rem', borderRadius: 4,
+              }}>&#8249;</button>
+            )}
+          </div>
+          <div style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', zIndex: 10 }}>
+            {zoomPage < EBOOK_TOTAL_PAGES && (
+              <button onClick={(e) => { e.stopPropagation(); setZoomPage(zoomPage + 1); }} style={{
+                background: 'rgba(0,0,0,0.6)', border: `1px solid ${C.lineBright}`, color: C.cream,
+                cursor: 'pointer', padding: '12px 16px', fontSize: '1.2rem', borderRadius: 4,
+              }}>&#8250;</button>
+            )}
+          </div>
+
+          {/* Page image — full resolution */}
+          <img
+            onClick={(e) => e.stopPropagation()}
+            src={`/ebook/pages/page-${String(zoomPage).padStart(3, '0')}.jpg`}
+            alt={`Page ${zoomPage} (zoomed)`}
+            style={{
+              maxHeight: '90vh', maxWidth: '90vw', objectFit: 'contain',
+              cursor: 'default', boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
+            }}
+          />
+
+          {/* Page number */}
+          <div style={{ marginTop: 12, fontFamily: FONT.body, fontSize: '0.75rem', color: C.muted, fontVariantNumeric: 'tabular-nums' }}>
+            Page {zoomPage} of {EBOOK_TOTAL_PAGES} — click outside or press ESC to close, arrow keys to navigate
+          </div>
+        </div>
+      )}
 
       <Footer />
       <BackToTop />
