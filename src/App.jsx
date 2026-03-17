@@ -1890,6 +1890,7 @@ function AudiobookPlayer({ trackIndex, tracks, onTrackChange }) {
   };
 
   const speeds = [0.75, 1, 1.25, 1.5];
+  const speedLabels = { 0.75: 'Slow', 1: 'Normal', 1.25: 'Fast', 1.5: 'Fastest' };
 
   // Reset play state when track changes
   useEffect(() => {
@@ -1979,7 +1980,7 @@ function AudiobookPlayer({ trackIndex, tracks, onTrackChange }) {
               border: `1px solid ${speed === s ? C.gold : C.line}`,
               padding: '4px 10px', cursor: 'pointer', transition: 'all 0.2s',
             }}>
-            {s}x
+            {speedLabels[s]}
           </button>
         ))}
       </div>
@@ -2075,6 +2076,10 @@ function AudiobookPage() {
 
   const fmt = (s) => { const m = Math.floor(s / 60); const sec = Math.floor(s % 60); return `${m}:${sec < 10 ? '0' : ''}${sec}`; };
 
+  // Onboarding modal
+  const [showOnboarding, setShowOnboarding] = useState(() => !localStorage.getItem('jp_audiobook_onboarded'));
+  const dismissOnboarding = () => { localStorage.setItem('jp_audiobook_onboarded', '1'); setShowOnboarding(false); };
+
   // Get chapter progress for tracklist
   const getChapterState = (file) => {
     try {
@@ -2142,6 +2147,46 @@ function AudiobookPage() {
       <style>{globalStyles}</style>
       <Grain />
       <Nav />
+
+      {/* ── Onboarding Modal ── */}
+      {showOnboarding && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 999, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
+          <div style={{ background: '#111008', border: `1px solid ${C.goldDim}`, maxWidth: 440, width: '100%', padding: 'clamp(28px, 5vw, 44px)' }}>
+            <div style={{ textAlign: 'center', marginBottom: 28 }}>
+              <div style={{ fontSize: '2.2rem', marginBottom: 12 }}>🎧</div>
+              <h2 style={{ fontFamily: FONT.display, fontSize: 'clamp(1.4rem, 3vw, 1.9rem)', color: C.cream, fontWeight: 400, margin: 0 }}>
+                Welcome to <em style={{ color: C.gold }}>Never Broken</em>
+              </h2>
+              <p style={{ fontFamily: FONT.body, fontSize: '0.85rem', color: C.muted, marginTop: 10, lineHeight: 1.6 }}>
+                Joe's complete story — told in his own voice.
+              </p>
+            </div>
+            <div style={{ borderTop: `1px solid ${C.line}`, marginBottom: 24 }} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 18, marginBottom: 28 }}>
+              {[
+                { icon: '▶', label: 'Press Play to start', desc: 'Hit the Play button to begin listening. Joe starts from the very beginning.' },
+                { icon: '📋', label: 'Jump to any chapter', desc: 'Use the chapter list to skip ahead or go back to any part of the story.' },
+                { icon: '🐢', label: 'Control the speed', desc: 'Use the speed buttons — Slow, Normal, Fast — to listen at your own pace.' },
+                { icon: '💾', label: 'Your place is saved', desc: 'Close the page anytime. Come back and it picks up right where you left off.' },
+              ].map(({ icon, label, desc }) => (
+                <div key={label} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                  <div style={{ fontSize: '1.2rem', lineHeight: 1, marginTop: 2, flexShrink: 0 }}>{icon}</div>
+                  <div>
+                    <div style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.gold, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 3 }}>{label}</div>
+                    <div style={{ fontFamily: FONT.body, fontSize: '0.84rem', color: C.muted, lineHeight: 1.6 }}>{desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <button onClick={dismissOnboarding}
+              onMouseEnter={e => e.currentTarget.style.background = C.goldLight}
+              onMouseLeave={e => e.currentTarget.style.background = C.gold}
+              style={{ width: '100%', fontFamily: FONT.body, fontSize: '0.78rem', color: C.black, background: C.gold, border: 'none', padding: '16px 24px', cursor: 'pointer', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, transition: 'background 0.3s' }}>
+              Got it — Start Listening →
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Header */}
       <section style={{ background: C.black, paddingTop: 100, paddingBottom: 0 }}>
@@ -2391,6 +2436,10 @@ function EbookPage() {
     if (flipBookRef.current) flipBookRef.current.pageFlip().flip(n);
   };
 
+  // Onboarding modal
+  const [showOnboarding, setShowOnboarding] = useState(() => !localStorage.getItem('jp_ebook_onboarded'));
+  const dismissOnboarding = () => { localStorage.setItem('jp_ebook_onboarded', '1'); setShowOnboarding(false); };
+
   const globalStyles = `
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
     *{margin:0;padding:0;box-sizing:border-box}
@@ -2448,6 +2497,45 @@ function EbookPage() {
       <Grain />
       <Nav />
 
+      {/* ── Onboarding Modal ── */}
+      {showOnboarding && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 999, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
+          <div style={{ background: '#111008', border: `1px solid ${C.goldDim}`, maxWidth: 440, width: '100%', padding: 'clamp(28px, 5vw, 44px)' }}>
+            <div style={{ textAlign: 'center', marginBottom: 28 }}>
+              <div style={{ fontSize: '2.2rem', marginBottom: 12 }}>📖</div>
+              <h2 style={{ fontFamily: FONT.display, fontSize: 'clamp(1.4rem, 3vw, 1.9rem)', color: C.cream, fontWeight: 400, margin: 0 }}>
+                Welcome to <em style={{ color: C.gold }}>Never Broken</em>
+              </h2>
+              <p style={{ fontFamily: FONT.body, fontSize: '0.85rem', color: C.muted, marginTop: 10, lineHeight: 1.6 }}>
+                298 pages. Joe's complete story, right here on your screen.
+              </p>
+            </div>
+            <div style={{ borderTop: `1px solid ${C.line}`, marginBottom: 24 }} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 18, marginBottom: 28 }}>
+              {[
+                { icon: '👆', label: 'Flip pages to read', desc: 'Use the Prev and Next buttons below the book — or swipe left and right on a phone or tablet.' },
+                { icon: '🔍', label: 'Zoom in to read easier', desc: 'Tap the magnifying glass button below the book to make any page bigger and easier to read.' },
+                { icon: '💾', label: 'Your place is saved', desc: 'Close the page anytime and come back — it will remember exactly where you left off.' },
+              ].map(({ icon, label, desc }) => (
+                <div key={label} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                  <div style={{ fontSize: '1.2rem', lineHeight: 1, marginTop: 2, flexShrink: 0 }}>{icon}</div>
+                  <div>
+                    <div style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.gold, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 3 }}>{label}</div>
+                    <div style={{ fontFamily: FONT.body, fontSize: '0.84rem', color: C.muted, lineHeight: 1.6 }}>{desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <button onClick={dismissOnboarding}
+              onMouseEnter={e => e.currentTarget.style.background = C.goldLight}
+              onMouseLeave={e => e.currentTarget.style.background = C.gold}
+              style={{ width: '100%', fontFamily: FONT.body, fontSize: '0.78rem', color: C.black, background: C.gold, border: 'none', padding: '16px 24px', cursor: 'pointer', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, transition: 'background 0.3s' }}>
+              Got it — Start Reading →
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Header — compact to maximize book space */}
       <section style={{ background: C.black, paddingTop: 88, paddingBottom: 0 }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(20px, 4vw, 40px)', textAlign: 'center', marginBottom: 8 }}>
@@ -2498,7 +2586,7 @@ function EbookPage() {
               Prev
             </button>
             <span style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.muted, fontVariantNumeric: 'tabular-nums' }}>
-              {currentPage < 22 ? `Front Matter (${currentPage + 1} of 22)` : `Page ${currentPage - 21} of ${EBOOK_TOTAL_PAGES - 22}`}
+              {currentPage < 22 ? `Opening Pages (${currentPage + 1} of 22)` : `Page ${currentPage - 21} of ${EBOOK_TOTAL_PAGES - 22}`}
             </span>
             <button onClick={() => flipBookRef.current?.pageFlip().flipNext()}
               style={{ background: 'none', border: `1px solid ${C.lineBright}`, color: C.muted, cursor: 'pointer', padding: '8px 20px', fontFamily: FONT.body, fontSize: '0.72rem', letterSpacing: '0.1em', transition: 'all 0.2s' }}>
@@ -3013,7 +3101,7 @@ function ReadAlongPage() {
         <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
             <button onClick={() => flipBookRef.current?.pageFlip().flipPrev()} style={{ background: 'none', border: `1px solid ${C.lineBright}`, color: C.muted, cursor: 'pointer', padding: '5px 14px', fontFamily: FONT.body, fontSize: '0.68rem', letterSpacing: '0.1em' }}>Prev</button>
-            <span style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.muted, fontVariantNumeric: 'tabular-nums' }}>{currentPage < 22 ? `Front Matter (${currentPage + 1} of 22)` : `Page ${currentPage - 21} of ${EBOOK_TOTAL_PAGES - 22}`}</span>
+            <span style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.muted, fontVariantNumeric: 'tabular-nums' }}>{currentPage < 22 ? `Opening Pages (${currentPage + 1} of 22)` : `Page ${currentPage - 21} of ${EBOOK_TOTAL_PAGES - 22}`}</span>
             <button onClick={() => flipBookRef.current?.pageFlip().flipNext()} style={{ background: 'none', border: `1px solid ${C.lineBright}`, color: C.muted, cursor: 'pointer', padding: '5px 14px', fontFamily: FONT.body, fontSize: '0.68rem', letterSpacing: '0.1em' }}>Next</button>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <span style={{ fontFamily: FONT.body, fontSize: '0.6rem', color: C.muted, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Go to pg</span>
@@ -3092,7 +3180,7 @@ function ReadAlongPage() {
                     fontFamily: FONT.body, fontSize: '0.6rem', fontWeight: audioSpeed === s ? 700 : 400,
                     color: audioSpeed === s ? C.gold : C.muted, background: audioSpeed === s ? C.goldDim : 'transparent',
                     border: `1px solid ${audioSpeed === s ? C.gold : C.line}`, padding: '2px 6px', cursor: 'pointer',
-                  }}>{s}x</button>
+                  }}>{{ 0.75: 'Slow', 1: 'Normal', 1.25: 'Fast', 1.5: 'Fastest' }[s]}</button>
                 ))}
               </div>
             </div>
