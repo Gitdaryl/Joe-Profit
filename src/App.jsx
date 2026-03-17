@@ -2474,7 +2474,7 @@ function EbookPage() {
               Prev
             </button>
             <span style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.muted, fontVariantNumeric: 'tabular-nums' }}>
-              Page {currentPage + 1} of {EBOOK_TOTAL_PAGES}
+              {currentPage < 22 ? `Front Matter (${currentPage + 1} of 22)` : `Page ${currentPage - 21} of ${EBOOK_TOTAL_PAGES - 22}`}
             </span>
             <button onClick={() => flipBookRef.current?.pageFlip().flipNext()}
               style={{ background: 'none', border: `1px solid ${C.lineBright}`, color: C.muted, cursor: 'pointer', padding: '8px 20px', fontFamily: FONT.body, fontSize: '0.72rem', letterSpacing: '0.1em', transition: 'all 0.2s' }}>
@@ -2489,11 +2489,11 @@ function EbookPage() {
               <input
                 type="number"
                 min={1}
-                max={EBOOK_TOTAL_PAGES}
+                max={EBOOK_TOTAL_PAGES - 22}
                 placeholder="1"
-                onKeyDown={(e) => { if (e.key === 'Enter') goToPage(parseInt(e.target.value, 10) - 1); }}
+                onKeyDown={(e) => { if (e.key === 'Enter') { const pg = parseInt(e.target.value, 10); if (pg >= 1) goToPage(pg + 21); } }}
                 style={{
-                  width: 60, padding: '6px 8px', fontFamily: FONT.body, fontSize: '0.78rem',
+                  width: 72, padding: '6px 10px', fontFamily: FONT.body, fontSize: '0.78rem',
                   background: C.dark, border: `1px solid ${C.lineBright}`, color: C.cream,
                   textAlign: 'center', outline: 'none',
                 }}
@@ -2886,13 +2886,13 @@ function ReadAlongPage() {
         <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
             <button onClick={() => flipBookRef.current?.pageFlip().flipPrev()} style={{ background: 'none', border: `1px solid ${C.lineBright}`, color: C.muted, cursor: 'pointer', padding: '5px 14px', fontFamily: FONT.body, fontSize: '0.68rem', letterSpacing: '0.1em' }}>Prev</button>
-            <span style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.muted, fontVariantNumeric: 'tabular-nums' }}>Page {currentPage + 1} of {EBOOK_TOTAL_PAGES}</span>
+            <span style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.muted, fontVariantNumeric: 'tabular-nums' }}>{currentPage < 22 ? `Front Matter (${currentPage + 1} of 22)` : `Page ${currentPage - 21} of ${EBOOK_TOTAL_PAGES - 22}`}</span>
             <button onClick={() => flipBookRef.current?.pageFlip().flipNext()} style={{ background: 'none', border: `1px solid ${C.lineBright}`, color: C.muted, cursor: 'pointer', padding: '5px 14px', fontFamily: FONT.body, fontSize: '0.68rem', letterSpacing: '0.1em' }}>Next</button>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span style={{ fontFamily: FONT.body, fontSize: '0.6rem', color: C.muted, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Go to</span>
-              <input type="number" min={1} max={EBOOK_TOTAL_PAGES} placeholder="pg"
-                onKeyDown={(e) => { if (e.key === 'Enter') goToPage(parseInt(e.target.value, 10) - 1); }}
-                style={{ width: 48, padding: '4px 6px', fontFamily: FONT.body, fontSize: '0.72rem', background: C.dark, border: `1px solid ${C.lineBright}`, color: C.cream, textAlign: 'center', outline: 'none' }} />
+              <span style={{ fontFamily: FONT.body, fontSize: '0.6rem', color: C.muted, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Go to pg</span>
+              <input type="number" min={1} max={EBOOK_TOTAL_PAGES - 22} placeholder="1"
+                onKeyDown={(e) => { if (e.key === 'Enter') { const pg = parseInt(e.target.value, 10); if (pg >= 1) goToPage(pg + 21); } }}
+                style={{ width: 64, padding: '4px 8px', fontFamily: FONT.body, fontSize: '0.72rem', background: C.dark, border: `1px solid ${C.lineBright}`, color: C.cream, textAlign: 'center', outline: 'none' }} />
             </div>
             <button onClick={() => setSoundEnabled(!soundEnabled)} style={{ background: 'none', border: `1px solid ${C.lineBright}`, color: soundEnabled ? C.gold : C.muted, cursor: 'pointer', padding: '4px 10px', fontFamily: FONT.body, fontSize: '0.62rem' }}>
               {soundEnabled ? '🔊' : '🔇'}
