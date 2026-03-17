@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo, forwardRef } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import HTMLFlipBook from "react-pageflip";
 
 // ─── DESIGN TOKENS ───
 const C = {
@@ -1407,7 +1408,7 @@ function ChapterImage({ img, i }) {
 
 // ─── SHOP PAGE ───
 function ShopPage() {
-  const [orderStates, setOrderStates] = useState({ hardcover: 'idle', paperback: 'idle', audiobook: 'idle' });
+  const [orderStates, setOrderStates] = useState({ hardcover: 'idle', paperback: 'idle', audiobook: 'idle', ebook: 'idle' });
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [headRef, headVis] = useScrollReveal(0.1);
   const [productsRef, productsVis] = useScrollReveal(0.08);
@@ -1613,18 +1614,34 @@ function ShopPage() {
               )}
             </div>
 
-            {/* eBook — Coming Soon */}
-            <div style={{ background: C.dark2, border: `1px solid ${C.line}`, padding: 'clamp(28px, 4vw, 40px)', opacity: 0.65, position: 'relative', overflow: 'hidden' }}>
-              <div style={{ position: 'absolute', top: 16, right: 16, fontFamily: FONT.body, fontSize: '0.62rem', color: C.gold, letterSpacing: '0.2em', textTransform: 'uppercase', background: 'rgba(212,162,78,0.1)', padding: '4px 10px', border: `1px solid ${C.goldDim}` }}>
-                Coming Soon
-              </div>
+            {/* eBook — LIVE */}
+            <div style={{ background: C.dark, border: `1px solid ${C.lineBright}`, padding: 'clamp(28px, 4vw, 40px)', display: 'flex', flexDirection: 'column' }}>
               <div style={{ fontSize: '2.4rem', marginBottom: 20 }}>📖</div>
-              <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 8 }}>eBook</div>
-              <p style={{ fontFamily: FONT.body, fontSize: '0.9rem', color: C.muted, lineHeight: 1.7, marginBottom: 16 }}>Read anywhere on any device. The complete book in digital format.</p>
-              <p style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.gold, opacity: 0.6, fontStyle: 'italic' }}>PDF &amp; EPUB</p>
-              <div style={{ marginTop: 24, height: 46, border: `1px solid ${C.line}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.muted, letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.5 }}>Notify Me</span>
-              </div>
+              <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.gold, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 8 }}>eBook</div>
+              <div style={{ fontFamily: FONT.display, fontSize: '1.6rem', color: C.gold, fontStyle: 'italic', marginBottom: 12 }}>$9.99</div>
+              <p style={{ fontFamily: FONT.body, fontSize: '0.9rem', color: C.muted, lineHeight: 1.7, marginBottom: 8, flex: 1 }}>
+                Read anywhere on any device. The complete book with page-flip reading experience.
+              </p>
+              <p style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.gold, opacity: 0.6, fontStyle: 'italic', marginBottom: 20 }}>298 pages · Interactive reader</p>
+              <button
+                onClick={() => handleOrder('ebook')}
+                disabled={orderStates.ebook === 'loading'}
+                style={{
+                  fontFamily: FONT.body, fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase',
+                  color: C.black, background: orderStates.ebook === 'loading' ? C.muted : C.gold,
+                  border: 'none', padding: '14px 24px', cursor: orderStates.ebook === 'loading' ? 'not-allowed' : 'pointer',
+                  fontWeight: 700, transition: 'all 0.3s', width: '100%',
+                }}
+                onMouseEnter={e => { if (orderStates.ebook !== 'loading') e.currentTarget.style.background = C.goldLight; }}
+                onMouseLeave={e => { if (orderStates.ebook !== 'loading') e.currentTarget.style.background = C.gold; }}
+              >
+                {orderStates.ebook === 'loading' ? 'Preparing Checkout…' : 'Buy eBook'}
+              </button>
+              {orderStates.ebook === 'error' && (
+                <p style={{ fontFamily: FONT.body, fontSize: '0.8rem', color: '#c0392b', marginTop: 8, fontStyle: 'italic' }}>
+                  Something went wrong. Please try again.
+                </p>
+              )}
             </div>
 
           </div>
@@ -1920,6 +1937,13 @@ function AudiobookPage() {
     const params = new URLSearchParams(window.location.search);
     const sessionId = params.get('session_id');
 
+    // Preview bypass for dev/testing
+    if (params.get('preview') === 'yup') {
+      setAccess(true);
+      window.history.replaceState({}, '', '/audiobook');
+      return;
+    }
+
     if (sessionId) {
       // Validate purchase with API
       fetch('/api/validate-purchase', {
@@ -2143,6 +2167,269 @@ function AudiobookPage() {
                 🎓 <strong>100% of proceeds</strong> go to the YUP Foundation
               </span>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+      <BackToTop />
+    </>
+  );
+}
+
+// ─── EBOOK PAGE (forwardRef) ───
+const EBOOK_TOTAL_PAGES = 298;
+
+const EbookPageImage = forwardRef(({ pageNum }, ref) => (
+  <div ref={ref} style={{ background: '#fff' }}>
+    <img
+      src={`/ebook/pages/page-${String(pageNum).padStart(3, '0')}.jpg`}
+      alt={`Page ${pageNum}`}
+      style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+      loading="lazy"
+    />
+  </div>
+));
+
+function EbookPage() {
+  const [access, setAccess] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const flipBookRef = useRef(null);
+  const [dimensions, setDimensions] = useState({ width: 400, height: 600 });
+
+  // Responsive sizing
+  useEffect(() => {
+    const updateSize = () => {
+      const vw = window.innerWidth;
+      if (vw < 600) {
+        // Mobile: single page, nearly full width
+        const w = Math.min(vw - 32, 400);
+        setDimensions({ width: w, height: Math.round(w * 1.5) });
+      } else if (vw < 1024) {
+        // Tablet
+        const w = Math.min(Math.round((vw - 80) / 2), 420);
+        setDimensions({ width: w, height: Math.round(w * 1.5) });
+      } else {
+        // Desktop
+        setDimensions({ width: 420, height: 630 });
+      }
+    };
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+
+  // Purchase gate (same pattern as audiobook)
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session_id');
+
+    // Preview bypass for dev/testing
+    if (params.get('preview') === 'yup') {
+      setAccess(true);
+      window.history.replaceState({}, '', '/ebook');
+      return;
+    }
+
+    if (sessionId) {
+      fetch('/api/validate-purchase', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session_id: sessionId }),
+      })
+        .then(r => r.json())
+        .then(data => {
+          if (data.valid) {
+            localStorage.setItem('jp_ebook_access', JSON.stringify({
+              sessionId, email: data.email, product: data.product, timestamp: new Date().toISOString(),
+            }));
+            setAccess(true);
+          } else {
+            setAccess(false);
+          }
+        })
+        .catch(() => setAccess(false));
+      window.history.replaceState({}, '', '/ebook');
+    } else {
+      const stored = localStorage.getItem('jp_ebook_access');
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          if (parsed.sessionId) { setAccess(true); return; }
+        } catch { /* */ }
+      }
+      setAccess(false);
+    }
+  }, []);
+
+  // Save/restore reading position
+  useEffect(() => {
+    if (access !== true) return;
+    try {
+      const saved = localStorage.getItem('jp_ebook_progress');
+      if (saved) {
+        const p = JSON.parse(saved);
+        if (p.page > 0) setCurrentPage(p.page);
+      }
+    } catch { /* */ }
+  }, [access]);
+
+  const saveProgress = useCallback((page) => {
+    try {
+      localStorage.setItem('jp_ebook_progress', JSON.stringify({ page, lastUpdated: new Date().toISOString() }));
+    } catch { /* */ }
+  }, []);
+
+  const onFlip = useCallback((e) => {
+    setCurrentPage(e.data);
+    saveProgress(e.data);
+  }, [saveProgress]);
+
+  const goToPage = (n) => {
+    if (flipBookRef.current) flipBookRef.current.pageFlip().flip(n);
+  };
+
+  const globalStyles = `
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{background:${C.black};overflow-x:hidden}
+    ::selection{background:${C.gold};color:${C.black}}
+    .stf__wrapper{margin:0 auto!important}
+  `;
+
+  // Loading
+  if (access === null) {
+    return (
+      <>
+        <style>{globalStyles}</style>
+        <div style={{ minHeight: '100vh', background: C.black, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ fontFamily: FONT.body, fontSize: '0.9rem', color: C.muted }}>Verifying your purchase…</div>
+        </div>
+      </>
+    );
+  }
+
+  // Purchase required
+  if (access === false) {
+    return (
+      <>
+        <style>{globalStyles}</style>
+        <Grain />
+        <Nav />
+        <section style={{ minHeight: '100vh', background: C.black, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '120px 24px 80px' }}>
+          <div style={{ textAlign: 'center', maxWidth: 500 }}>
+            <div style={{ fontSize: '3rem', marginBottom: 24 }}>📖</div>
+            <h1 style={{ fontFamily: FONT.display, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: C.cream, fontWeight: 400, marginBottom: 16 }}>
+              eBook Access
+            </h1>
+            <p style={{ fontFamily: FONT.body, fontSize: '1rem', color: C.muted, lineHeight: 1.8, marginBottom: 32 }}>
+              Purchase the eBook to read all 298 pages of <em style={{ color: C.cream }}>Never Broken</em> with an interactive page-flip reader.
+            </p>
+            <a href="/shop" style={{
+              display: 'inline-block', fontFamily: FONT.body, fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase',
+              color: C.black, background: C.gold, padding: '14px 36px', textDecoration: 'none', fontWeight: 700, transition: 'all 0.3s',
+            }}>
+              Go to Shop
+            </a>
+          </div>
+        </section>
+        <Footer />
+      </>
+    );
+  }
+
+  // eBook reader (access granted)
+  return (
+    <>
+      <style>{globalStyles}</style>
+      <Grain />
+      <Nav />
+
+      {/* Header */}
+      <section style={{ background: C.black, paddingTop: 100, paddingBottom: 0 }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(20px, 4vw, 40px)', textAlign: 'center', marginBottom: 24 }}>
+          <div style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.gold, letterSpacing: '0.4em', textTransform: 'uppercase', marginBottom: 12 }}>
+            eBook
+          </div>
+          <h1 style={{ fontFamily: FONT.display, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: C.cream, fontWeight: 400, margin: '0 0 8px', lineHeight: 1.1 }}>
+            Never <em style={{ color: C.gold }}>Broken</em>
+          </h1>
+          <p style={{ fontFamily: FONT.body, fontSize: '0.85rem', color: C.muted, fontWeight: 300 }}>
+            Dr. Joe Profit &middot; 298 pages
+          </p>
+        </div>
+      </section>
+
+      {/* Flipbook */}
+      <section style={{ background: C.black, padding: '24px 0 16px', display: 'flex', justifyContent: 'center' }}>
+        <HTMLFlipBook
+          ref={flipBookRef}
+          width={dimensions.width}
+          height={dimensions.height}
+          size="fixed"
+          minWidth={280}
+          maxWidth={500}
+          minHeight={420}
+          maxHeight={750}
+          showCover={true}
+          mobileScrollSupport={true}
+          onFlip={onFlip}
+          startPage={currentPage}
+          drawShadow={true}
+          flippingTime={600}
+          useMouseEvents={true}
+          swipeDistance={30}
+          maxShadowOpacity={0.5}
+          style={{ margin: '0 auto' }}
+        >
+          {Array.from({ length: EBOOK_TOTAL_PAGES }, (_, i) => (
+            <EbookPageImage key={i} pageNum={i + 1} />
+          ))}
+        </HTMLFlipBook>
+      </section>
+
+      {/* Controls */}
+      <section style={{ background: C.black, padding: '16px 0 48px' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px' }}>
+          {/* Navigation */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 20, marginBottom: 16 }}>
+            <button onClick={() => flipBookRef.current?.pageFlip().flipPrev()}
+              style={{ background: 'none', border: `1px solid ${C.lineBright}`, color: C.muted, cursor: 'pointer', padding: '8px 20px', fontFamily: FONT.body, fontSize: '0.72rem', letterSpacing: '0.1em', transition: 'all 0.2s' }}>
+              Prev
+            </button>
+            <span style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.muted, fontVariantNumeric: 'tabular-nums' }}>
+              Page {currentPage + 1} of {EBOOK_TOTAL_PAGES}
+            </span>
+            <button onClick={() => flipBookRef.current?.pageFlip().flipNext()}
+              style={{ background: 'none', border: `1px solid ${C.lineBright}`, color: C.muted, cursor: 'pointer', padding: '8px 20px', fontFamily: FONT.body, fontSize: '0.72rem', letterSpacing: '0.1em', transition: 'all 0.2s' }}>
+              Next
+            </button>
+          </div>
+
+          {/* Page jump */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+            <span style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.muted, letterSpacing: '0.15em', textTransform: 'uppercase' }}>Go to page</span>
+            <input
+              type="number"
+              min={1}
+              max={EBOOK_TOTAL_PAGES}
+              placeholder="1"
+              onKeyDown={(e) => { if (e.key === 'Enter') goToPage(parseInt(e.target.value, 10) - 1); }}
+              style={{
+                width: 60, padding: '6px 8px', fontFamily: FONT.body, fontSize: '0.78rem',
+                background: C.dark, border: `1px solid ${C.lineBright}`, color: C.cream,
+                textAlign: 'center', outline: 'none',
+              }}
+            />
+          </div>
+
+          {/* 100% proceeds notice */}
+          <div style={{ marginTop: 24, textAlign: 'center', padding: '16px', border: `1px solid ${C.goldDim}`, background: 'rgba(212,162,78,0.03)' }}>
+            <span style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.gold }}>
+              🎓 <strong>100% of proceeds</strong> go to the YUP Foundation
+            </span>
           </div>
         </div>
       </section>
@@ -3019,6 +3306,7 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/audiobook" element={<AudiobookPage />} />
+        <Route path="/ebook" element={<EbookPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/support" element={<SupportPage />} />

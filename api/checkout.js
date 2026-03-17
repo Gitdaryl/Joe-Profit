@@ -13,7 +13,7 @@ const SUCCESS_PATHS = {
   paperback: '?order=success#book',
   hardcover: '?order=success#book',
   audiobook: '/audiobook?session_id={CHECKOUT_SESSION_ID}',
-  ebook: '/ebook-download?session_id={CHECKOUT_SESSION_ID}',
+  ebook: '/ebook?session_id={CHECKOUT_SESSION_ID}',
 };
 
 module.exports = async function handler(req, res) {
