@@ -2611,6 +2611,38 @@ function ReadAlongPage() {
   const audioTrackData = AUDIOBOOK_TRACKS[audioTrack];
   const fmt = (s) => { const m = Math.floor(s / 60); const sec = Math.floor(s % 60); return `${m}:${sec < 10 ? '0' : ''}${sec}`; };
 
+  // Audio chapter → ebook image mapping (from Table of Contents)
+  const CHAPTER_TO_PAGE = [
+    6,   // 0: Acknowledgments → image 7 (0-indexed: 6)
+    10,  // 1: Foreword → image 11
+    14,  // 2: Introduction → image 15
+    22,  // 3: Ch 1 (print p.1) → image 23
+    44,  // 4: Ch 2 (print p.23) → image 45
+    54,  // 5: Ch 3 (print p.33) → image 55
+    65,  // 6: Ch 4 (print p.44) → image 66
+    93,  // 7: Ch 5 (print p.72) → image 94
+    101, // 8: Ch 6 (print p.80) → image 102
+    130, // 9: Ch 7 (print p.109) → image 131
+    143, // 10: Ch 8 (print p.122) → image 144
+    163, // 11: Ch 9 (print p.142) → image 164
+    178, // 12: Ch 10 (print p.157) → image 179
+    195, // 13: Ch 11 (print p.174) → image 196
+    206, // 14: Ch 12 (print p.185) → image 207
+    220, // 15: Ch 13 (print p.199) → image 221
+    226, // 16: Ch 14 (print p.205) → image 227
+    237, // 17: Ch 15 (print p.216) → image 238
+    247, // 18: Ch 16 (print p.226) → image 248
+    252, // 19: Ch 17 (print p.231) → image 253
+    268, // 20: Ch 18 (print p.247) → image 269
+  ];
+
+  // Auto-flip book when audio chapter changes
+  useEffect(() => {
+    if (flipBookRef.current && CHAPTER_TO_PAGE[audioTrack] != null) {
+      flipBookRef.current.pageFlip().flip(CHAPTER_TO_PAGE[audioTrack]);
+    }
+  }, [audioTrack]);
+
   // Responsive sizing — account for mini-player bar (56px)
   useEffect(() => {
     const updateSize = () => {
