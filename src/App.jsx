@@ -1590,9 +1590,9 @@ function ShopPage() {
               <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.gold, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 8 }}>Audiobook</div>
               <div style={{ fontFamily: FONT.display, fontSize: '1.6rem', color: C.gold, fontStyle: 'italic', marginBottom: 12 }}>$9.99</div>
               <p style={{ fontFamily: FONT.body, fontSize: '0.9rem', color: C.muted, lineHeight: 1.7, marginBottom: 8, flex: 1 }}>
-                18 chapters. Joe's full story in his own voice — a voice preservation project unlike any other.
+                19 chapters. Joe's full story in his own voice — a voice preservation project unlike any other.
               </p>
-              <p style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.gold, opacity: 0.6, fontStyle: 'italic', marginBottom: 20 }}>21 tracks · Narrated in Joe's voice</p>
+              <p style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.gold, opacity: 0.6, fontStyle: 'italic', marginBottom: 20 }}>22 tracks · Narrated in Joe's voice</p>
               <button
                 onClick={() => handleOrder('audiobook')}
                 disabled={orderStates.audiobook === 'loading'}
@@ -1726,6 +1726,7 @@ const AUDIOBOOK_TRACKS = [
   { file: '19_chapter_16.mp3', title: 'Chapter 16', num: 16 },
   { file: '20_chapter_17.mp3', title: 'Chapter 17', num: 17 },
   { file: '21_chapter_18.mp3', title: 'Chapter 18', num: 18 },
+  { file: '22_chapter_19.mp3', title: 'Chapter 19', num: 19 },
 ];
 
 const AUDIOBOOK_BASE = '/audio/never_broken_audiobook/';
@@ -2097,7 +2098,7 @@ function AudiobookPage() {
               Audiobook Access
             </h1>
             <p style={{ fontFamily: FONT.body, fontSize: '1rem', color: C.muted, lineHeight: 1.8, marginBottom: 32 }}>
-              Purchase the audiobook to unlock all 18 chapters of <em style={{ color: C.cream }}>Never Broken</em> — narrated in Joe's own voice.
+              Purchase the audiobook to unlock all 19 chapters of <em style={{ color: C.cream }}>Never Broken</em> — narrated in Joe's own voice.
             </p>
             <a href="/shop" style={{
               display: 'inline-block', fontFamily: FONT.body, fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase',
@@ -2129,7 +2130,7 @@ function AudiobookPage() {
             Never <em style={{ color: C.gold }}>Broken</em>
           </h1>
           <p style={{ fontFamily: FONT.body, fontSize: '0.85rem', color: C.muted, fontWeight: 300 }}>
-            Dr. Joe Profit &middot; 21 tracks
+            Dr. Joe Profit &middot; 22 tracks
           </p>
         </div>
       </section>
@@ -2634,6 +2635,7 @@ function ReadAlongPage() {
     247, // 18: Ch 16 (print p.226) → image 248
     252, // 19: Ch 17 (print p.231) → image 253
     268, // 20: Ch 18 (print p.247) → image 269
+    289, // 21: Ch 19 (print p.268) → image 290
   ];
 
   // Auto-flip book when audio chapter changes
