@@ -20,9 +20,11 @@ module.exports = async function handler(req, res) {
       return res.status(403).json({ valid: false, error: 'Payment not completed' });
     }
 
+    const edition = session.metadata.edition;
     return res.status(200).json({
       valid: true,
-      product: session.metadata.edition,
+      product: edition,
+      isBundle: edition === 'bundle',
       email: session.customer_details?.email || null,
     });
   } catch (err) {

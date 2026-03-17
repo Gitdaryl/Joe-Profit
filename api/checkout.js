@@ -5,15 +5,17 @@ const PRICE_IDS = {
   hardcover: process.env.STRIPE_PRICE_HARDCOVER,
   audiobook: process.env.STRIPE_PRICE_AUDIOBOOK,
   ebook: process.env.STRIPE_PRICE_EBOOK,
+  bundle: process.env.STRIPE_PRICE_BUNDLE,
 };
 
-const DIGITAL_EDITIONS = ['audiobook', 'ebook'];
+const DIGITAL_EDITIONS = ['audiobook', 'ebook', 'bundle'];
 
 const SUCCESS_PATHS = {
   paperback: '?order=success#book',
   hardcover: '?order=success#book',
   audiobook: '/audiobook?session_id={CHECKOUT_SESSION_ID}',
   ebook: '/ebook?session_id={CHECKOUT_SESSION_ID}',
+  bundle: '/read-along?session_id={CHECKOUT_SESSION_ID}',
 };
 
 module.exports = async function handler(req, res) {

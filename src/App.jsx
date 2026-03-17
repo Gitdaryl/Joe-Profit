@@ -1408,7 +1408,7 @@ function ChapterImage({ img, i }) {
 
 // ─── SHOP PAGE ───
 function ShopPage() {
-  const [orderStates, setOrderStates] = useState({ hardcover: 'idle', paperback: 'idle', audiobook: 'idle', ebook: 'idle' });
+  const [orderStates, setOrderStates] = useState({ hardcover: 'idle', paperback: 'idle', audiobook: 'idle', ebook: 'idle', bundle: 'idle' });
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [headRef, headVis] = useScrollReveal(0.1);
   const [productsRef, productsVis] = useScrollReveal(0.08);
@@ -1644,6 +1644,45 @@ function ShopPage() {
               )}
             </div>
 
+          </div>
+
+          {/* Digital Bundle — Best Value */}
+          <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, letterSpacing: '0.28em', textTransform: 'uppercase', marginBottom: 24, paddingBottom: 12, borderBottom: `1px solid ${C.line}` }}>
+            Best Value
+          </div>
+          <div style={{ marginBottom: 64 }}>
+            <div style={{ position: 'relative', background: C.dark, border: `2px solid ${C.gold}`, padding: 'clamp(32px, 5vw, 48px)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+              <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', background: C.gold, color: C.black, fontFamily: FONT.body, fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.25em', textTransform: 'uppercase', padding: '6px 20px' }}>
+                Save $5
+              </div>
+              <div style={{ fontSize: '2.4rem', marginBottom: 20 }}>🎧📖</div>
+              <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.gold, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 8 }}>Digital Bundle · Read Along</div>
+              <div style={{ fontFamily: FONT.display, fontSize: '2rem', color: C.gold, fontStyle: 'italic', marginBottom: 6 }}>$14.99</div>
+              <div style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.muted, opacity: 0.5, textDecoration: 'line-through', marginBottom: 16 }}>$19.98 if purchased separately</div>
+              <p style={{ fontFamily: FONT.body, fontSize: '0.95rem', color: C.muted, lineHeight: 1.8, marginBottom: 8, maxWidth: 520 }}>
+                The complete digital experience. Read the book while listening to Joe's voice narrate every chapter — a Read Along experience that brings the story to life.
+              </p>
+              <p style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.gold, opacity: 0.6, fontStyle: 'italic', marginBottom: 24 }}>Audiobook + eBook + Read Along mode · Instant access</p>
+              <button
+                onClick={() => handleOrder('bundle')}
+                disabled={orderStates.bundle === 'loading'}
+                style={{
+                  fontFamily: FONT.body, fontSize: '0.8rem', letterSpacing: '0.2em', textTransform: 'uppercase',
+                  color: C.black, background: orderStates.bundle === 'loading' ? C.muted : C.gold,
+                  border: 'none', padding: '16px 48px', cursor: orderStates.bundle === 'loading' ? 'not-allowed' : 'pointer',
+                  fontWeight: 700, transition: 'all 0.3s', maxWidth: 400, width: '100%',
+                }}
+                onMouseEnter={e => { if (orderStates.bundle !== 'loading') e.currentTarget.style.background = C.goldLight; }}
+                onMouseLeave={e => { if (orderStates.bundle !== 'loading') e.currentTarget.style.background = C.gold; }}
+              >
+                {orderStates.bundle === 'loading' ? 'Preparing Checkout…' : 'Get the Bundle'}
+              </button>
+              {orderStates.bundle === 'error' && (
+                <p style={{ fontFamily: FONT.body, fontSize: '0.8rem', color: '#c0392b', marginTop: 8, fontStyle: 'italic' }}>
+                  Something went wrong. Please try again.
+                </p>
+              )}
+            </div>
           </div>
 
           {/* More coming */}
@@ -2550,6 +2589,444 @@ function EbookPage() {
   );
 }
 
+// ─── READ ALONG PAGE (Bundle: eBook + Audio) ───
+function ReadAlongPage() {
+  const [access, setAccess] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [zoomPage, setZoomPage] = useState(null);
+  const [soundEnabled, setSoundEnabled] = useState(true);
+  const flipBookRef = useRef(null);
+  const audioRef = useRef(null);
+  const [dimensions, setDimensions] = useState({ width: 400, height: 600 });
+
+  // Audio state
+  const [audioTrack, setAudioTrack] = useState(0);
+  const [audioPlaying, setAudioPlaying] = useState(false);
+  const [audioTime, setAudioTime] = useState(0);
+  const [audioDuration, setAudioDuration] = useState(0);
+  const [audioSpeed, setAudioSpeed] = useState(1);
+  const [miniPlayerExpanded, setMiniPlayerExpanded] = useState(true);
+  const [showChapterPicker, setShowChapterPicker] = useState(false);
+
+  const audioTrackData = AUDIOBOOK_TRACKS[audioTrack];
+  const fmt = (s) => { const m = Math.floor(s / 60); const sec = Math.floor(s % 60); return `${m}:${sec < 10 ? '0' : ''}${sec}`; };
+
+  // Responsive sizing — account for mini-player bar (56px)
+  useEffect(() => {
+    const updateSize = () => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const availHeight = vh - 300; // header + controls + mini-player
+      const targetH = Math.max(350, Math.round(availHeight * 0.9));
+      const targetW = Math.round(targetH / 1.5);
+
+      if (vw < 600) {
+        const w = Math.min(vw - 24, targetW);
+        setDimensions({ width: w, height: Math.round(w * 1.5) });
+      } else if (vw < 1024) {
+        const w = Math.min(Math.round((vw - 48) / 2), targetW);
+        setDimensions({ width: w, height: Math.round(w * 1.5) });
+      } else {
+        const w = Math.min(targetW, Math.round((vw - 80) / 2));
+        setDimensions({ width: w, height: Math.round(w * 1.5) });
+      }
+    };
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+
+  // Purchase gate — bundle grants access to audiobook + ebook too
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session_id');
+
+    if (params.get('preview') === 'yup') {
+      setAccess(true);
+      window.history.replaceState({}, '', '/read-along');
+      return;
+    }
+
+    if (sessionId) {
+      fetch('/api/validate-purchase', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session_id: sessionId }),
+      })
+        .then(r => r.json())
+        .then(data => {
+          if (data.valid) {
+            const token = { sessionId, email: data.email, product: data.product, timestamp: new Date().toISOString() };
+            localStorage.setItem('jp_bundle_access', JSON.stringify(token));
+            // Bundle unlocks audiobook + ebook individually too
+            if (data.isBundle) {
+              localStorage.setItem('jp_audiobook_access', JSON.stringify(token));
+              localStorage.setItem('jp_ebook_access', JSON.stringify(token));
+            }
+            setAccess(true);
+          } else {
+            setAccess(false);
+          }
+        })
+        .catch(() => setAccess(false));
+      window.history.replaceState({}, '', '/read-along');
+    } else {
+      const stored = localStorage.getItem('jp_bundle_access');
+      if (stored) {
+        try { if (JSON.parse(stored).sessionId) { setAccess(true); return; } } catch { /* */ }
+      }
+      setAccess(false);
+    }
+  }, []);
+
+  // Restore reading + audio progress
+  useEffect(() => {
+    if (access !== true) return;
+    try {
+      const ep = localStorage.getItem('jp_ebook_progress');
+      if (ep) { const p = JSON.parse(ep); if (p.page > 0) setCurrentPage(p.page); }
+    } catch { /* */ }
+    try {
+      const ap = localStorage.getItem('jp_audiobook_progress');
+      if (ap) {
+        const p = JSON.parse(ap);
+        if (p.currentTrackIndex != null) setAudioTrack(p.currentTrackIndex);
+        if (p.playbackSpeed) setAudioSpeed(p.playbackSpeed);
+      }
+    } catch { /* */ }
+  }, [access]);
+
+  // Audio event handlers
+  useEffect(() => {
+    const a = audioRef.current;
+    if (!a) return;
+    const onTime = () => setAudioTime(a.currentTime);
+    const onMeta = () => {
+      setAudioDuration(a.duration);
+      // Restore position
+      try {
+        const saved = JSON.parse(localStorage.getItem('jp_audiobook_progress') || '{}');
+        if (saved.currentTrackIndex === audioTrack && saved.currentTime > 0) {
+          a.currentTime = saved.currentTime;
+        }
+      } catch { /* */ }
+    };
+    const onEnd = () => {
+      setAudioPlaying(false);
+      // Save completed + auto-advance
+      try {
+        const existing = JSON.parse(localStorage.getItem('jp_audiobook_progress') || '{}');
+        const cp = existing.chapterProgress || {};
+        cp[audioTrackData.file] = { time: 0, completed: true };
+        localStorage.setItem('jp_audiobook_progress', JSON.stringify({ ...existing, chapterProgress: cp }));
+      } catch { /* */ }
+      if (audioTrack < AUDIOBOOK_TRACKS.length - 1) {
+        setTimeout(() => setAudioTrack(audioTrack + 1), 500);
+      }
+    };
+    const onPause = () => {
+      try {
+        const existing = JSON.parse(localStorage.getItem('jp_audiobook_progress') || '{}');
+        const cp = existing.chapterProgress || {};
+        cp[audioTrackData.file] = { time: a.currentTime, completed: false };
+        localStorage.setItem('jp_audiobook_progress', JSON.stringify({
+          ...existing, currentTrackIndex: audioTrack, currentTime: a.currentTime, playbackSpeed: audioSpeed, chapterProgress: cp, lastUpdated: new Date().toISOString(),
+        }));
+      } catch { /* */ }
+    };
+    a.addEventListener('timeupdate', onTime);
+    a.addEventListener('loadedmetadata', onMeta);
+    a.addEventListener('ended', onEnd);
+    a.addEventListener('pause', onPause);
+    return () => { a.removeEventListener('timeupdate', onTime); a.removeEventListener('loadedmetadata', onMeta); a.removeEventListener('ended', onEnd); a.removeEventListener('pause', onPause); };
+  }, [audioTrack, audioTrackData.file, audioSpeed]);
+
+  // Playback speed
+  useEffect(() => {
+    if (audioRef.current) audioRef.current.playbackRate = audioSpeed;
+  }, [audioSpeed, audioTrack]);
+
+  // Reset audio state on track change
+  useEffect(() => {
+    setAudioPlaying(false);
+    setAudioTime(0);
+    setAudioDuration(0);
+  }, [audioTrack]);
+
+  // Save on tab close
+  useEffect(() => {
+    const save = () => {
+      if (!audioRef.current) return;
+      try {
+        const existing = JSON.parse(localStorage.getItem('jp_audiobook_progress') || '{}');
+        const cp = existing.chapterProgress || {};
+        cp[audioTrackData.file] = { time: audioRef.current.currentTime, completed: false };
+        localStorage.setItem('jp_audiobook_progress', JSON.stringify({
+          ...existing, currentTrackIndex: audioTrack, currentTime: audioRef.current.currentTime, playbackSpeed: audioSpeed, chapterProgress: cp, lastUpdated: new Date().toISOString(),
+        }));
+      } catch { /* */ }
+    };
+    window.addEventListener('beforeunload', save);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) save(); });
+    return () => { window.removeEventListener('beforeunload', save); };
+  }, [audioTrack, audioTrackData.file, audioSpeed]);
+
+  const toggleAudio = () => {
+    if (!audioRef.current) return;
+    if (audioPlaying) { audioRef.current.pause(); } else { audioRef.current.play().catch(() => {}); }
+    setAudioPlaying(!audioPlaying);
+  };
+
+  const skipAudio = (sec) => {
+    if (!audioRef.current) return;
+    audioRef.current.currentTime = Math.max(0, Math.min(audioRef.current.duration || 0, audioRef.current.currentTime + sec));
+  };
+
+  const seekAudio = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    if (audioRef.current && audioRef.current.duration) {
+      audioRef.current.currentTime = pct * audioRef.current.duration;
+    }
+  };
+
+  const saveEbookProgress = useCallback((page) => {
+    try { localStorage.setItem('jp_ebook_progress', JSON.stringify({ page, lastUpdated: new Date().toISOString() })); } catch { /* */ }
+  }, []);
+
+  const onFlip = useCallback((e) => {
+    setCurrentPage(e.data);
+    saveEbookProgress(e.data);
+    if (soundEnabled) playPageFlipSound();
+  }, [saveEbookProgress, soundEnabled]);
+
+  const goToPage = (n) => {
+    if (flipBookRef.current) flipBookRef.current.pageFlip().flip(n);
+  };
+
+  const globalStyles = `
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{background:${C.black};overflow-x:hidden}
+    ::selection{background:${C.gold};color:${C.black}}
+    .stf__wrapper{margin:0 auto!important}
+  `;
+
+  if (access === null) {
+    return (<><style>{globalStyles}</style><div style={{ minHeight: '100vh', background: C.black, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><div style={{ fontFamily: FONT.body, fontSize: '0.9rem', color: C.muted }}>Verifying your purchase…</div></div></>);
+  }
+
+  if (access === false) {
+    return (
+      <><style>{globalStyles}</style><Grain /><Nav />
+        <section style={{ minHeight: '100vh', background: C.black, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '120px 24px 80px' }}>
+          <div style={{ textAlign: 'center', maxWidth: 500 }}>
+            <div style={{ fontSize: '3rem', marginBottom: 24 }}>📖🎧</div>
+            <h1 style={{ fontFamily: FONT.display, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: C.cream, fontWeight: 400, marginBottom: 16 }}>Read Along Access</h1>
+            <p style={{ fontFamily: FONT.body, fontSize: '1rem', color: C.muted, lineHeight: 1.8, marginBottom: 32 }}>
+              Purchase the Digital Bundle to read and listen to <em style={{ color: C.cream }}>Never Broken</em> simultaneously.
+            </p>
+            <a href="/shop" style={{ display: 'inline-block', fontFamily: FONT.body, fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: C.black, background: C.gold, padding: '14px 36px', textDecoration: 'none', fontWeight: 700 }}>Go to Shop</a>
+          </div>
+        </section>
+        <Footer />
+      </>
+    );
+  }
+
+  // Read Along (access granted)
+  return (
+    <>
+      <style>{globalStyles}</style>
+      <Grain />
+      <Nav />
+      <audio ref={audioRef} src={`${AUDIOBOOK_BASE}${encodeURIComponent(audioTrackData.file)}`} preload="metadata" />
+
+      {/* Compact header */}
+      <section style={{ background: C.black, paddingTop: 88, paddingBottom: 0 }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(20px, 4vw, 40px)', textAlign: 'center', marginBottom: 8 }}>
+          <h1 style={{ fontFamily: FONT.display, fontSize: 'clamp(1.2rem, 2.5vw, 1.8rem)', color: C.cream, fontWeight: 400, margin: '0 0 4px', lineHeight: 1.1 }}>
+            Never <em style={{ color: C.gold }}>Broken</em> <span style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.gold, letterSpacing: '0.3em', textTransform: 'uppercase', marginLeft: 8 }}>Read Along</span>
+          </h1>
+        </div>
+      </section>
+
+      {/* Flipbook */}
+      <section style={{ background: C.black, padding: '8px 0 4px', display: 'flex', justifyContent: 'center' }}>
+        <HTMLFlipBook
+          ref={flipBookRef}
+          width={dimensions.width}
+          height={dimensions.height}
+          size="fixed"
+          minWidth={280}
+          maxWidth={700}
+          minHeight={350}
+          maxHeight={1050}
+          showCover={true}
+          mobileScrollSupport={true}
+          onFlip={onFlip}
+          startPage={currentPage}
+          drawShadow={true}
+          flippingTime={600}
+          useMouseEvents={true}
+          swipeDistance={30}
+          maxShadowOpacity={0.5}
+          style={{ margin: '0 auto' }}
+        >
+          {Array.from({ length: EBOOK_TOTAL_PAGES }, (_, i) => (
+            <EbookPageImage key={i} pageNum={i + 1} />
+          ))}
+        </HTMLFlipBook>
+      </section>
+
+      {/* Book controls — slim row */}
+      <section style={{ background: C.black, padding: '4px 0 0' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
+            <button onClick={() => flipBookRef.current?.pageFlip().flipPrev()} style={{ background: 'none', border: `1px solid ${C.lineBright}`, color: C.muted, cursor: 'pointer', padding: '5px 14px', fontFamily: FONT.body, fontSize: '0.68rem', letterSpacing: '0.1em' }}>Prev</button>
+            <span style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.muted, fontVariantNumeric: 'tabular-nums' }}>Page {currentPage + 1} of {EBOOK_TOTAL_PAGES}</span>
+            <button onClick={() => flipBookRef.current?.pageFlip().flipNext()} style={{ background: 'none', border: `1px solid ${C.lineBright}`, color: C.muted, cursor: 'pointer', padding: '5px 14px', fontFamily: FONT.body, fontSize: '0.68rem', letterSpacing: '0.1em' }}>Next</button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span style={{ fontFamily: FONT.body, fontSize: '0.6rem', color: C.muted, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Go to</span>
+              <input type="number" min={1} max={EBOOK_TOTAL_PAGES} placeholder="pg"
+                onKeyDown={(e) => { if (e.key === 'Enter') goToPage(parseInt(e.target.value, 10) - 1); }}
+                style={{ width: 48, padding: '4px 6px', fontFamily: FONT.body, fontSize: '0.72rem', background: C.dark, border: `1px solid ${C.lineBright}`, color: C.cream, textAlign: 'center', outline: 'none' }} />
+            </div>
+            <button onClick={() => setSoundEnabled(!soundEnabled)} style={{ background: 'none', border: `1px solid ${C.lineBright}`, color: soundEnabled ? C.gold : C.muted, cursor: 'pointer', padding: '4px 10px', fontFamily: FONT.body, fontSize: '0.62rem' }}>
+              {soundEnabled ? '🔊' : '🔇'}
+            </button>
+            <button onClick={() => setZoomPage(currentPage + 1)} style={{ background: 'none', border: `1px solid ${C.lineBright}`, color: C.muted, cursor: 'pointer', padding: '4px 10px', fontFamily: FONT.body, fontSize: '0.62rem' }}>🔍</button>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Floating Audio Mini-Player ── */}
+      <div style={{
+        position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1000,
+        background: 'rgba(20,18,16,0.97)', backdropFilter: 'blur(12px)',
+        borderTop: `1px solid ${C.lineBright}`,
+        transition: 'all 0.3s ease',
+      }}>
+        {/* Collapse toggle */}
+        <button onClick={() => setMiniPlayerExpanded(!miniPlayerExpanded)} style={{
+          position: 'absolute', top: -24, left: '50%', transform: 'translateX(-50%)',
+          background: C.dark, border: `1px solid ${C.lineBright}`, borderBottom: 'none',
+          color: C.muted, cursor: 'pointer', padding: '2px 16px', fontSize: '0.6rem',
+          fontFamily: FONT.body, borderRadius: '4px 4px 0 0',
+        }}>
+          {miniPlayerExpanded ? '▼ Hide Audio' : '▲ Show Audio'}
+        </button>
+
+        {miniPlayerExpanded ? (
+          <div style={{ maxWidth: 900, margin: '0 auto', padding: '10px 16px 12px' }}>
+            {/* Chapter title + progress bar */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                  <button onClick={() => setShowChapterPicker(!showChapterPicker)} style={{
+                    background: 'none', border: 'none', color: C.cream, cursor: 'pointer', fontFamily: FONT.body,
+                    fontSize: '0.78rem', fontWeight: 500, padding: 0, textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%',
+                  }}>
+                    {audioTrackData.title} <span style={{ color: C.muted, fontSize: '0.6rem' }}>▼</span>
+                  </button>
+                </div>
+                {/* Seek bar */}
+                <div onClick={seekAudio} style={{ height: 4, background: 'rgba(154,142,127,0.2)', cursor: 'pointer', borderRadius: 2, position: 'relative' }}>
+                  <div style={{ width: `${audioDuration ? (audioTime / audioDuration) * 100 : 0}%`, height: '100%', background: C.gold, borderRadius: 2, transition: 'width 0.1s' }} />
+                </div>
+              </div>
+              <span style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, fontVariantNumeric: 'tabular-nums', flexShrink: 0 }}>
+                {fmt(audioTime)}/{fmt(audioDuration || 0)}
+              </span>
+            </div>
+
+            {/* Controls row */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'clamp(8px, 2vw, 16px)' }}>
+              <button onClick={() => audioTrack > 0 && setAudioTrack(audioTrack - 1)} disabled={audioTrack === 0}
+                style={{ background: 'none', border: 'none', color: audioTrack === 0 ? C.line : C.muted, cursor: audioTrack === 0 ? 'default' : 'pointer', fontSize: '0.9rem', padding: 4 }}>⏮</button>
+              <button onClick={() => skipAudio(-15)} style={{ background: 'none', border: `1px solid ${C.lineBright}`, color: C.muted, cursor: 'pointer', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: FONT.body, fontSize: '0.5rem', fontWeight: 700 }}>-15</button>
+              <button onClick={toggleAudio} style={{ width: 42, height: 42, borderRadius: '50%', border: `2px solid ${C.gold}`, background: audioPlaying ? C.goldDim : 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                {audioPlaying ? (
+                  <div style={{ display: 'flex', gap: 3 }}><div style={{ width: 3, height: 14, background: C.gold }} /><div style={{ width: 3, height: 14, background: C.gold }} /></div>
+                ) : (
+                  <div style={{ width: 0, height: 0, borderTop: '7px solid transparent', borderBottom: '7px solid transparent', borderLeft: `12px solid ${C.gold}`, marginLeft: 3 }} />
+                )}
+              </button>
+              <button onClick={() => skipAudio(15)} style={{ background: 'none', border: `1px solid ${C.lineBright}`, color: C.muted, cursor: 'pointer', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: FONT.body, fontSize: '0.5rem', fontWeight: 700 }}>+15</button>
+              <button onClick={() => audioTrack < AUDIOBOOK_TRACKS.length - 1 && setAudioTrack(audioTrack + 1)} disabled={audioTrack === AUDIOBOOK_TRACKS.length - 1}
+                style={{ background: 'none', border: 'none', color: audioTrack === AUDIOBOOK_TRACKS.length - 1 ? C.line : C.muted, cursor: audioTrack === AUDIOBOOK_TRACKS.length - 1 ? 'default' : 'pointer', fontSize: '0.9rem', padding: 4 }}>⏭</button>
+
+              {/* Speed */}
+              <div style={{ display: 'flex', gap: 4, marginLeft: 8 }}>
+                {[0.75, 1, 1.25, 1.5].map(s => (
+                  <button key={s} onClick={() => setAudioSpeed(s)} style={{
+                    fontFamily: FONT.body, fontSize: '0.6rem', fontWeight: audioSpeed === s ? 700 : 400,
+                    color: audioSpeed === s ? C.gold : C.muted, background: audioSpeed === s ? C.goldDim : 'transparent',
+                    border: `1px solid ${audioSpeed === s ? C.gold : C.line}`, padding: '2px 6px', cursor: 'pointer',
+                  }}>{s}x</button>
+                ))}
+              </div>
+            </div>
+
+            {/* Chapter picker dropdown */}
+            {showChapterPicker && (
+              <div style={{
+                position: 'absolute', bottom: '100%', left: '50%', transform: 'translateX(-50%)',
+                width: 'min(360px, 90vw)', maxHeight: 300, overflowY: 'auto',
+                background: C.dark, border: `1px solid ${C.lineBright}`, padding: 4,
+                marginBottom: 4,
+              }}>
+                {AUDIOBOOK_TRACKS.map((t, i) => (
+                  <button key={t.file} onClick={() => { setAudioTrack(i); setShowChapterPicker(false); }} style={{
+                    display: 'block', width: '100%', textAlign: 'left', padding: '8px 12px',
+                    background: i === audioTrack ? 'rgba(212,162,78,0.08)' : 'transparent',
+                    border: 'none', borderLeft: `2px solid ${i === audioTrack ? C.gold : 'transparent'}`,
+                    color: i === audioTrack ? C.cream : C.muted, fontFamily: FONT.body, fontSize: '0.78rem', cursor: 'pointer',
+                  }}>
+                    <span style={{ color: C.muted, fontVariantNumeric: 'tabular-nums', marginRight: 8, fontSize: '0.68rem' }}>{i + 1}.</span>
+                    {t.title}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          /* Collapsed: thin progress bar only */
+          <div style={{ height: 3, background: 'rgba(154,142,127,0.15)', cursor: 'pointer' }} onClick={(e) => { setMiniPlayerExpanded(true); seekAudio(e); }}>
+            <div style={{ width: `${audioDuration ? (audioTime / audioDuration) * 100 : 0}%`, height: '100%', background: C.gold, transition: 'width 0.1s' }} />
+          </div>
+        )}
+      </div>
+
+      {/* Zoom overlay (same as EbookPage) */}
+      {zoomPage && (
+        <div onClick={() => setZoomPage(null)}
+          onKeyDown={(e) => { if (e.key === 'Escape') setZoomPage(null); if (e.key === 'ArrowLeft' && zoomPage > 1) setZoomPage(zoomPage - 1); if (e.key === 'ArrowRight' && zoomPage < EBOOK_TOTAL_PAGES) setZoomPage(zoomPage + 1); }}
+          tabIndex={0} ref={(el) => el && el.focus()}
+          style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(8px)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', cursor: 'zoom-out', outline: 'none' }}>
+          <button onClick={() => setZoomPage(null)} style={{ position: 'absolute', top: 20, right: 24, background: 'none', border: `1px solid ${C.lineBright}`, color: C.cream, cursor: 'pointer', padding: '8px 16px', fontFamily: FONT.body, fontSize: '0.72rem', zIndex: 10 }}>ESC &times; Close</button>
+          <div style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', zIndex: 10 }}>
+            {zoomPage > 1 && <button onClick={(e) => { e.stopPropagation(); setZoomPage(zoomPage - 1); }} style={{ background: 'rgba(0,0,0,0.6)', border: `1px solid ${C.lineBright}`, color: C.cream, cursor: 'pointer', padding: '12px 16px', fontSize: '1.2rem', borderRadius: 4 }}>&#8249;</button>}
+          </div>
+          <div style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', zIndex: 10 }}>
+            {zoomPage < EBOOK_TOTAL_PAGES && <button onClick={(e) => { e.stopPropagation(); setZoomPage(zoomPage + 1); }} style={{ background: 'rgba(0,0,0,0.6)', border: `1px solid ${C.lineBright}`, color: C.cream, cursor: 'pointer', padding: '12px 16px', fontSize: '1.2rem', borderRadius: 4 }}>&#8250;</button>}
+          </div>
+          <img onClick={(e) => e.stopPropagation()} src={`/ebook/pages/page-${String(zoomPage).padStart(3, '0')}.jpg`} alt={`Page ${zoomPage} (zoomed)`}
+            style={{ maxHeight: '90vh', maxWidth: '90vw', objectFit: 'contain', cursor: 'default', boxShadow: '0 8px 40px rgba(0,0,0,0.6)' }} />
+          <div style={{ marginTop: 12, fontFamily: FONT.body, fontSize: '0.75rem', color: C.muted }}>Page {zoomPage} of {EBOOK_TOTAL_PAGES}</div>
+        </div>
+      )}
+
+      {/* Spacer for fixed mini-player */}
+      <div style={{ height: miniPlayerExpanded ? 100 : 20 }} />
+      <Footer />
+      <BackToTop />
+    </>
+  );
+}
+
 // ─── HOME PAGE ───
 function HomePage() {
   const [activeChapter, setActiveChapter] = useState(null);
@@ -3417,6 +3894,7 @@ export default function App() {
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/audiobook" element={<AudiobookPage />} />
         <Route path="/ebook" element={<EbookPage />} />
+        <Route path="/read-along" element={<ReadAlongPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/support" element={<SupportPage />} />
