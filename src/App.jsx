@@ -2180,12 +2180,12 @@ function AudiobookPage() {
 // ─── EBOOK PAGE (forwardRef) ───
 const EBOOK_TOTAL_PAGES = 298;
 
-const EbookPageImage = forwardRef(({ pageNum, onZoom }, ref) => (
-  <div ref={ref} style={{ background: '#fff', cursor: 'zoom-in' }} onClick={(e) => { e.stopPropagation(); if (onZoom) onZoom(pageNum); }}>
+const EbookPageImage = forwardRef(({ pageNum }, ref) => (
+  <div ref={ref} style={{ background: '#fff' }}>
     <img
       src={`/ebook/pages/page-${String(pageNum).padStart(3, '0')}.jpg`}
       alt={`Page ${pageNum}`}
-      style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', pointerEvents: 'none' }}
+      style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
       loading="lazy"
     />
   </div>
@@ -2227,21 +2227,28 @@ function EbookPage() {
   const flipBookRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 400, height: 600 });
 
-  // Responsive sizing
+  // Responsive sizing — fill ~90% of viewport
   useEffect(() => {
     const updateSize = () => {
       const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      // Reserve space for header (~120px) and controls (~120px)
+      const availHeight = vh - 240;
+      const targetH = Math.max(400, Math.round(availHeight * 0.9));
+      const targetW = Math.round(targetH / 1.5); // 2:3 aspect ratio
+
       if (vw < 600) {
         // Mobile: single page, nearly full width
-        const w = Math.min(vw - 32, 400);
+        const w = Math.min(vw - 24, targetW);
         setDimensions({ width: w, height: Math.round(w * 1.5) });
       } else if (vw < 1024) {
-        // Tablet
-        const w = Math.min(Math.round((vw - 80) / 2), 420);
+        // Tablet: each page is half the spread
+        const w = Math.min(Math.round((vw - 48) / 2), targetW);
         setDimensions({ width: w, height: Math.round(w * 1.5) });
       } else {
-        // Desktop
-        setDimensions({ width: 420, height: 630 });
+        // Desktop: each page fills most of the vertical space
+        const w = Math.min(targetW, Math.round((vw - 80) / 2));
+        setDimensions({ width: w, height: Math.round(w * 1.5) });
       }
     };
     updateSize();
@@ -2378,32 +2385,29 @@ function EbookPage() {
       <Grain />
       <Nav />
 
-      {/* Header */}
-      <section style={{ background: C.black, paddingTop: 100, paddingBottom: 0 }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(20px, 4vw, 40px)', textAlign: 'center', marginBottom: 24 }}>
-          <div style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.gold, letterSpacing: '0.4em', textTransform: 'uppercase', marginBottom: 12 }}>
-            eBook
-          </div>
-          <h1 style={{ fontFamily: FONT.display, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: C.cream, fontWeight: 400, margin: '0 0 8px', lineHeight: 1.1 }}>
+      {/* Header — compact to maximize book space */}
+      <section style={{ background: C.black, paddingTop: 88, paddingBottom: 0 }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(20px, 4vw, 40px)', textAlign: 'center', marginBottom: 8 }}>
+          <h1 style={{ fontFamily: FONT.display, fontSize: 'clamp(1.4rem, 3vw, 2rem)', color: C.cream, fontWeight: 400, margin: '0 0 4px', lineHeight: 1.1 }}>
             Never <em style={{ color: C.gold }}>Broken</em>
           </h1>
-          <p style={{ fontFamily: FONT.body, fontSize: '0.85rem', color: C.muted, fontWeight: 300 }}>
+          <p style={{ fontFamily: FONT.body, fontSize: '0.75rem', color: C.muted, fontWeight: 300 }}>
             Dr. Joe Profit &middot; 298 pages
           </p>
         </div>
       </section>
 
       {/* Flipbook */}
-      <section style={{ background: C.black, padding: '24px 0 16px', display: 'flex', justifyContent: 'center' }}>
+      <section style={{ background: C.black, padding: '12px 0 8px', display: 'flex', justifyContent: 'center' }}>
         <HTMLFlipBook
           ref={flipBookRef}
           width={dimensions.width}
           height={dimensions.height}
           size="fixed"
           minWidth={280}
-          maxWidth={500}
+          maxWidth={700}
           minHeight={420}
-          maxHeight={750}
+          maxHeight={1050}
           showCover={true}
           mobileScrollSupport={true}
           onFlip={onFlip}
@@ -2416,13 +2420,13 @@ function EbookPage() {
           style={{ margin: '0 auto' }}
         >
           {Array.from({ length: EBOOK_TOTAL_PAGES }, (_, i) => (
-            <EbookPageImage key={i} pageNum={i + 1} onZoom={setZoomPage} />
+            <EbookPageImage key={i} pageNum={i + 1} />
           ))}
         </HTMLFlipBook>
       </section>
 
       {/* Controls */}
-      <section style={{ background: C.black, padding: '16px 0 48px' }}>
+      <section style={{ background: C.black, padding: '8px 0 32px' }}>
         <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px' }}>
           {/* Navigation */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 20, marginBottom: 16 }}>
