@@ -3,6 +3,17 @@ const Stripe = require('stripe');
 const PRICE_IDS = {
   paperback: process.env.STRIPE_PRICE_PAPERBACK,
   hardcover: process.env.STRIPE_PRICE_HARDCOVER,
+  audiobook: process.env.STRIPE_PRICE_AUDIOBOOK,
+  ebook: process.env.STRIPE_PRICE_EBOOK,
+};
+
+const DIGITAL_EDITIONS = ['audiobook', 'ebook'];
+
+const SUCCESS_PATHS = {
+  paperback: '?order=success#book',
+  hardcover: '?order=success#book',
+  audiobook: '/audiobook?session_id={CHECKOUT_SESSION_ID}',
+  ebook: '/ebook-download?session_id={CHECKOUT_SESSION_ID}',
 };
 
 module.exports = async function handler(req, res) {
@@ -18,17 +29,18 @@ module.exports = async function handler(req, res) {
 
   const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
   const siteUrl = process.env.SITE_URL || 'https://joe-profit.vercel.app';
+  const isDigital = DIGITAL_EDITIONS.includes(edition);
 
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [{ price: PRICE_IDS[edition], quantity: 1 }],
       mode: 'payment',
-      success_url: `${siteUrl}?order=success#book`,
-      cancel_url: `${siteUrl}#book`,
-      shipping_options: process.env.STRIPE_SHIPPING_RATE_ID
-        ? [{ shipping_rate: process.env.STRIPE_SHIPPING_RATE_ID }]
-        : undefined,
+      success_url: `${siteUrl}${SUCCESS_PATHS[edition]}`,
+      cancel_url: `${siteUrl}/shop`,
+      ...(!isDigital && process.env.STRIPE_SHIPPING_RATE_ID
+        ? { shipping_options: [{ shipping_rate: process.env.STRIPE_SHIPPING_RATE_ID }] }
+        : {}),
       metadata: {
         product: 'Never Broken',
         edition,

@@ -1407,7 +1407,7 @@ function ChapterImage({ img, i }) {
 
 // ─── SHOP PAGE ───
 function ShopPage() {
-  const [orderStates, setOrderStates] = useState({ hardcover: 'idle', paperback: 'idle' });
+  const [orderStates, setOrderStates] = useState({ hardcover: 'idle', paperback: 'idle', audiobook: 'idle' });
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [headRef, headVis] = useScrollReveal(0.1);
   const [productsRef, productsVis] = useScrollReveal(0.08);
@@ -1579,26 +1579,54 @@ function ShopPage() {
 
           {/* Digital editions */}
           <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, letterSpacing: '0.28em', textTransform: 'uppercase', marginBottom: 24, paddingBottom: 12, borderBottom: `1px solid ${C.line}` }}>
-            Digital Editions — Coming Soon
+            Digital Editions
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 64 }} className="shopgrid">
-            {[
-              { icon: '📱', label: 'Kindle Edition', desc: 'Read anywhere on any device. The complete book in digital format.', note: 'Available on Amazon Kindle' },
-              { icon: '🎧', label: 'Audiobook', desc: 'Six chapters. Joe\'s story in his own voice — a voice preservation project unlike any other.', note: '6 chapters · Narrated in Joe\'s voice' },
-            ].map(({ icon, label, desc, note }) => (
-              <div key={label} style={{ background: C.dark2, border: `1px solid ${C.line}`, padding: 'clamp(28px, 4vw, 40px)', opacity: 0.65, position: 'relative', overflow: 'hidden' }}>
-                <div style={{ position: 'absolute', top: 16, right: 16, fontFamily: FONT.body, fontSize: '0.62rem', color: C.gold, letterSpacing: '0.2em', textTransform: 'uppercase', background: 'rgba(212,162,78,0.1)', padding: '4px 10px', border: `1px solid ${C.goldDim}` }}>
-                  Coming Soon
-                </div>
-                <div style={{ fontSize: '2.4rem', marginBottom: 20 }}>{icon}</div>
-                <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 8 }}>{label}</div>
-                <p style={{ fontFamily: FONT.body, fontSize: '0.9rem', color: C.muted, lineHeight: 1.7, marginBottom: 16 }}>{desc}</p>
-                <p style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.gold, opacity: 0.6, fontStyle: 'italic' }}>{note}</p>
-                <div style={{ marginTop: 24, height: 46, border: `1px solid ${C.line}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <span style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.muted, letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.5 }}>Notify Me</span>
-                </div>
+
+            {/* Audiobook — LIVE */}
+            <div style={{ background: C.dark, border: `1px solid ${C.lineBright}`, padding: 'clamp(28px, 4vw, 40px)', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ fontSize: '2.4rem', marginBottom: 20 }}>🎧</div>
+              <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.gold, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 8 }}>Audiobook</div>
+              <div style={{ fontFamily: FONT.display, fontSize: '1.6rem', color: C.gold, fontStyle: 'italic', marginBottom: 12 }}>$14.95</div>
+              <p style={{ fontFamily: FONT.body, fontSize: '0.9rem', color: C.muted, lineHeight: 1.7, marginBottom: 8, flex: 1 }}>
+                18 chapters. Joe's full story in his own voice — a voice preservation project unlike any other.
+              </p>
+              <p style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.gold, opacity: 0.6, fontStyle: 'italic', marginBottom: 20 }}>21 tracks · Narrated in Joe's voice</p>
+              <button
+                onClick={() => handleOrder('audiobook')}
+                disabled={orderStates.audiobook === 'loading'}
+                style={{
+                  fontFamily: FONT.body, fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase',
+                  color: C.black, background: orderStates.audiobook === 'loading' ? C.muted : C.gold,
+                  border: 'none', padding: '14px 24px', cursor: orderStates.audiobook === 'loading' ? 'not-allowed' : 'pointer',
+                  fontWeight: 700, transition: 'all 0.3s', width: '100%',
+                }}
+                onMouseEnter={e => { if (orderStates.audiobook !== 'loading') e.currentTarget.style.background = C.goldLight; }}
+                onMouseLeave={e => { if (orderStates.audiobook !== 'loading') e.currentTarget.style.background = C.gold; }}
+              >
+                {orderStates.audiobook === 'loading' ? 'Preparing Checkout…' : 'Buy Audiobook'}
+              </button>
+              {orderStates.audiobook === 'error' && (
+                <p style={{ fontFamily: FONT.body, fontSize: '0.8rem', color: '#c0392b', marginTop: 8, fontStyle: 'italic' }}>
+                  Something went wrong. Please try again.
+                </p>
+              )}
+            </div>
+
+            {/* eBook — Coming Soon */}
+            <div style={{ background: C.dark2, border: `1px solid ${C.line}`, padding: 'clamp(28px, 4vw, 40px)', opacity: 0.65, position: 'relative', overflow: 'hidden' }}>
+              <div style={{ position: 'absolute', top: 16, right: 16, fontFamily: FONT.body, fontSize: '0.62rem', color: C.gold, letterSpacing: '0.2em', textTransform: 'uppercase', background: 'rgba(212,162,78,0.1)', padding: '4px 10px', border: `1px solid ${C.goldDim}` }}>
+                Coming Soon
               </div>
-            ))}
+              <div style={{ fontSize: '2.4rem', marginBottom: 20 }}>📖</div>
+              <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 8 }}>eBook</div>
+              <p style={{ fontFamily: FONT.body, fontSize: '0.9rem', color: C.muted, lineHeight: 1.7, marginBottom: 16 }}>Read anywhere on any device. The complete book in digital format.</p>
+              <p style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.gold, opacity: 0.6, fontStyle: 'italic' }}>PDF &amp; EPUB</p>
+              <div style={{ marginTop: 24, height: 46, border: `1px solid ${C.line}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.muted, letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.5 }}>Notify Me</span>
+              </div>
+            </div>
+
           </div>
 
           {/* More coming */}
@@ -1609,6 +1637,512 @@ function ShopPage() {
             <p style={{ fontFamily: FONT.body, fontSize: '0.8rem', color: C.muted, opacity: 0.4 }}>
               Speaking resources, foundation merchandise, and more.
             </p>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+      <BackToTop />
+    </>
+  );
+}
+
+// ─── AUDIOBOOK TRACK MANIFEST ───
+const AUDIOBOOK_TRACKS = [
+  { file: '01_acknowledgments.mp3', title: 'Acknowledgments', num: 0 },
+  { file: '02_forward with dave emanual.mp3', title: 'Foreword — Dave Emanuel', num: 0 },
+  { file: '03_introduction.mp3', title: 'Introduction', num: 0 },
+  { file: '04_chapter_01.mp3', title: 'Chapter 1 — Roots', num: 1 },
+  { file: '05_chapter_02.mp3', title: 'Chapter 2 — The Brogan Boots', num: 2 },
+  { file: '06_chapter_03.mp3', title: 'Chapter 3 — Breaking Barriers', num: 3 },
+  { file: '07_chapter_04.mp3', title: 'Chapter 4 — The Draft', num: 4 },
+  { file: '08_chapter_05.mp3', title: 'Chapter 5 — Empire', num: 5 },
+  { file: '09_chapter_06.mp3', title: 'Chapter 6 — Power & Purpose', num: 6 },
+  { file: '10_chapter_07.mp3', title: 'Chapter 7', num: 7 },
+  { file: '11_chapter_08.mp3', title: 'Chapter 8', num: 8 },
+  { file: '12_chapter_09.mp3', title: 'Chapter 9', num: 9 },
+  { file: '13_chapter_10.mp3', title: 'Chapter 10', num: 10 },
+  { file: '14_chapter_11.mp3', title: 'Chapter 11', num: 11 },
+  { file: '15_chapter_12.mp3', title: 'Chapter 12', num: 12 },
+  { file: '16_chapter_13.mp3', title: 'Chapter 13', num: 13 },
+  { file: '17_chapter_14.mp3', title: 'Chapter 14', num: 14 },
+  { file: '18_chapter_15.mp3', title: 'Chapter 15', num: 15 },
+  { file: '19_chapter_16.mp3', title: 'Chapter 16', num: 16 },
+  { file: '20_chapter_17.mp3', title: 'Chapter 17', num: 17 },
+  { file: '21_chapter_18.mp3', title: 'Chapter 18', num: 18 },
+];
+
+const AUDIOBOOK_BASE = '/audio/never_broken_audiobook/';
+
+// ─── AUDIOBOOK PLAYER COMPONENT ───
+function AudiobookPlayer({ trackIndex, tracks, onTrackChange }) {
+  const audioRef = useRef(null);
+  const saveTimerRef = useRef(null);
+  const [playing, setPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [currentTime, setCurTime] = useState(0);
+  const [speed, setSpeed] = useState(() => {
+    try { const s = JSON.parse(localStorage.getItem('jp_audiobook_progress')); return s?.playbackSpeed || 1; } catch { return 1; }
+  });
+  const [loaded, setLoaded] = useState(false);
+
+  const track = tracks[trackIndex];
+  const fmt = (s) => { const m = Math.floor(s / 60); const sec = Math.floor(s % 60); return `${m}:${sec < 10 ? '0' : ''}${sec}`; };
+  const bars = useMemo(() => Array.from({ length: 80 }, () => 0.15 + Math.random() * 0.85), []);
+
+  // Save progress to localStorage
+  const saveProgress = useCallback(() => {
+    if (!audioRef.current) return;
+    try {
+      const existing = JSON.parse(localStorage.getItem('jp_audiobook_progress') || '{}');
+      const chapterProgress = existing.chapterProgress || {};
+      chapterProgress[track.file] = { time: audioRef.current.currentTime, completed: false };
+      localStorage.setItem('jp_audiobook_progress', JSON.stringify({
+        currentTrackIndex: trackIndex,
+        currentTime: audioRef.current.currentTime,
+        playbackSpeed: speed,
+        chapterProgress,
+        lastUpdated: new Date().toISOString(),
+      }));
+    } catch { /* localStorage full or unavailable */ }
+  }, [trackIndex, track.file, speed]);
+
+  // Mark chapter completed
+  const markCompleted = useCallback(() => {
+    try {
+      const existing = JSON.parse(localStorage.getItem('jp_audiobook_progress') || '{}');
+      const chapterProgress = existing.chapterProgress || {};
+      chapterProgress[track.file] = { time: 0, completed: true };
+      localStorage.setItem('jp_audiobook_progress', JSON.stringify({ ...existing, chapterProgress }));
+    } catch { /* */ }
+  }, [track.file]);
+
+  // Audio event handlers
+  useEffect(() => {
+    const a = audioRef.current;
+    if (!a) return;
+
+    const onTime = () => {
+      setCurTime(a.currentTime);
+      setProgress(a.duration ? (a.currentTime / a.duration) * 100 : 0);
+    };
+    const onMeta = () => {
+      setDuration(a.duration);
+      setLoaded(true);
+      // Restore position for this track
+      try {
+        const saved = JSON.parse(localStorage.getItem('jp_audiobook_progress') || '{}');
+        if (saved.currentTrackIndex === trackIndex && saved.currentTime > 0) {
+          a.currentTime = saved.currentTime;
+        } else if (saved.chapterProgress?.[track.file]?.time > 0 && !saved.chapterProgress[track.file].completed) {
+          a.currentTime = saved.chapterProgress[track.file].time;
+        }
+      } catch { /* */ }
+    };
+    const onEnd = () => {
+      setPlaying(false);
+      setProgress(100);
+      markCompleted();
+      // Auto-advance
+      if (trackIndex < tracks.length - 1) {
+        setTimeout(() => onTrackChange(trackIndex + 1), 800);
+      }
+    };
+    const onPause = () => saveProgress();
+
+    a.addEventListener('timeupdate', onTime);
+    a.addEventListener('loadedmetadata', onMeta);
+    a.addEventListener('ended', onEnd);
+    a.addEventListener('pause', onPause);
+    return () => {
+      a.removeEventListener('timeupdate', onTime);
+      a.removeEventListener('loadedmetadata', onMeta);
+      a.removeEventListener('ended', onEnd);
+      a.removeEventListener('pause', onPause);
+    };
+  }, [trackIndex, track.file, tracks.length, onTrackChange, saveProgress, markCompleted]);
+
+  // Debounced save every 5 seconds during playback
+  useEffect(() => {
+    if (playing) {
+      saveTimerRef.current = setInterval(saveProgress, 5000);
+    } else {
+      clearInterval(saveTimerRef.current);
+    }
+    return () => clearInterval(saveTimerRef.current);
+  }, [playing, saveProgress]);
+
+  // Save on tab close / visibility change
+  useEffect(() => {
+    const onBeforeUnload = () => saveProgress();
+    const onVisChange = () => { if (document.hidden) saveProgress(); };
+    window.addEventListener('beforeunload', onBeforeUnload);
+    document.addEventListener('visibilitychange', onVisChange);
+    return () => {
+      window.removeEventListener('beforeunload', onBeforeUnload);
+      document.removeEventListener('visibilitychange', onVisChange);
+    };
+  }, [saveProgress]);
+
+  // Playback speed
+  useEffect(() => {
+    if (audioRef.current) audioRef.current.playbackRate = speed;
+  }, [speed, trackIndex]);
+
+  const toggle = () => {
+    if (!audioRef.current) return;
+    if (playing) { audioRef.current.pause(); } else { audioRef.current.play().catch(() => {}); }
+    setPlaying(!playing);
+  };
+
+  const skip = (sec) => {
+    if (!audioRef.current) return;
+    audioRef.current.currentTime = Math.max(0, Math.min(audioRef.current.duration || 0, audioRef.current.currentTime + sec));
+  };
+
+  const seek = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    if (audioRef.current && audioRef.current.duration) {
+      audioRef.current.currentTime = pct * audioRef.current.duration;
+    }
+  };
+
+  const speeds = [0.75, 1, 1.25, 1.5];
+
+  // Reset play state when track changes
+  useEffect(() => {
+    setPlaying(false);
+    setProgress(0);
+    setCurTime(0);
+    setDuration(0);
+    setLoaded(false);
+  }, [trackIndex]);
+
+  return (
+    <div style={{ background: C.dark, border: `1px solid ${C.lineBright}`, padding: 'clamp(20px, 3vw, 32px)' }}>
+      <audio ref={audioRef} src={`${AUDIOBOOK_BASE}${encodeURIComponent(track.file)}`} preload="metadata" />
+
+      {/* Track info */}
+      <div style={{ marginBottom: 16 }}>
+        <div style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.muted, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 6 }}>
+          Track {trackIndex + 1} of {tracks.length}
+        </div>
+        <div style={{ fontFamily: FONT.display, fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', color: C.cream, fontWeight: 400 }}>
+          {track.title}
+        </div>
+      </div>
+
+      {/* Waveform */}
+      <div onClick={seek} style={{ display: 'flex', alignItems: 'center', gap: 1.5, height: 48, cursor: 'pointer', padding: '4px 0', marginBottom: 12 }}>
+        {bars.map((h, i) => {
+          const pct = (i / bars.length) * 100;
+          const isPlayed = pct <= progress;
+          return (
+            <div key={i} style={{ flex: 1, height: `${h * 100}%`, background: isPlayed ? C.gold : 'rgba(154,142,127,0.2)', borderRadius: 1, transition: 'background 0.1s', minWidth: 2 }} />
+          );
+        })}
+      </div>
+
+      {/* Time */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
+        <span style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.muted, fontVariantNumeric: 'tabular-nums' }}>{fmt(currentTime)}</span>
+        <span style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.muted, fontVariantNumeric: 'tabular-nums' }}>{loaded ? fmt(duration) : '—:——'}</span>
+      </div>
+
+      {/* Controls */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'clamp(12px, 3vw, 24px)', marginBottom: 20 }}>
+        {/* Prev track */}
+        <button onClick={() => trackIndex > 0 && onTrackChange(trackIndex - 1)} disabled={trackIndex === 0}
+          style={{ background: 'none', border: 'none', color: trackIndex === 0 ? C.line : C.muted, cursor: trackIndex === 0 ? 'default' : 'pointer', fontSize: '1.2rem', padding: 8 }}
+          title="Previous track">⏮</button>
+
+        {/* Skip back 15s */}
+        <button onClick={() => skip(-15)}
+          style={{ background: 'none', border: `1px solid ${C.lineBright}`, color: C.muted, cursor: 'pointer', borderRadius: '50%', width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: FONT.body, fontSize: '0.6rem', fontWeight: 700, transition: 'all 0.2s' }}
+          title="Back 15 seconds">-15</button>
+
+        {/* Play/Pause */}
+        <button onClick={toggle}
+          style={{ width: 56, height: 56, borderRadius: '50%', border: `2px solid ${C.gold}`, background: playing ? C.goldDim : 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.3s', flexShrink: 0 }}>
+          {playing ? (
+            <div style={{ display: 'flex', gap: 5 }}>
+              <div style={{ width: 4, height: 18, background: C.gold }} />
+              <div style={{ width: 4, height: 18, background: C.gold }} />
+            </div>
+          ) : (
+            <div style={{ width: 0, height: 0, borderTop: '10px solid transparent', borderBottom: '10px solid transparent', borderLeft: `18px solid ${C.gold}`, marginLeft: 4 }} />
+          )}
+        </button>
+
+        {/* Skip forward 15s */}
+        <button onClick={() => skip(15)}
+          style={{ background: 'none', border: `1px solid ${C.lineBright}`, color: C.muted, cursor: 'pointer', borderRadius: '50%', width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: FONT.body, fontSize: '0.6rem', fontWeight: 700, transition: 'all 0.2s' }}
+          title="Forward 15 seconds">+15</button>
+
+        {/* Next track */}
+        <button onClick={() => trackIndex < tracks.length - 1 && onTrackChange(trackIndex + 1)} disabled={trackIndex === tracks.length - 1}
+          style={{ background: 'none', border: 'none', color: trackIndex === tracks.length - 1 ? C.line : C.muted, cursor: trackIndex === tracks.length - 1 ? 'default' : 'pointer', fontSize: '1.2rem', padding: 8 }}
+          title="Next track">⏭</button>
+      </div>
+
+      {/* Speed selector */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+        <span style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.muted, letterSpacing: '0.15em', textTransform: 'uppercase', marginRight: 4 }}>Speed</span>
+        {speeds.map(s => (
+          <button key={s} onClick={() => setSpeed(s)}
+            style={{
+              fontFamily: FONT.body, fontSize: '0.72rem', fontWeight: speed === s ? 700 : 400,
+              color: speed === s ? C.gold : C.muted,
+              background: speed === s ? C.goldDim : 'transparent',
+              border: `1px solid ${speed === s ? C.gold : C.line}`,
+              padding: '4px 10px', cursor: 'pointer', transition: 'all 0.2s',
+            }}>
+            {s}x
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── AUDIOBOOK PAGE ───
+function AudiobookPage() {
+  const [access, setAccess] = useState(null); // null = checking, true = granted, false = denied
+  const [currentTrack, setCurrentTrack] = useState(0);
+  const [showTracklist, setShowTracklist] = useState(true);
+  const [resumeInfo, setResumeInfo] = useState(null);
+
+  // Check purchase access
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session_id');
+
+    if (sessionId) {
+      // Validate purchase with API
+      fetch('/api/validate-purchase', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session_id: sessionId }),
+      })
+        .then(r => r.json())
+        .then(data => {
+          if (data.valid) {
+            localStorage.setItem('jp_audiobook_access', JSON.stringify({
+              sessionId, email: data.email, product: data.product, timestamp: new Date().toISOString(),
+            }));
+            setAccess(true);
+          } else {
+            setAccess(false);
+          }
+        })
+        .catch(() => setAccess(false));
+      // Clean URL
+      window.history.replaceState({}, '', '/audiobook');
+    } else {
+      // Check localStorage
+      const stored = localStorage.getItem('jp_audiobook_access');
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          if (parsed.sessionId) { setAccess(true); return; }
+        } catch { /* */ }
+      }
+      setAccess(false);
+    }
+  }, []);
+
+  // Load saved progress for resume banner
+  useEffect(() => {
+    if (access !== true) return;
+    try {
+      const saved = JSON.parse(localStorage.getItem('jp_audiobook_progress') || 'null');
+      if (saved && saved.currentTrackIndex != null && saved.currentTime > 1) {
+        const t = AUDIOBOOK_TRACKS[saved.currentTrackIndex];
+        if (t) {
+          setResumeInfo({ trackIndex: saved.currentTrackIndex, time: saved.currentTime, title: t.title });
+        }
+      }
+    } catch { /* */ }
+  }, [access]);
+
+  const handleResume = () => {
+    if (resumeInfo) {
+      setCurrentTrack(resumeInfo.trackIndex);
+    }
+    setResumeInfo(null);
+  };
+
+  const handleStartOver = () => {
+    localStorage.removeItem('jp_audiobook_progress');
+    setCurrentTrack(0);
+    setResumeInfo(null);
+  };
+
+  const handleTrackChange = useCallback((idx) => {
+    setCurrentTrack(idx);
+    setResumeInfo(null);
+  }, []);
+
+  const fmt = (s) => { const m = Math.floor(s / 60); const sec = Math.floor(s % 60); return `${m}:${sec < 10 ? '0' : ''}${sec}`; };
+
+  // Get chapter progress for tracklist
+  const getChapterState = (file) => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('jp_audiobook_progress') || '{}');
+      return saved.chapterProgress?.[file] || {};
+    } catch { return {}; }
+  };
+
+  const globalStyles = `
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{background:${C.black};overflow-x:hidden}
+    ::selection{background:${C.gold};color:${C.black}}
+    @media(max-width:820px){
+      .ab-layout{flex-direction:column!important}
+      .ab-sidebar{max-height:280px!important;position:relative!important;top:auto!important}
+    }
+  `;
+
+  // Loading state
+  if (access === null) {
+    return (
+      <>
+        <style>{globalStyles}</style>
+        <div style={{ minHeight: '100vh', background: C.black, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ fontFamily: FONT.body, fontSize: '0.9rem', color: C.muted }}>Verifying your purchase…</div>
+        </div>
+      </>
+    );
+  }
+
+  // Purchase required
+  if (access === false) {
+    return (
+      <>
+        <style>{globalStyles}</style>
+        <Grain />
+        <Nav />
+        <section style={{ minHeight: '100vh', background: C.black, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '120px 24px 80px' }}>
+          <div style={{ textAlign: 'center', maxWidth: 500 }}>
+            <div style={{ fontSize: '3rem', marginBottom: 24 }}>🎧</div>
+            <h1 style={{ fontFamily: FONT.display, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: C.cream, fontWeight: 400, marginBottom: 16 }}>
+              Audiobook Access
+            </h1>
+            <p style={{ fontFamily: FONT.body, fontSize: '1rem', color: C.muted, lineHeight: 1.8, marginBottom: 32 }}>
+              Purchase the audiobook to unlock all 18 chapters of <em style={{ color: C.cream }}>Never Broken</em> — narrated in Joe's own voice.
+            </p>
+            <a href="/shop" style={{
+              display: 'inline-block', fontFamily: FONT.body, fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase',
+              color: C.black, background: C.gold, padding: '14px 36px', textDecoration: 'none', fontWeight: 700, transition: 'all 0.3s',
+            }}>
+              Go to Shop
+            </a>
+          </div>
+        </section>
+        <Footer />
+      </>
+    );
+  }
+
+  // ── Audiobook player (access granted) ──
+  return (
+    <>
+      <style>{globalStyles}</style>
+      <Grain />
+      <Nav />
+
+      {/* Header */}
+      <section style={{ background: C.black, paddingTop: 100, paddingBottom: 0 }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(20px, 4vw, 40px)', textAlign: 'center', marginBottom: 32 }}>
+          <div style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.gold, letterSpacing: '0.4em', textTransform: 'uppercase', marginBottom: 12 }}>
+            Audiobook
+          </div>
+          <h1 style={{ fontFamily: FONT.display, fontSize: 'clamp(2rem, 4.5vw, 3.2rem)', color: C.cream, fontWeight: 400, margin: '0 0 8px', lineHeight: 1.1 }}>
+            Never <em style={{ color: C.gold }}>Broken</em>
+          </h1>
+          <p style={{ fontFamily: FONT.body, fontSize: '0.85rem', color: C.muted, fontWeight: 300 }}>
+            Dr. Joe Profit &middot; 21 tracks
+          </p>
+        </div>
+      </section>
+
+      {/* Resume banner */}
+      {resumeInfo && (
+        <div style={{ background: 'rgba(212,162,78,0.08)', borderTop: `1px solid ${C.goldDim}`, borderBottom: `1px solid ${C.goldDim}`, padding: '14px 24px' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
+            <p style={{ fontFamily: FONT.body, fontSize: '0.85rem', color: C.cream, margin: 0 }}>
+              Resume <strong style={{ color: C.gold }}>{resumeInfo.title}</strong> at {fmt(resumeInfo.time)}?
+            </p>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button onClick={handleResume} style={{
+                fontFamily: FONT.body, fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase',
+                color: C.black, background: C.gold, border: 'none', padding: '8px 20px', cursor: 'pointer', fontWeight: 700,
+              }}>Resume</button>
+              <button onClick={handleStartOver} style={{
+                fontFamily: FONT.body, fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase',
+                color: C.muted, background: 'transparent', border: `1px solid ${C.line}`, padding: '8px 20px', cursor: 'pointer',
+              }}>Start Over</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Main layout: sidebar + player */}
+      <section style={{ background: C.black, padding: 'clamp(24px, 4vw, 48px) 0 80px' }}>
+        <div className="ab-layout" style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(20px, 4vw, 40px)', display: 'flex', gap: 24, alignItems: 'flex-start' }}>
+
+          {/* Tracklist sidebar */}
+          <div className="ab-sidebar" style={{ width: 320, flexShrink: 0, position: 'sticky', top: 100, maxHeight: 'calc(100vh - 140px)', overflowY: 'auto' }}>
+            <button onClick={() => setShowTracklist(!showTracklist)} style={{
+              display: 'none', width: '100%', fontFamily: FONT.body, fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase',
+              color: C.gold, background: 'transparent', border: `1px solid ${C.lineBright}`, padding: '10px 16px', cursor: 'pointer', marginBottom: 12,
+            }} className="ab-toggle-btn">
+              {showTracklist ? 'Hide' : 'Show'} Tracklist
+            </button>
+
+            <div style={{ fontFamily: FONT.body, fontSize: '0.62rem', color: C.muted, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 12, paddingBottom: 8, borderBottom: `1px solid ${C.line}` }}>
+              Chapters
+            </div>
+
+            {AUDIOBOOK_TRACKS.map((t, i) => {
+              const isActive = i === currentTrack;
+              const state = getChapterState(t.file);
+              return (
+                <button key={t.file} onClick={() => handleTrackChange(i)} style={{
+                  display: 'flex', alignItems: 'center', gap: 10, width: '100%', textAlign: 'left',
+                  background: isActive ? 'rgba(212,162,78,0.08)' : 'transparent',
+                  border: 'none', borderLeft: `2px solid ${isActive ? C.gold : 'transparent'}`,
+                  padding: '10px 12px', cursor: 'pointer', transition: 'all 0.2s',
+                }}>
+                  <span style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: state.completed ? C.gold : (isActive ? C.cream : C.muted), fontVariantNumeric: 'tabular-nums', width: 20, flexShrink: 0, textAlign: 'center' }}>
+                    {state.completed ? '✓' : (i + 1)}
+                  </span>
+                  <span style={{ fontFamily: FONT.body, fontSize: '0.82rem', color: isActive ? C.cream : C.muted, fontWeight: isActive ? 500 : 400, lineHeight: 1.4 }}>
+                    {t.title}
+                  </span>
+                  {isActive && (
+                    <span style={{ marginLeft: 'auto', fontSize: '0.6rem', color: C.gold }}>♪</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Player */}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <AudiobookPlayer trackIndex={currentTrack} tracks={AUDIOBOOK_TRACKS} onTrackChange={handleTrackChange} />
+
+            {/* 100% proceeds notice */}
+            <div style={{ marginTop: 24, textAlign: 'center', padding: '16px', border: `1px solid ${C.goldDim}`, background: 'rgba(212,162,78,0.03)' }}>
+              <span style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.gold }}>
+                🎓 <strong>100% of proceeds</strong> go to the YUP Foundation
+              </span>
+            </div>
           </div>
         </div>
       </section>
@@ -2484,6 +3018,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/shop" element={<ShopPage />} />
+        <Route path="/audiobook" element={<AudiobookPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/support" element={<SupportPage />} />
