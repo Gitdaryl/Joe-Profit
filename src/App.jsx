@@ -3285,6 +3285,121 @@ function ReadAlongPage() {
   );
 }
 
+// ─── CONCIERGE BUBBLE ───
+function ConciergeBubble() {
+  const audioRef = useRef(null);
+  const timerRef = useRef(null);
+  const [visible, setVisible] = useState(false);
+  const [playing, setPlaying] = useState(false);
+  const [done, setDone] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem('jp_concierge_seen')) return;
+    let scrolled = false;
+    let timerFired = false;
+
+    const tryShow = () => {
+      if (scrolled && timerFired) setVisible(true);
+    };
+
+    const onScroll = () => {
+      if (!scrolled && window.scrollY > 80) {
+        scrolled = true;
+        tryShow();
+      }
+    };
+
+    timerRef.current = setTimeout(() => {
+      timerFired = true;
+      tryShow();
+    }, 3000);
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      clearTimeout(timerRef.current);
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
+
+  const handlePlay = () => {
+    if (!audioRef.current) return;
+    setExpanded(true);
+    audioRef.current.play().catch(() => {});
+    setPlaying(true);
+  };
+
+  const handleDismiss = () => {
+    if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0; }
+    setVisible(false);
+    setPlaying(false);
+    localStorage.setItem('jp_concierge_seen', '1');
+  };
+
+  const handleEnded = () => {
+    setPlaying(false);
+    setDone(true);
+  };
+
+  if (!visible) return null;
+
+  return (
+    <div style={{ position: 'fixed', bottom: 28, left: 28, zIndex: 998, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 8 }}>
+      <audio ref={audioRef} src="/audio/meet-joe.mp3" preload="metadata" onEnded={handleEnded} />
+
+      {/* Expanded card */}
+      {expanded && (
+        <div style={{ background: 'rgba(10,9,8,0.96)', border: `1px solid ${C.lineBright}`, backdropFilter: 'blur(20px)', padding: '20px 22px', maxWidth: 260, borderRadius: 2, animation: 'fadeIn 0.4s ease' }}>
+          <button onClick={handleDismiss} style={{ position: 'absolute', top: 10, right: 12, background: 'none', border: 'none', color: C.muted, fontSize: '1rem', cursor: 'pointer', lineHeight: 1 }}>×</button>
+          <div style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.gold, letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: 8 }}>
+            Your Concierge
+          </div>
+          {playing ? (
+            <div style={{ display: 'flex', gap: 4, alignItems: 'center', height: 24, marginBottom: 10 }}>
+              {[0, 0.15, 0.3, 0.45, 0.15].map((delay, i) => (
+                <div key={i} style={{ width: 3, background: C.gold, borderRadius: 2, animation: `pulse 0.8s ease infinite`, animationDelay: `${delay}s`, height: `${12 + i * 3}px` }} />
+              ))}
+              <span style={{ fontFamily: FONT.body, fontSize: '0.75rem', color: C.mutedLight, marginLeft: 8 }}>Playing...</span>
+            </div>
+          ) : done ? (
+            <div style={{ marginBottom: 10 }}>
+              <div style={{ fontFamily: FONT.body, fontSize: '0.8rem', color: C.mutedLight, lineHeight: 1.5, marginBottom: 12 }}>
+                Now you know Joe. Ready to dive in?
+              </div>
+              <a href="/shop" onClick={handleDismiss} style={{ fontFamily: FONT.body, fontSize: '0.7rem', color: C.black, background: C.gold, padding: '10px 18px', textDecoration: 'none', letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 700, display: 'inline-block' }}>
+                Get the Book →
+              </a>
+            </div>
+          ) : null}
+          <button onClick={handleDismiss} style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.muted, background: 'none', border: 'none', cursor: 'pointer', letterSpacing: '0.1em', padding: 0, textDecoration: 'underline' }}>
+            Skip intro
+          </button>
+        </div>
+      )}
+
+      {/* Bubble trigger */}
+      {!expanded && (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+          <button onClick={handlePlay} style={{ width: 60, height: 60, borderRadius: '50%', border: `2px solid ${C.gold}`, background: C.dark, cursor: 'pointer', overflow: 'hidden', padding: 0, position: 'relative', boxShadow: `0 0 20px ${C.goldGlow}`, transition: 'all 0.3s' }}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.08)'; e.currentTarget.style.boxShadow = `0 0 32px ${C.goldGlow}`; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = `0 0 20px ${C.goldGlow}`; }}>
+            <img src={IMG.portrait40} alt="Meet Dr. Joe Profit" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'rgba(10,9,8,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: 0, height: 0, borderTop: '7px solid transparent', borderBottom: '7px solid transparent', borderLeft: `13px solid ${C.gold}`, marginLeft: 3 }} />
+            </div>
+          </button>
+          <div style={{ fontFamily: FONT.body, fontSize: '0.6rem', color: C.gold, letterSpacing: '0.2em', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.3 }}>
+            Meet Joe
+          </div>
+          <button onClick={handleDismiss} style={{ fontFamily: FONT.body, fontSize: '0.55rem', color: C.muted, background: 'none', border: 'none', cursor: 'pointer', letterSpacing: '0.08em', padding: 0 }}>
+            not now
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── HOME PAGE ───
 function HomePage() {
   const [activeChapter, setActiveChapter] = useState(null);
@@ -3378,6 +3493,7 @@ function HomePage() {
       <ContactSection />
       <Footer />
       <BackToTop />
+      <ConciergeBubble />
     </>
   );
 }
