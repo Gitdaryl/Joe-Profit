@@ -40,6 +40,7 @@ module.exports = async function handler(req, res) {
       mode: 'payment',
       success_url: `${siteUrl}${SUCCESS_PATHS[edition]}`,
       cancel_url: `${siteUrl}/shop`,
+      ...(!isDigital ? { shipping_address_collection: { allowed_countries: ['US'] } } : {}),
       ...(!isDigital && process.env.STRIPE_SHIPPING_RATE_ID
         ? { shipping_options: [{ shipping_rate: process.env.STRIPE_SHIPPING_RATE_ID }] }
         : {}),
