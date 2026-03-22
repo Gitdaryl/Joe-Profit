@@ -1481,8 +1481,17 @@ function ShopPage() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (window.location.search.includes('order=success')) {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('order') === 'success') {
       setOrderSuccess(true);
+      const sessionId = params.get('session_id');
+      if (sessionId) {
+        fetch('/api/fulfill-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ session_id: sessionId }),
+        }).catch(() => {});
+      }
       window.history.replaceState({}, '', '/shop');
     }
   }, []);

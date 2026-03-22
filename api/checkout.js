@@ -11,8 +11,8 @@ const PRICE_IDS = {
 const DIGITAL_EDITIONS = ['audiobook', 'ebook', 'bundle'];
 
 const SUCCESS_PATHS = {
-  paperback: '?order=success#book',
-  hardcover: '?order=success#book',
+  paperback: '/shop?order=success&session_id={CHECKOUT_SESSION_ID}',
+  hardcover: '/shop?order=success&session_id={CHECKOUT_SESSION_ID}',
   audiobook: '/audiobook?session_id={CHECKOUT_SESSION_ID}',
   ebook: '/ebook?session_id={CHECKOUT_SESSION_ID}',
   bundle: '/read-along?session_id={CHECKOUT_SESSION_ID}',
