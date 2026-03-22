@@ -1523,8 +1523,8 @@ function ShopPage() {
       50%{box-shadow:0 0 40px rgba(212,162,78,0.6),0 0 80px rgba(212,162,78,0.28),0 0 120px rgba(212,162,78,0.1);}
     }
     @keyframes stampBounce{
-      0%,100%{transform:rotate(8deg) scale(1);}
-      50%{transform:rotate(8deg) scale(1.04);}
+      0%,100%{transform:scale(1);}
+      50%{transform:scale(1.07);}
     }
     a:hover{opacity:0.85}
     ::selection{background:${C.gold};color:${C.black}}
@@ -1737,19 +1737,18 @@ function ShopPage() {
             }}>
 
               {/* Stamp badge — top right corner */}
-              <div style={{
-                position: 'absolute', top: 18, right: 18,
-                width: 76, height: 76,
-                border: '3px solid #B22222', borderRadius: '50%',
-                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                background: 'rgba(178,34,34,0.12)',
-                animation: 'stampBounce 2.8s ease-in-out infinite',
-                boxShadow: '0 0 12px rgba(178,34,34,0.35)',
-              }}>
-                <div style={{ fontFamily: FONT.display, fontSize: '0.58rem', fontWeight: 700, color: '#E03030', letterSpacing: '0.06em', lineHeight: 1.15, textTransform: 'uppercase', fontStyle: 'italic' }}>
-                  Best<br />Value
-                </div>
-              </div>
+              <img
+                src="/images/best-value.png"
+                alt="Best Value"
+                style={{
+                  position: 'absolute', top: -20, right: -20,
+                  width: 210, height: 210,
+                  objectFit: 'contain',
+                  animation: 'stampBounce 2.8s ease-in-out infinite',
+                  filter: 'drop-shadow(0 0 14px rgba(178,34,34,0.55))',
+                  pointerEvents: 'none',
+                }}
+              />
 
               {/* Corner accent lines */}
               <div style={{ position: 'absolute', top: 0, left: 0, width: 32, height: 32, borderTop: `2px solid ${C.goldLight}`, borderLeft: `2px solid ${C.goldLight}`, opacity: 0.5 }} />
