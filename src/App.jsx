@@ -1509,6 +1509,14 @@ function ShopPage() {
     html{scroll-behavior:smooth}
     body{background:${C.black};overflow-x:hidden}
     @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes bundleGlow{
+      0%,100%{box-shadow:0 0 24px rgba(212,162,78,0.35),0 0 48px rgba(212,162,78,0.15),0 0 80px rgba(212,162,78,0.06);}
+      50%{box-shadow:0 0 40px rgba(212,162,78,0.6),0 0 80px rgba(212,162,78,0.28),0 0 120px rgba(212,162,78,0.1);}
+    }
+    @keyframes stampBounce{
+      0%,100%{transform:rotate(8deg) scale(1);}
+      50%{transform:rotate(8deg) scale(1.04);}
+    }
     a:hover{opacity:0.85}
     ::selection{background:${C.gold};color:${C.black}}
     img{-webkit-user-drag:none}
@@ -1714,32 +1722,60 @@ function ShopPage() {
 
           {/* Digital Bundle — Best Value */}
           <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, letterSpacing: '0.28em', textTransform: 'uppercase', marginBottom: 24, paddingBottom: 12, borderBottom: `1px solid ${C.line}` }}>
-            Best Value
+            The Complete Experience
           </div>
           <div style={{ marginBottom: 64 }}>
-            <div style={{ position: 'relative', background: C.dark, border: `2px solid ${C.gold}`, padding: 'clamp(32px, 5vw, 48px)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-              <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', background: C.gold, color: C.black, fontFamily: FONT.body, fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.25em', textTransform: 'uppercase', padding: '6px 20px' }}>
-                Save $5
+            <div style={{
+              position: 'relative', background: `linear-gradient(145deg, ${C.dark2} 0%, ${C.dark} 100%)`,
+              border: `2px solid ${C.gold}`, padding: 'clamp(40px, 5vw, 56px) clamp(32px, 5vw, 48px)',
+              display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
+              animation: 'bundleGlow 3s ease-in-out infinite',
+            }}>
+
+              {/* Stamp badge — top right corner */}
+              <div style={{
+                position: 'absolute', top: 18, right: 18,
+                width: 76, height: 76,
+                border: '3px solid #B22222', borderRadius: '50%',
+                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                background: 'rgba(178,34,34,0.12)',
+                animation: 'stampBounce 2.8s ease-in-out infinite',
+                boxShadow: '0 0 12px rgba(178,34,34,0.35)',
+              }}>
+                <div style={{ fontFamily: FONT.display, fontSize: '0.58rem', fontWeight: 700, color: '#E03030', letterSpacing: '0.06em', lineHeight: 1.15, textTransform: 'uppercase', fontStyle: 'italic' }}>
+                  Best<br />Value
+                </div>
               </div>
-              <div style={{ fontSize: '2.4rem', marginBottom: 20 }}>🎧📖</div>
-              <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.gold, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 8 }}>Digital Bundle · Read Along</div>
-              <div style={{ fontFamily: FONT.display, fontSize: '2rem', color: C.gold, fontStyle: 'italic', marginBottom: 6 }}>$14.99</div>
-              <div style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.muted, opacity: 0.5, textDecoration: 'line-through', marginBottom: 16 }}>$19.98 if purchased separately</div>
+
+              {/* Corner accent lines */}
+              <div style={{ position: 'absolute', top: 0, left: 0, width: 32, height: 32, borderTop: `2px solid ${C.goldLight}`, borderLeft: `2px solid ${C.goldLight}`, opacity: 0.5 }} />
+              <div style={{ position: 'absolute', top: 0, right: 0, width: 32, height: 32, borderTop: `2px solid ${C.goldLight}`, borderRight: `2px solid ${C.goldLight}`, opacity: 0.5 }} />
+              <div style={{ position: 'absolute', bottom: 0, left: 0, width: 32, height: 32, borderBottom: `2px solid ${C.goldLight}`, borderLeft: `2px solid ${C.goldLight}`, opacity: 0.5 }} />
+              <div style={{ position: 'absolute', bottom: 0, right: 0, width: 32, height: 32, borderBottom: `2px solid ${C.goldLight}`, borderRight: `2px solid ${C.goldLight}`, opacity: 0.5 }} />
+
+              <div style={{ fontSize: '2.8rem', marginBottom: 16 }}>🎧📖</div>
+              <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.goldLight, letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: 10 }}>Digital Bundle · Read Along</div>
+              <div style={{ fontFamily: FONT.display, fontSize: '2.4rem', color: C.gold, fontStyle: 'italic', marginBottom: 4, textShadow: `0 0 24px rgba(212,162,78,0.4)` }}>$14.99</div>
+              <div style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.muted, opacity: 0.5, textDecoration: 'line-through', marginBottom: 6 }}>$19.98 if purchased separately</div>
+              <div style={{ display: 'inline-block', background: 'rgba(212,162,78,0.12)', border: `1px solid rgba(212,162,78,0.3)`, padding: '4px 14px', marginBottom: 20 }}>
+                <span style={{ fontFamily: FONT.body, fontSize: '0.7rem', color: C.gold, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase' }}>Save $5 · No tax · No shipping</span>
+              </div>
               <p style={{ fontFamily: FONT.body, fontSize: '0.95rem', color: C.muted, lineHeight: 1.8, marginBottom: 8, maxWidth: 520 }}>
                 The complete digital experience. Read the book while listening to Joe's voice narrate every chapter — a Read Along experience that brings the story to life.
               </p>
-              <p style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.gold, opacity: 0.6, fontStyle: 'italic', marginBottom: 24 }}>Audiobook + eBook + Read Along mode · Instant access</p>
+              <p style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.gold, opacity: 0.65, fontStyle: 'italic', marginBottom: 28 }}>Audiobook + eBook + Read Along mode · Instant access</p>
               <button
                 onClick={() => handleOrder('bundle')}
                 disabled={orderStates.bundle === 'loading'}
                 style={{
-                  fontFamily: FONT.body, fontSize: '0.8rem', letterSpacing: '0.2em', textTransform: 'uppercase',
+                  fontFamily: FONT.body, fontSize: '0.85rem', letterSpacing: '0.2em', textTransform: 'uppercase',
                   color: C.black, background: orderStates.bundle === 'loading' ? C.muted : C.gold,
-                  border: 'none', padding: '16px 48px', cursor: orderStates.bundle === 'loading' ? 'not-allowed' : 'pointer',
-                  fontWeight: 700, transition: 'all 0.3s', maxWidth: 400, width: '100%',
+                  border: 'none', padding: '18px 56px', cursor: orderStates.bundle === 'loading' ? 'not-allowed' : 'pointer',
+                  fontWeight: 700, transition: 'all 0.3s', maxWidth: 420, width: '100%',
+                  boxShadow: orderStates.bundle === 'loading' ? 'none' : `0 0 20px rgba(212,162,78,0.4)`,
                 }}
-                onMouseEnter={e => { if (orderStates.bundle !== 'loading') e.currentTarget.style.background = C.goldLight; }}
-                onMouseLeave={e => { if (orderStates.bundle !== 'loading') e.currentTarget.style.background = C.gold; }}
+                onMouseEnter={e => { if (orderStates.bundle !== 'loading') { e.currentTarget.style.background = C.goldLight; e.currentTarget.style.boxShadow = '0 0 32px rgba(212,162,78,0.65)'; } }}
+                onMouseLeave={e => { if (orderStates.bundle !== 'loading') { e.currentTarget.style.background = C.gold; e.currentTarget.style.boxShadow = '0 0 20px rgba(212,162,78,0.4)'; } }}
               >
                 {orderStates.bundle === 'loading' ? 'Preparing Checkout…' : 'Get the Bundle'}
               </button>
