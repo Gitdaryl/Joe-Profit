@@ -1741,8 +1741,8 @@ function ShopPage() {
                 src="/images/best-value.png"
                 alt="Best Value"
                 style={{
-                  position: 'absolute', top: -20, right: -20,
-                  width: 210, height: 210,
+                  position: 'absolute', top: -10, right: -10,
+                  width: 'clamp(130px, 22vw, 210px)', height: 'clamp(130px, 22vw, 210px)',
                   objectFit: 'contain',
                   animation: 'stampBounce 2.8s ease-in-out infinite',
                   filter: 'drop-shadow(0 0 14px rgba(178,34,34,0.55))',
