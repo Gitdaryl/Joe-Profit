@@ -35,7 +35,7 @@ module.exports = async function handler(req, res) {
 
   try {
     const session = await stripe.checkout.sessions.create({
-      automatic_payment_methods: { enabled: true },
+      automatic_payment_methods: { enabled: true, allow_redirects: 'never' },
       line_items: [{ price: PRICE_IDS[edition], quantity: 1 }],
       mode: 'payment',
       success_url: `${siteUrl}${SUCCESS_PATHS[edition]}`,
