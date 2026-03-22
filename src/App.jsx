@@ -1591,9 +1591,9 @@ function ShopPage() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 48 }} className="shopgrid">
             {[
-              { key: 'hardcover', label: 'Hardcover', price: '$31.95', desc: 'Premium hardcover binding. A keepsake edition worthy of the story inside.' },
-              { key: 'paperback', label: 'Paperback', price: '$19.95', desc: 'Classic paperback. The full story, every chapter, at an accessible price.' },
-            ].map(({ key, label, price, desc }) => (
+              { key: 'hardcover', label: 'Hardcover', price: '$31.95', amount: '31.95', desc: 'Premium hardcover binding. A keepsake edition worthy of the story inside.' },
+              { key: 'paperback', label: 'Paperback', price: '$19.95', amount: '19.95', desc: 'Classic paperback. The full story, every chapter, at an accessible price.' },
+            ].map(({ key, label, price, amount, desc }) => (
               <div key={key} style={{ background: C.dark, border: `1px solid ${C.lineBright}`, padding: 'clamp(28px, 4vw, 40px)', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ marginBottom: 24, textAlign: 'center' }}>
                   <div style={{ display: 'inline-block', position: 'relative', boxShadow: '12px 12px 40px rgba(0,0,0,0.6)', transform: 'rotate(-1deg)' }}>
@@ -1623,33 +1623,28 @@ function ShopPage() {
                     Something went wrong. Please try again.
                   </p>
                 )}
+                <div style={{ marginTop: 12, paddingTop: 12, borderTop: `1px solid ${C.line}` }}>
+                  <a
+                    href={`https://cash.app/$YUPKIDS/${amount}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'block', textAlign: 'center', fontFamily: FONT.body, fontSize: '0.72rem',
+                      letterSpacing: '0.15em', textTransform: 'uppercase', color: C.muted,
+                      border: `1px solid rgba(154,142,127,0.3)`, padding: '10px 16px',
+                      textDecoration: 'none', fontWeight: 500, transition: 'all 0.3s',
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.borderColor = C.gold; e.currentTarget.style.color = C.gold; }}
+                    onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(154,142,127,0.3)'; e.currentTarget.style.color = C.muted; }}
+                  >
+                    Pay with CashApp · {price}
+                  </a>
+                  <p style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, opacity: 0.45, marginTop: 7, textAlign: 'center', fontStyle: 'italic', lineHeight: 1.5 }}>
+                    In your CashApp note include:<br />"{label} — Never Broken" + your shipping address
+                  </p>
+                </div>
               </div>
             ))}
-          </div>
-
-          {/* CashApp alternative */}
-          <div style={{ textAlign: 'center', padding: '28px 0 40px', borderTop: `1px solid ${C.line}` }}>
-            <p style={{ fontFamily: FONT.body, fontSize: '0.7rem', color: C.muted, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 16 }}>
-              Prefer to pay with CashApp?
-            </p>
-            <a
-              href="https://cash.app/$YUPKIDS"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: 10,
-                fontFamily: FONT.body, fontSize: '0.78rem', letterSpacing: '0.15em', textTransform: 'uppercase',
-                color: C.gold, border: `1px solid ${C.gold}`, padding: '12px 28px',
-                textDecoration: 'none', fontWeight: 600, transition: 'all 0.3s',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.background = C.goldDim; }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
-            >
-              <span style={{ fontSize: '1.1rem' }}>$</span> Send via CashApp · $YUPKIDS
-            </a>
-            <p style={{ fontFamily: FONT.body, fontSize: '0.72rem', color: C.muted, opacity: 0.5, marginTop: 12, fontStyle: 'italic' }}>
-              Include your shipping address in the CashApp note.
-            </p>
           </div>
 
           {/* Digital editions */}
@@ -1686,6 +1681,26 @@ function ShopPage() {
                   Something went wrong. Please try again.
                 </p>
               )}
+              <div style={{ marginTop: 12, paddingTop: 12, borderTop: `1px solid ${C.line}` }}>
+                <a
+                  href="https://cash.app/$YUPKIDS/9.99"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'block', textAlign: 'center', fontFamily: FONT.body, fontSize: '0.72rem',
+                    letterSpacing: '0.15em', textTransform: 'uppercase', color: C.muted,
+                    border: `1px solid rgba(154,142,127,0.3)`, padding: '10px 16px',
+                    textDecoration: 'none', fontWeight: 500, transition: 'all 0.3s',
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = C.gold; e.currentTarget.style.color = C.gold; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(154,142,127,0.3)'; e.currentTarget.style.color = C.muted; }}
+                >
+                  Pay with CashApp · $9.99
+                </a>
+                <p style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, opacity: 0.45, marginTop: 7, textAlign: 'center', fontStyle: 'italic', lineHeight: 1.5 }}>
+                  In your CashApp note include:<br />"Audiobook — Never Broken"
+                </p>
+              </div>
             </div>
 
             {/* eBook — LIVE */}
@@ -1716,6 +1731,26 @@ function ShopPage() {
                   Something went wrong. Please try again.
                 </p>
               )}
+              <div style={{ marginTop: 12, paddingTop: 12, borderTop: `1px solid ${C.line}` }}>
+                <a
+                  href="https://cash.app/$YUPKIDS/9.99"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'block', textAlign: 'center', fontFamily: FONT.body, fontSize: '0.72rem',
+                    letterSpacing: '0.15em', textTransform: 'uppercase', color: C.muted,
+                    border: `1px solid rgba(154,142,127,0.3)`, padding: '10px 16px',
+                    textDecoration: 'none', fontWeight: 500, transition: 'all 0.3s',
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = C.gold; e.currentTarget.style.color = C.gold; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(154,142,127,0.3)'; e.currentTarget.style.color = C.muted; }}
+                >
+                  Pay with CashApp · $9.99
+                </a>
+                <p style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, opacity: 0.45, marginTop: 7, textAlign: 'center', fontStyle: 'italic', lineHeight: 1.5 }}>
+                  In your CashApp note include:<br />"eBook — Never Broken"
+                </p>
+              </div>
             </div>
 
           </div>
@@ -1784,6 +1819,26 @@ function ShopPage() {
                   Something went wrong. Please try again.
                 </p>
               )}
+              <div style={{ marginTop: 16, paddingTop: 16, borderTop: `1px solid ${C.line}`, width: '100%', maxWidth: 420 }}>
+                <a
+                  href="https://cash.app/$YUPKIDS/14.99"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'block', textAlign: 'center', fontFamily: FONT.body, fontSize: '0.72rem',
+                    letterSpacing: '0.15em', textTransform: 'uppercase', color: C.muted,
+                    border: `1px solid rgba(154,142,127,0.3)`, padding: '10px 16px',
+                    textDecoration: 'none', fontWeight: 500, transition: 'all 0.3s',
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = C.gold; e.currentTarget.style.color = C.gold; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(154,142,127,0.3)'; e.currentTarget.style.color = C.muted; }}
+                >
+                  Pay with CashApp · $14.99
+                </a>
+                <p style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, opacity: 0.45, marginTop: 7, textAlign: 'center', fontStyle: 'italic', lineHeight: 1.5 }}>
+                  In your CashApp note include:<br />"Digital Bundle — Never Broken"
+                </p>
+              </div>
             </div>
           </div>
 
