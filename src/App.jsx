@@ -3658,14 +3658,14 @@ function TermsPage() {
       <p style={LS.p}>To the fullest extent permitted by law, Yeti Groove Media LLC and Dr. Joe Profit shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the Site or products purchased through it.</p>
 
       <h2 style={LS.h2}>Governing Law</h2>
-      <p style={LS.p}>These Terms are governed by the laws of the State of Michigan, without regard to its conflict of law provisions.</p>
+      <p style={LS.p}>These Terms are governed by the laws of Fulton County, the State of Georgia, without regard to its conflict of law provisions.</p>
 
       <h2 style={LS.h2}>Changes to These Terms</h2>
       <p style={LS.p}>We reserve the right to modify these Terms at any time. Continued use of the Site after changes constitutes acceptance of the updated Terms.</p>
 
       <h2 style={LS.h2}>Contact</h2>
       <p style={LS.p}>Questions? Contact us at: <a href="mailto:info@joeprofitneverbroken.com" style={LS.a}>info@joeprofitneverbroken.com</a></p>
-      <p style={LS.p}>Yeti Groove Media LLC · Adrian, Michigan</p>
+      <p style={LS.p}>Transition Focus Group, LLC. d.b.a. Yeti Groove Media LLC</p>
     </LegalPage>
   );
 }
