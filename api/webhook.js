@@ -1,5 +1,4 @@
 const Stripe = require('stripe');
-const nodemailer = require('nodemailer');
 const { Resend } = require('resend');
 
 // Stripe requires the raw body for signature verification
@@ -160,6 +159,90 @@ function buildBuyerEmail(session, edition, siteUrl) {
   };
 }
 
+function buildPhysicalBuyerEmail(session, editionLabel, shippingLines, shipName, amount) {
+  const firstName = session.customer_details?.name?.split(' ')[0] || 'Friend';
+
+  return {
+    subject: `Order confirmed — Never Broken ${editionLabel}`,
+    html: `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="margin:0; padding:0; background:#f5f0eb; font-family:Georgia, 'Times New Roman', serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f0eb; padding:40px 20px;">
+<tr><td align="center">
+<table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px; background:#ffffff; border-radius:12px; overflow:hidden;">
+
+  <!-- Header -->
+  <tr><td style="background:#1a1a2e; padding:35px 40px; text-align:center;">
+    <h1 style="color:#d4a95a; margin:0; font-size:32px; font-weight:normal; letter-spacing:1px;">Never Broken</h1>
+    <p style="color:#cccccc; margin:10px 0 0; font-size:18px;">by Joe Profit</p>
+  </td></tr>
+
+  <!-- Body -->
+  <tr><td style="padding:40px;">
+
+    <p style="font-size:26px; color:#1a1a2e; margin:0 0 25px; line-height:1.4;">
+      Hey ${firstName},
+    </p>
+
+    <p style="font-size:22px; color:#333; margin:0 0 20px; line-height:1.6;">
+      Your order is confirmed! Joe will get your <strong>${editionLabel}</strong> shipped out shortly.
+    </p>
+
+    <!-- Order box -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#fff8ee; border:3px solid #d4a95a; border-radius:10px; margin:0 0 30px;">
+    <tr><td style="padding:25px 30px;">
+      <p style="font-size:18px; color:#888; margin:0 0 6px; text-transform:uppercase; letter-spacing:1px;">Your Order</p>
+      <p style="font-size:22px; color:#1a1a2e; margin:0 0 20px; font-weight:bold;">Never Broken — ${editionLabel} &nbsp;·&nbsp; $${amount}</p>
+      <p style="font-size:18px; color:#888; margin:0 0 6px; text-transform:uppercase; letter-spacing:1px;">Ships To</p>
+      <p style="font-size:20px; color:#333; margin:0; line-height:1.7; white-space:pre-line;">${shipName}\n${shippingLines}</p>
+    </td></tr>
+    </table>
+
+    <p style="font-size:20px; color:#444; margin:0 0 20px; line-height:1.7;">
+      Have a question? Just reply to this email and we'll take care of you.
+    </p>
+
+    <hr style="border:none; border-top:2px solid #e5e0da; margin:35px 0;">
+
+  </td></tr>
+
+  <!-- Footer -->
+  <tr><td style="background:#f5f0eb; padding:30px 40px; text-align:center;">
+    <p style="font-size:17px; color:#888; margin:0; line-height:1.6;">
+      100% of proceeds support the YUP Foundation.<br>
+      Thank you for being part of something bigger.
+    </p>
+  </td></tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>`,
+    text: [
+      `Hey ${firstName},`,
+      ``,
+      `Your order is confirmed! Joe will get your ${editionLabel} shipped out shortly.`,
+      ``,
+      `ORDER SUMMARY`,
+      `Product: Never Broken — ${editionLabel}`,
+      `Amount:  $${amount}`,
+      ``,
+      `SHIPS TO:`,
+      `${shipName}`,
+      `${shippingLines}`,
+      ``,
+      `Questions? Just reply to this email.`,
+      ``,
+      `---`,
+      `100% of proceeds support the YUP Foundation.`,
+      `Thank you for being part of something bigger.`,
+    ].join('\n'),
+  };
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -242,10 +325,11 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ received: true });
   }
 
-  // --- PHYSICAL PURCHASES: email Joe with shipping details ---
+  // --- PHYSICAL PURCHASES: email buyer confirmation + notify Joe ---
   if (PHYSICAL_EDITIONS.includes(edition)) {
+    const resend = new Resend(process.env.RESEND_API_KEY);
     const addr = session.shipping_details?.address || {};
-    const name = session.shipping_details?.name || buyerName;
+    const shipName = session.shipping_details?.name || buyerName;
     const shippingLines = [
       addr.line1,
       addr.line2,
@@ -255,20 +339,29 @@ module.exports = async function handler(req, res) {
 
     const editionLabel = edition === 'hardcover' ? 'Hardcover' : 'Paperback';
 
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: false,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
+    // Send buyer their order confirmation
+    if (buyerEmail) {
+      const receipt = buildPhysicalBuyerEmail(session, editionLabel, shippingLines, shipName, amount);
+      try {
+        await resend.emails.send({
+          from: 'Joe Profit <neverbroken@yetigroove.com>',
+          to: [buyerEmail],
+          replyTo: 'jprofit23@gmail.com',
+          subject: receipt.subject,
+          html: receipt.html,
+          text: receipt.text,
+        });
+        console.log(`Buyer receipt sent to ${buyerEmail} for ${edition}`);
+      } catch (err) {
+        console.error('Failed to send buyer receipt:', err.message);
+      }
+    }
 
+    // Notify Joe of the physical sale
     try {
-      await transporter.sendMail({
-        from: `"Never Broken Shop" <${process.env.SMTP_USER}>`,
-        to: 'jprofit23@gmail.com',
+      await resend.emails.send({
+        from: 'Never Broken Shop <neverbroken@yetigroove.com>',
+        to: ['jprofit23@gmail.com'],
         subject: `New Book Order — ${editionLabel} · $${amount}`,
         text: [
           `NEW ORDER — Never Broken`,
@@ -277,16 +370,16 @@ module.exports = async function handler(req, res) {
           `Amount:   $${amount}`,
           ``,
           `SHIP TO:`,
-          `${name}`,
+          `${shipName}`,
           `${shippingLines}`,
           ``,
           `Buyer email: ${buyerEmail || 'Not provided'}`,
           `Stripe session: ${session.id}`,
         ].join('\n'),
       });
-      console.log(`Order email sent for session ${session.id}`);
+      console.log(`Order notification sent to Joe for session ${session.id}`);
     } catch (err) {
-      console.error('Failed to send order email:', err.message);
+      console.error('Failed to send Joe notification:', err.message);
     }
   }
 
