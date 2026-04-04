@@ -62,9 +62,9 @@ module.exports = async function handler(req, res) {
   const mailOptions = {
     from: `"Never Broken Shop" <${process.env.SMTP_USER}>`,
     to: 'jprofit23@gmail.com',
-    subject: `New Book Order — ${editionLabel} · $${amount}`,
+    subject: `New Book Order - ${editionLabel} · $${amount}`,
     text: [
-      `NEW ORDER — Never Broken`,
+      `NEW ORDER - Never Broken`,
       ``,
       `Product:  ${editionLabel}`,
       `Amount:   $${amount}`,

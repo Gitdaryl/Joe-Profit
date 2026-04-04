@@ -22,7 +22,7 @@ function buildPhysicalBuyerEmail(session, editionLabel, shippingLines, shipName,
   const firstName = session.customer_details?.name?.split(' ')[0] || 'Friend';
 
   return {
-    subject: `Order confirmed — Never Broken ${editionLabel}`,
+    subject: `Order confirmed - Never Broken ${editionLabel}`,
     html: `
 <!DOCTYPE html>
 <html>
@@ -50,7 +50,7 @@ function buildPhysicalBuyerEmail(session, editionLabel, shippingLines, shipName,
     <table width="100%" cellpadding="0" cellspacing="0" style="background:#fff8ee; border:3px solid #d4a95a; border-radius:10px; margin:0 0 30px;">
     <tr><td style="padding:25px 30px;">
       <p style="font-size:18px; color:#888; margin:0 0 6px; text-transform:uppercase; letter-spacing:1px;">Your Order</p>
-      <p style="font-size:22px; color:#1a1a2e; margin:0 0 20px; font-weight:bold;">Never Broken — ${editionLabel} &nbsp;·&nbsp; $${amount}</p>
+      <p style="font-size:22px; color:#1a1a2e; margin:0 0 20px; font-weight:bold;">Never Broken - ${editionLabel} &nbsp;·&nbsp; $${amount}</p>
       <p style="font-size:18px; color:#888; margin:0 0 6px; text-transform:uppercase; letter-spacing:1px;">Ships To</p>
       <p style="font-size:20px; color:#333; margin:0; line-height:1.7; white-space:pre-line;">${shipName}\n${shippingLines}</p>
     </td></tr>
@@ -82,7 +82,7 @@ function buildPhysicalBuyerEmail(session, editionLabel, shippingLines, shipName,
       `Your order is confirmed! Joe will get your ${editionLabel} shipped out shortly.`,
       ``,
       `ORDER SUMMARY`,
-      `Product: Never Broken — ${editionLabel}`,
+      `Product: Never Broken - ${editionLabel}`,
       `Amount:  $${amount}`,
       ``,
       `SHIPS TO:`,
@@ -122,7 +122,7 @@ async function main() {
   console.log(`Found ${fullSessions.length} physical order(s):`);
   fullSessions.forEach((s, i) => {
     const d = new Date(s.created * 1000).toLocaleString();
-    console.log(`  [${i}] ${d} — ${s.metadata?.edition} — $${(s.amount_total/100).toFixed(2)} — ${s.customer_details?.email}`);
+    console.log(`  [${i}] ${d} - ${s.metadata?.edition} - $${(s.amount_total/100).toFixed(2)} - ${s.customer_details?.email}`);
   });
 
   // Use the most recent one (index 0), or set SESSION_ID env to target a specific one
@@ -173,16 +173,16 @@ async function main() {
       console.log(`  Buyer receipt sent to ${buyerEmail} (id: ${data.id})`);
     }
   } else {
-    console.log('  No buyer email on session — skipping buyer receipt.');
+    console.log('  No buyer email on session - skipping buyer receipt.');
   }
 
   // Joe notification
   const { data: joeData, error: joeError } = await resend.emails.send({
     from: 'Never Broken Shop <neverbroken@yetigroove.com>',
     to: ['jprofit23@gmail.com'],
-    subject: `New Book Order — ${editionLabel} · $${amount}`,
+    subject: `New Book Order - ${editionLabel} · $${amount}`,
     text: [
-      `NEW ORDER — Never Broken`,
+      `NEW ORDER - Never Broken`,
       ``,
       `Product:  ${editionLabel}`,
       `Amount:   $${amount}`,

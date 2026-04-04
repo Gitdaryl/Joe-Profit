@@ -24,22 +24,22 @@ module.exports = async function handler(req, res) {
   const resend = new Resend(process.env.RESEND_API_KEY);
 
   const emailBody = `
-New Speaking Inquiry — Joe Profit
+New Speaking Inquiry - Joe Profit
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 CONTACT
   Name:           ${name}
   Email:          ${email}
-  Phone:          ${phone || '—'}
+  Phone:          ${phone || '-'}
   Organization:   ${organization}
   City / State:   ${city}
 
 EVENT DETAILS
   Event Type:     ${eventType}
-  Audience Size:  ${audienceSize || '—'}
-  Preferred Date: ${dateRange || '—'}
-  Budget Range:   ${budget || '—'}
+  Audience Size:  ${audienceSize || '-'}
+  Preferred Date: ${dateRange || '-'}
+  Budget Range:   ${budget || '-'}
 
 MESSAGE
   ${message || '(none)'}
@@ -58,7 +58,7 @@ Reply to this email to respond directly to ${name}.
       from: 'Joe Profit Bookings <bookings@yetigroove.com>',
       to: toAddresses,
       replyTo: email,
-      subject: `New Speaking Inquiry — ${organization} — ${eventType}`,
+      subject: `New Speaking Inquiry - ${organization} - ${eventType}`,
       text: emailBody,
     });
 

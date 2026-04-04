@@ -109,22 +109,22 @@ const GALLERY_ITEMS = [
   // ATHLETICS
   { src: IMG.thePick, cat: "Athletics", title: "The #1 Draft Pick", caption: "Joe Profit receives his No. 23 Jersey, presented by head coach Norm Van Brocklin of the Atlanta Falcons." },
   { src: IMG.falcons, cat: "Athletics", title: "NFL Leading Rusher", caption: "Joe Profit NFL Leading Rusher for the Atlanta Falcons." },
-  { src: IMG.touchdown, cat: "Athletics", title: "Touchdown!", caption: "Arms raised, crowd roaring — touchdown at Louisiana Monroe. The scoreboard tells the story." },
+  { src: IMG.touchdown, cat: "Athletics", title: "Touchdown!", caption: "Arms raised, crowd roaring - touchdown at Louisiana Monroe. The scoreboard tells the story." },
   { src: IMG.kickoff, cat: "Athletics", title: "Kickoff Return", caption: "Joe Profit returns kickoff for the Atlanta Falcons." },
   { src: IMG.cutDime, cat: "Athletics", title: "Cut on a Dime", caption: "Atlanta Falcons Joe Profit cut on a dime." },
   { src: IMG.gameball, cat: "Athletics", title: "The Game Ball", caption: "Joe Profit presented the Atlanta Falcons Game Ball for his performance during 44–14 win over the Cincinnati Bengals." },
   { src: IMG.runTD, cat: "Athletics", title: "Running for the TD", caption: "NLU's Joe Profit runs for a TD lead by QB Steve Mansur!" },
   { src: IMG.saints, cat: "Athletics", title: "New Orleans Saints", caption: "Joe Profit gain 8.5 yards a carry against San Diego Chargers, for the New Orleans Saints." },
   { src: IMG.allAmerican, cat: "Athletics", title: "World Football League", caption: "Joe Profit scores the first touchdown in the World Football league for Birmingham." },
-  { src: IMG.swayze, cat: "Athletics", title: "Swayze Elementary #40", caption: "Young Joe at Swayze Elementary — where the legend first took shape." },
+  { src: IMG.swayze, cat: "Athletics", title: "Swayze Elementary #40", caption: "Young Joe at Swayze Elementary - where the legend first took shape." },
   { src: IMG.plaque, cat: "Athletics", title: "Hall of Fame Plaque", caption: "The first black athlete in the Gulf States Conference. The first and only first-round NFL Draft pick from NLU." },
   { src: IMG.coachDale, cat: "Athletics", title: "Coach Dale Brown", caption: "Legendary Coach Dale Brown and Joe Profit at their induction into the Louisiana Sports Hall of Fame." },
   { src: IMG.shack, cat: "Athletics", title: "Shack Harris", caption: "James 'Shack' Harris (Pro-Bowl MVP) and Joe Profit at the Black Football HOF Event." },
   { src: IMG.pi, cat: "Athletics", title: "Black College Football HOF", caption: "PI and Dr. Joe Profit at the Black College Football Hall of Fame Induction Ceremony." },
   { src: IMG.daveEmanuel, cat: "Athletics", title: "Falcons Training Camp", caption: "Joe Profit and Dave Emanuel, VIP guest at Falcons Training Camp Luncheon." },
-  { src: IMG.boots, cat: "Athletics", title: "The Brogan Boots", caption: "The heavy work boots Joe wore to his first football practice. Too poor for sneakers — these boots built 'Joe the Jet.'" },
+  { src: IMG.boots, cat: "Athletics", title: "The Brogan Boots", caption: "The heavy work boots Joe wore to his first football practice. Too poor for sneakers - these boots built 'Joe the Jet.'" },
   // BUSINESS
-  { src: IMG.cii, cat: "Business", title: "Operation Phone Home", caption: "CII's mobile communications center during Desert Storm, outside Kuwait City. The $50M contract — largest ever awarded to a U.S. minority-owned company." },
+  { src: IMG.cii, cat: "Business", title: "Operation Phone Home", caption: "CII's mobile communications center during Desert Storm, outside Kuwait City. The $50M contract - largest ever awarded to a U.S. minority-owned company." },
   { src: IMG.ali, cat: "Business", title: "The Ali Telephone", caption: "Dr. Profit brings Muhammad Ali to Atlanta to present the Muhammad Ali Telephone™ designed and manufactured by Profit's Company." },
   { src: IMG.uae, cat: "Business", title: "UAE Operations", caption: "Profit meets with his Middle East Director of Operations in the United Arab Emirates." },
   { src: IMG.bodyBuilder, cat: "Business", title: "The Body Builder", caption: "Joe Profit, Finalist International Bodybuilding Competition Masters Division." },
@@ -141,7 +141,7 @@ const GALLERY_ITEMS = [
   // SERVICE
   { src: IMG.yup, cat: "Service", title: "Young Authors Program", caption: "Building the next generation of storytellers. Legends & Kids Young Authors Program graduates at their book reveal." },
   { src: IMG.dakota, cat: "Service", title: "YUP Kid of the Year", caption: "Dr. Joe Profit with YUP 'Kid of the Year' Dakota Young after a special ceremony in Atlanta." },
-  { src: IMG.nextGenAuthors, cat: "Service", title: "Words That Change Worlds", caption: "Celebrating the Next Generation of Authors — the glow of self-accomplishment on her face." },
+  { src: IMG.nextGenAuthors, cat: "Service", title: "Words That Change Worlds", caption: "Celebrating the Next Generation of Authors - the glow of self-accomplishment on her face." },
   { src: IMG.katrina, cat: "Service", title: "Hurricane Katrina Rescue", caption: "Ranger Jones, The Honorable Joe R. Reeder, Under Secretary Army, Louis Bulter and Dr. Joe Profit." },
   { src: IMG.reverend, cat: "Service", title: "Ordained to Serve", caption: "Dr. Joseph Profit, Ordained to Serve, 2015." },
   { src: IMG.holyfield, cat: "Service", title: "Charity Golf", caption: "Joe Profit hosts golf tournament and invites the world heavyweight Boxing champion Evander Holyfield." },
@@ -150,7 +150,7 @@ const GALLERY_ITEMS = [
   { src: IMG.wanda, cat: "Family", title: "Joe & Wanda", caption: "Dr. Joe Profit and his wife Wanda." },
   { src: IMG.wandaDinner, cat: "Family", title: "Foundation Fundraiser", caption: "Dr. Joe Profit and his wife Wanda at one of their Foundation Fundraising Events." },
   { src: IMG.son, cat: "Family", title: "Father & Son", caption: "Dr. Joe Profit and son Joe Jr. poses with American Best and Brightest Businessman award." },
-  { src: IMG.friends, cat: "Family", title: "Friends for Life", caption: "Childhood friends: Perry Thomas, Don Zimmerman, Dr. Joe Profit, and Rubin Jones — Friends and Teammates for life!" },
+  { src: IMG.friends, cat: "Family", title: "Friends for Life", caption: "Childhood friends: Perry Thomas, Don Zimmerman, Dr. Joe Profit, and Rubin Jones - Friends and Teammates for life!" },
   { src: IMG.wandaGift, cat: "Family", title: "Wanda's Birthday", caption: "Wanda Profit, show-off new birthday gift." },
   { src: IMG.gate, cat: "Family", title: "Atlanta Home", caption: "Dr. Joe Profit Atlanta Home." },
   // PRESS
@@ -161,7 +161,7 @@ const GALLERY_ITEMS = [
   { src: IMG.kuwaitArticle, cat: "Press", title: "Kuwait Contract", caption: "Dr. Joe Profit's company wins a $50 million contract in Kuwait." },
   { src: IMG.alexandriaDaily, cat: "Press", title: "7th Best in the Nation", caption: "Alexandria Daily Town Talk: Joe Profit is ranked 7th Best College Football Player." },
   { src: IMG.noOrdinaryJoe, cat: "Press", title: "No Ordinary Joe", caption: "He is no ordinary Joe." },
-  { src: IMG.millionaire, cat: "Press", title: "American Success Story", caption: "A true American Success Story — Is both Inspirational and Informative." },
+  { src: IMG.millionaire, cat: "Press", title: "American Success Story", caption: "A true American Success Story - Is both Inspirational and Informative." },
   { src: IMG.sba, cat: "Press", title: "SBA Rally", caption: "Joe Profit leads rally to save SBA from budget cutbacks." },
   { src: IMG.nluArticle, cat: "Press", title: "NLU Commencement", caption: "Dr. Joe Profit delivers commencement address to NLU graduates." },
   { src: IMG.multimediaArticle, cat: "Press", title: "Multimedia Firm", caption: "Founder and CEO of an Atlanta-based multimedia firm, runs his company like a well coached football team." },
@@ -172,9 +172,9 @@ const GALLERY_ITEMS = [
   { src: IMG.hofArticle, cat: "Press", title: "HOF Induction", caption: "Joe Profit Hall of Fame Inductions ceremony." },
   { src: IMG.retired40, cat: "Press", title: "#40 Retired", caption: "ULM retires Joe Profit Number 40." },
   // LEGACY
-  { src: IMG.book, cat: "Legacy", title: "Never Broken", caption: "The book that tells it all — Never Broken." },
+  { src: IMG.book, cat: "Legacy", title: "Never Broken", caption: "The book that tells it all - Never Broken." },
   { src: IMG.signing, cat: "Legacy", title: "Fields of Success", caption: "Dr. Joe Profit signs a copy of his first book FIELDS OF SUCCESS on a book tour." },
-  { src: IMG.cotton, cat: "Legacy", title: "The Cotton Fields", caption: "Lake Providence, Louisiana — where it all began." },
+  { src: IMG.cotton, cat: "Legacy", title: "The Cotton Fields", caption: "Lake Providence, Louisiana - where it all began." },
 ];
 
 // ─── CHAPTER PAGE DATA ───
@@ -184,26 +184,26 @@ const CHAPTERS = [
     hero: IMG.cotton, audio: "/audio/chapter-1-roots.mp3",
     pullQuote: "Lake Providence didn't give me much. But it gave me everything I needed.",
     paragraphs: [
-      "Joe Profit was born in Lake Providence, Louisiana — at one point called the poorest town in America. Not the poorest Black town. The poorest town, period.",
+      "Joe Profit was born in Lake Providence, Louisiana - at one point called the poorest town in America. Not the poorest Black town. The poorest town, period.",
       "His family worked the cotton fields. Up before the sun, down after dark. Joe was picking cotton before he was old enough to understand what poverty meant. But he understood work. He understood that nothing was going to be handed to him.",
-      "Lake Providence was a place where dreams went to die — unless you had the fire to carry them out yourself. Joe had that fire. It burned in the cotton rows, it burned through the Louisiana heat, and it never went out.",
-      "Everything that came after — the football, the NFL, the business empire, the White House — all of it traces back to those fields. Every row picked, every blister earned, every morning watching his family push through exhaustion. That's where the man was forged."
+      "Lake Providence was a place where dreams went to die - unless you had the fire to carry them out yourself. Joe had that fire. It burned in the cotton rows, it burned through the Louisiana heat, and it never went out.",
+      "Everything that came after - the football, the NFL, the business empire, the White House - all of it traces back to those fields. Every row picked, every blister earned, every morning watching his family push through exhaustion. That's where the man was forged."
     ],
     images: [
       { src: IMG.cotton, caption: "The cotton fields of Lake Providence, Louisiana." },
-      { src: IMG.boots, caption: "The Brogan Boots — too poor for sneakers, these boots built 'Joe the Jet.'" },
-      { src: IMG.friends, caption: "Childhood friends: Perry Thomas, Don Zimmerman, Dr. Joe Profit, and Rubin Jones — Friends and Teammates for life!" },
+      { src: IMG.boots, caption: "The Brogan Boots - too poor for sneakers, these boots built 'Joe the Jet.'" },
+      { src: IMG.friends, caption: "Childhood friends: Perry Thomas, Don Zimmerman, Dr. Joe Profit, and Rubin Jones - Friends and Teammates for life!" },
     ],
     nextChapter: "brogan-boots",
   },
   {
     num: "II", slug: "brogan-boots", title: "The Brogan Boots", sub: "Swayze Elementary",
     hero: IMG.swayze, audio: "/audio/chapter-2-brogan-boots.mp3",
-    pullQuote: "Whatever burden you're carrying — it's not holding you back. It's training you for what's coming next.",
+    pullQuote: "Whatever burden you're carrying - it's not holding you back. It's training you for what's coming next.",
     paragraphs: [
-      "When Joe showed up to his first football practice at Swayze Elementary, he didn't have sneakers. He didn't have cleats. He had his work boots — big, heavy brogan boots worn in the fields.",
+      "When Joe showed up to his first football practice at Swayze Elementary, he didn't have sneakers. He didn't have cleats. He had his work boots - big, heavy brogan boots worn in the fields.",
       "The other kids laughed. But those boots became the most important piece of equipment Joe ever wore. Running in heavy boots every day built leg strength and endurance that no training program could match.",
-      "When someone finally gave him a real pair of shoes, Joe didn't just run — he flew. That's how he became 'Joe the Jet.' The nickname that would follow him from the schoolyard to the NFL.",
+      "When someone finally gave him a real pair of shoes, Joe didn't just run - he flew. That's how he became 'Joe the Jet.' The nickname that would follow him from the schoolyard to the NFL.",
       "By the end of that first season, nobody was laughing anymore. The kid in the work boots was the fastest player on the field. And he carried that lesson his entire life: the things that are supposed to hold you back are actually preparing you for what's coming next."
     ],
     images: [
@@ -219,12 +219,12 @@ const CHAPTERS = [
     paragraphs: [
       "When Joe walked onto the campus of Northeast Louisiana University, he became the first Black athlete to play football in the Gulf States Conference. Every time he stepped on that field, he carried something bigger than himself.",
       "There were people in those stands who didn't want him there. He was spat on. He was called names. Opposing players hit harder than they needed to, trying to send a message. The hostility was constant and unrelenting.",
-      "Then came the game that changed everything. A 95-yard kickoff return. Joe caught that ball and ran like his life depended on it — because in a way, it did. When he crossed that end zone, something shifted in the air.",
-      "The crowd — the same crowd that had been hostile — erupted. 'Go Joe Go! Go Joe Go!' In that moment, a barrier didn't just crack. It shattered. Joe went on to be ranked the 7th best college football player in America, and NLU retired his #40 jersey forever."
+      "Then came the game that changed everything. A 95-yard kickoff return. Joe caught that ball and ran like his life depended on it - because in a way, it did. When he crossed that end zone, something shifted in the air.",
+      "The crowd - the same crowd that had been hostile - erupted. 'Go Joe Go! Go Joe Go!' In that moment, a barrier didn't just crack. It shattered. Joe went on to be ranked the 7th best college football player in America, and NLU retired his #40 jersey forever."
     ],
     images: [
-      { src: IMG.touchdown, caption: "Arms raised, crowd roaring — touchdown at Louisiana Monroe." },
-      { src: IMG.plaque, caption: "The Hall of Fame Plaque — first Black athlete in the Gulf States Conference." },
+      { src: IMG.touchdown, caption: "Arms raised, crowd roaring - touchdown at Louisiana Monroe." },
+      { src: IMG.plaque, caption: "The Hall of Fame Plaque - first Black athlete in the Gulf States Conference." },
       { src: IMG.runTD, caption: "NLU's Joe Profit runs for a TD lead by QB Steve Mansur!" },
       { src: IMG.coachDale, caption: "Coach Dale Brown and Joe Profit at their Louisiana Sports Hall of Fame induction." },
       { src: IMG.alexandriaDaily, caption: "Alexandria Daily Town Talk: ranked 7th Best College Football Player." },
@@ -236,17 +236,17 @@ const CHAPTERS = [
     hero: IMG.thePick, audio: "/audio/chapter-4-the-draft.mp3",
     pullQuote: "You don't survive Lake Providence and quit because of a knee. I came back. Because that's what I do.",
     paragraphs: [
-      "Draft day, 1971. The Atlanta Falcons selected Joe Profit with the seventh overall pick in the first round. A kid from Lake Providence — from the cotton fields, from the brogan boots — standing on that stage receiving his #23 jersey from head coach Norm Van Brocklin.",
-      "But Joe wasn't going to take whatever they offered. He held out — the longest holdout in Falcons history. People called him crazy. He called it knowing his worth.",
+      "Draft day, 1971. The Atlanta Falcons selected Joe Profit with the seventh overall pick in the first round. A kid from Lake Providence - from the cotton fields, from the brogan boots - standing on that stage receiving his #23 jersey from head coach Norm Van Brocklin.",
+      "But Joe wasn't going to take whatever they offered. He held out - the longest holdout in Falcons history. People called him crazy. He called it knowing his worth.",
       "On the field, he proved every cent. He led the entire NFL in rushing. Set the franchise record with 169 yards and two touchdowns in a single game against the Cincinnati Bengals. He was presented the game ball for his performance in a 44–14 demolition.",
-      "Then came the ACL tear. The kind of injury that ends careers. Doctors weren't sure he'd play again. But Joe came back — because that's what men from Lake Providence do. He went on to play for the New Orleans Saints, averaging 8.5 yards per carry against the San Diego Chargers, and scored the first touchdown in the World Football League for Birmingham."
+      "Then came the ACL tear. The kind of injury that ends careers. Doctors weren't sure he'd play again. But Joe came back - because that's what men from Lake Providence do. He went on to play for the New Orleans Saints, averaging 8.5 yards per carry against the San Diego Chargers, and scored the first touchdown in the World Football League for Birmingham."
     ],
     images: [
       { src: IMG.thePick, caption: "Joe receives his #23 Jersey from head coach Norm Van Brocklin as the Falcons' #1 Draft Pick." },
       { src: IMG.falcons, caption: "Joe Profit NFL Leading Roster for the Atlanta Falcons." },
-      { src: IMG.gameball, caption: "The Game Ball — 44-14 win over the Cincinnati Bengals." },
+      { src: IMG.gameball, caption: "The Game Ball - 44-14 win over the Cincinnati Bengals." },
       { src: IMG.kickoff, caption: "Joe Profit returns kickoff for the Atlanta Falcons." },
-      { src: IMG.cutDime, caption: "Atlanta Falcons Joe Profit — cut on a dime." },
+      { src: IMG.cutDime, caption: "Atlanta Falcons Joe Profit - cut on a dime." },
       { src: IMG.saints, caption: "8.5 yards a carry against San Diego Chargers for the New Orleans Saints." },
       { src: IMG.daveEmanuel, caption: "Joe Profit and Dave Emanuel at Falcons Training Camp Luncheon." },
     ],
@@ -257,18 +257,18 @@ const CHAPTERS = [
     hero: IMG.cii, audio: "/audio/chapter-5-empire.mp3",
     pullQuote: "Those soldiers hadn't heard their loved ones' voices in months. And we gave that to them. That's not just business. That's purpose.",
     paragraphs: [
-      "When his playing days ended, people expected Joe to disappear. That's what happens to most athletes — the spotlight moves on. But Joe wasn't done. He was just getting started.",
-      "He opened a Burger King franchise — poetic justice for a man who was once denied service at a Burger Chef because of the color of his skin. Years later, he owned the restaurant.",
-      "Then he built CII — Communications International Incorporated. The company grew into one of the INC. 500 fastest growing firms in America. They designed and manufactured the Muhammad Ali Telephone — Ali himself flew to Atlanta for the launch, helping raise nearly $400,000 for families of Atlanta's missing and murdered children.",
-      "The crown jewel: a $50 million contract in Kuwait — the largest government contract ever awarded to a U.S. minority-owned company. CII put communication systems in the desert during Desert Storm and launched Operation Phone Home, letting soldiers call their families for free. USA Today, the Wall Street Journal, Essence Magazine — they all came calling. Joe Profit wasn't just a former athlete. He was a force."
+      "When his playing days ended, people expected Joe to disappear. That's what happens to most athletes - the spotlight moves on. But Joe wasn't done. He was just getting started.",
+      "He opened a Burger King franchise - poetic justice for a man who was once denied service at a Burger Chef because of the color of his skin. Years later, he owned the restaurant.",
+      "Then he built CII - Communications International Incorporated. The company grew into one of the INC. 500 fastest growing firms in America. They designed and manufactured the Muhammad Ali Telephone - Ali himself flew to Atlanta for the launch, helping raise nearly $400,000 for families of Atlanta's missing and murdered children.",
+      "The crown jewel: a $50 million contract in Kuwait - the largest government contract ever awarded to a U.S. minority-owned company. CII put communication systems in the desert during Desert Storm and launched Operation Phone Home, letting soldiers call their families for free. USA Today, the Wall Street Journal, Essence Magazine - they all came calling. Joe Profit wasn't just a former athlete. He was a force."
     ],
     images: [
-      { src: IMG.cii, caption: "Operation Phone Home — CII's mobile communications center outside Kuwait City." },
+      { src: IMG.cii, caption: "Operation Phone Home - CII's mobile communications center outside Kuwait City." },
       { src: IMG.ali, caption: "Muhammad Ali in Atlanta for the Ali Telephone™ launch." },
       { src: IMG.uae, caption: "Meeting with Middle East Director of Operations in the UAE." },
       { src: IMG.son, caption: "Joe and son Joe Jr. with American Best and Brightest Businessman award." },
       { src: IMG.gate, caption: "Dr. Joe Profit's Atlanta Home." },
-      { src: IMG.bodyBuilder, caption: "Dr. Joseph Profit — discipline in every arena." },
+      { src: IMG.bodyBuilder, caption: "Dr. Joseph Profit - discipline in every arena." },
     ],
     nextChapter: "power-and-purpose",
   },
@@ -279,8 +279,8 @@ const CHAPTERS = [
     paragraphs: [
       "Joe has sat in the Oval Office. He's shaken hands with presidents. He helped convince leaders in the Civil Rights movement to support the legislation that made the Martin Luther King Jr. Holiday a federal law. He ran for the United States Congress.",
       "He's stood alongside Muhammad Ali at press conferences with Atlanta's Mayor Maynard Jackson. He's worked with Ambassador Andrew Young, broken bread with Atlanta Falcons owner Arthur Blank, and counseled with the U.S. Surgeon General on health and wellness initiatives.",
-      "In 2015, Joe was ordained to serve — becoming Reverend Joseph Profit. But his ministry had started long before that, through the Youth United for Prosperity Foundation. YUP takes young people and shows them their story matters. The Legends & Kids Young Authors Program turns students into published authors — their books available on Amazon before they finish school.",
-      "Every morning, the sun rises again. That's not optimism — that's a fact. Joe's whole life has been about getting back up. From the cotton fields. From the boots. From the injury. From every door slammed in his face. Never Broken."
+      "In 2015, Joe was ordained to serve - becoming Reverend Joseph Profit. But his ministry had started long before that, through the Youth United for Prosperity Foundation. YUP takes young people and shows them their story matters. The Legends & Kids Young Authors Program turns students into published authors - their books available on Amazon before they finish school.",
+      "Every morning, the sun rises again. That's not optimism - that's a fact. Joe's whole life has been about getting back up. From the cotton fields. From the boots. From the injury. From every door slammed in his face. Never Broken."
     ],
     images: [
       { src: IMG.reagan, caption: "President Ronald Reagan welcomes Dr. Joe Profit to the White House." },
@@ -421,9 +421,9 @@ function HeroSection() {
             Never<br /><span style={{ fontStyle: "italic", color: C.gold }}>Broken</span>
           </h1>
           <div className="hero-book-row" style={{ display: "flex", alignItems: "flex-start", gap: 20, marginTop: 24, flexWrap: "wrap" }}>
-            <img src={IMG.book} alt="Never Broken — the book" style={{ width: 120, height: "auto", flexShrink: 0, boxShadow: "0 8px 32px rgba(0,0,0,0.6), 0 2px 8px rgba(212,162,78,0.15)", borderRadius: 2, opacity: loaded ? 0.95 : 0, transition: "opacity 1.5s ease 0.4s" }} />
+            <img src={IMG.book} alt="Never Broken - the book" style={{ width: 120, height: "auto", flexShrink: 0, boxShadow: "0 8px 32px rgba(0,0,0,0.6), 0 2px 8px rgba(212,162,78,0.15)", borderRadius: 2, opacity: loaded ? 0.95 : 0, transition: "opacity 1.5s ease 0.4s" }} />
             <p style={{ fontFamily: FONT.body, fontSize: "clamp(1rem, 1.6vw, 1.15rem)", color: C.mutedLight, maxWidth: 440, margin: 0, lineHeight: 1.7, opacity: loaded ? 0.85 : 0, transition: "opacity 1.5s ease 0.4s" }}>
-              From cotton fields to the NFL football field. From the boardroom to the White House. The story of Dr. Joe Profit — a man who refused to break under pressure.
+              From cotton fields to the NFL football field. From the boardroom to the White House. The story of Dr. Joe Profit - a man who refused to break under pressure.
             </p>
           </div>
         </div>
@@ -440,7 +440,7 @@ function HeroSection() {
           </a>
         </div>
       </div>
-      {/* Joe portrait — right side */}
+      {/* Joe portrait - right side */}
       <div className="hero-portrait" style={{ position: "absolute", bottom: 0, right: 0, width: "clamp(260px, 38vw, 560px)", height: "92%", zIndex: 1, display: "flex", alignItems: "flex-end", justifyContent: "flex-end", opacity: loaded ? 1 : 0, transition: "opacity 1.8s ease 0.6s" }}>
         <img src={IMG.joeJoe} alt="Dr. Joe Profit" style={{ height: "100%", width: "auto", objectFit: "contain", objectPosition: "bottom center", maskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 18%, black 38%)", WebkitMaskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 18%, black 38%)", filter: "drop-shadow(-24px 0 48px rgba(212,162,78,0.12))" }} />
       </div>
@@ -454,7 +454,7 @@ function HeroSection() {
 
 // ─── MARQUEE TICKER ───
 function Marquee() {
-  const items = ["7th Pick Overall · 1971 NFL Draft", "169 Yards & 2 TDs — Single Game Record", "$50 Million Kuwait Contract", "INC. 500 Fastest Growing Companies", "Louisiana Sports Hall of Fame", "Black College Football Hall of Fame", "Muhammad Ali Telephone™", "Operation Phone Home — Desert Storm", "Youth United for Prosperity Foundation", "Martin Luther King Jr. Holiday Act"];
+  const items = ["7th Pick Overall · 1971 NFL Draft", "169 Yards & 2 TDs - Single Game Record", "$50 Million Kuwait Contract", "INC. 500 Fastest Growing Companies", "Louisiana Sports Hall of Fame", "Black College Football Hall of Fame", "Muhammad Ali Telephone™", "Operation Phone Home - Desert Storm", "Youth United for Prosperity Foundation", "Martin Luther King Jr. Holiday Act"];
   const txt = items.join("  ◆  ");
   return (
     <div style={{ background: C.dark3, borderTop: `1px solid ${C.line}`, borderBottom: `1px solid ${C.line}`, padding: "14px 0", overflow: "hidden", whiteSpace: "nowrap" }}>
@@ -564,7 +564,7 @@ function HeroAudioHook() {
             In His Own Words
           </div>
           <div style={{ fontFamily: FONT.body, fontSize: "0.85rem", color: C.muted, marginTop: 4, lineHeight: 1.5 }}>
-            {playing ? "Dr. Joe Profit — Never Broken" : "A 30-second declaration from Dr. Joe Profit himself."}
+            {playing ? "Dr. Joe Profit - Never Broken" : "A 30-second declaration from Dr. Joe Profit himself."}
           </div>
         </div>
         {/* Decorative divider */}
@@ -632,7 +632,7 @@ function ParallaxQuote({ quote, attribution }) {
       <div ref={ref} style={{ position: "relative", zIndex: 2, maxWidth: 800, margin: "0 auto", padding: "0 clamp(24px, 6vw, 60px)", textAlign: "center", opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(30px)", transition: "all 1s ease" }}>
         <div style={{ width: 40, height: 1, background: C.gold, margin: "0 auto 30px", opacity: 0.5 }} />
         <blockquote style={{ fontFamily: FONT.display, fontSize: "clamp(1.1rem, 2.5vw, 1.9rem)", color: C.cream, fontStyle: "italic", lineHeight: 1.6, margin: 0, fontWeight: 400 }}>"{quote}"</blockquote>
-        <div style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.gold, letterSpacing: "0.25em", textTransform: "uppercase", marginTop: 24 }}>— {attribution}</div>
+        <div style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.gold, letterSpacing: "0.25em", textTransform: "uppercase", marginTop: 24 }}>- {attribution}</div>
         <div style={{ width: 40, height: 1, background: C.gold, margin: "30px auto 0", opacity: 0.5 }} />
       </div>
     </section>
@@ -723,12 +723,12 @@ function GalleryCard({ item, i, onClick }) {
 function TimelineSection() {
   const [ref, vis] = useScrollReveal(0.1);
   const events = [
-    { year: "1949", title: "Born in Louisiana", text: "Lake Providence — one of the poorest towns in America." },
+    { year: "1949", title: "Born in Louisiana", text: "Lake Providence - one of the poorest towns in America." },
     { year: "1962", title: "Swayze Elementary", text: "Young Joe discovers football in heavy work boots." },
     { year: "1967", title: "First Black Athlete", text: "Breaks the color barrier at Northeast Louisiana University." },
-    { year: "1971", title: "NFL Draft Day", text: "7th pick overall, 1st round — Atlanta Falcons." },
+    { year: "1971", title: "NFL Draft Day", text: "7th pick overall, 1st round - Atlanta Falcons." },
     { year: "1972", title: "NFL Rushing Leader", text: "169 yards and 2 TDs in a single game. Franchise record." },
-    { year: "1976", title: "Business Begins", text: "Burger King franchise — poetic justice for a man denied service." },
+    { year: "1976", title: "Business Begins", text: "Burger King franchise - poetic justice for a man denied service." },
     { year: "1981", title: "The White House", text: "Advising President Reagan. Helping pass the MLK Holiday." },
     { year: "1982", title: "Ali Telephone™", text: "CII manufactures the Muhammad Ali Telephone. Ali becomes a friend." },
     { year: "1991", title: "Operation Phone Home", text: "$50M Kuwait contract. Troops call home for free." },
@@ -781,7 +781,7 @@ function CharitySection() {
             <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>Giving Back</div>
             <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)", color: C.cream, fontWeight: 600, margin: "0 0 20px 0", lineHeight: 1.15 }}>Youth United for <span style={{ fontStyle: "italic", color: C.gold }}>Prosperity</span></h2>
             <p style={{ fontFamily: FONT.body, fontSize: "1.05rem", color: C.mutedLight, lineHeight: 1.8, marginBottom: 16 }}>
-              The YUP Foundation empowers the next generation through literacy, entrepreneurship, and mentorship. From the Legends & Kids Young Authors Program — where students become published authors — to community service initiatives across Atlanta, Joe's mission is clear: lift as you climb.
+              The YUP Foundation empowers the next generation through literacy, entrepreneurship, and mentorship. From the Legends & Kids Young Authors Program - where students become published authors - to community service initiatives across Atlanta, Joe's mission is clear: lift as you climb.
             </p>
             <p style={{ fontFamily: FONT.body, fontSize: "1.05rem", color: C.mutedLight, lineHeight: 1.8, marginBottom: 28 }}>
               Every dollar donated goes directly to programming that puts books in hands, confidence in hearts, and futures within reach.
@@ -828,9 +828,9 @@ function BookTrailerSection() {
         <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>Coming Soon</div>
         <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)", color: C.cream, fontWeight: 600, margin: "0 0 16px 0" }}>The Book <span style={{ fontStyle: "italic", color: C.gold }}>Trailer</span></h2>
         <p style={{ fontFamily: FONT.body, fontSize: "0.95rem", color: C.muted, lineHeight: 1.7, marginBottom: 32, maxWidth: 500, margin: "0 auto 32px" }}>
-          A cinematic journey through Joe's extraordinary life — coming soon.
+          A cinematic journey through Joe's extraordinary life - coming soon.
         </p>
-        {/* Video embed placeholder — replace data-video-id with actual YouTube/Vimeo ID */}
+        {/* Video embed placeholder - replace data-video-id with actual YouTube/Vimeo ID */}
         <div style={{ position: "relative", aspectRatio: "16/9", background: C.dark, border: `1px solid ${C.lineBright}`, overflow: "hidden" }} data-video-id="BOOK_TRAILER_ID">
           <div style={{ position: "absolute", inset: 0, background: `url(${IMG.hero}) center/cover`, filter: "brightness(0.3) blur(2px)" }} />
           <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
@@ -853,7 +853,7 @@ const MOSAIC = [
   { src: IMG.ali,                alt: "Joe Profit with Muhammad Ali" },
   { src: IMG.runTD,              alt: "Joe Profit scoring in the NFL" },
   { src: IMG.multiMillionContract, alt: "Multimillion dollar Kuwait contract" },
-  { src: IMG.yup,                alt: "YUP Foundation — Youth United for Prosperity" },
+  { src: IMG.yup,                alt: "YUP Foundation - Youth United for Prosperity" },
   { src: IMG.signing,            alt: "Dr. Joe Profit signing Never Broken" },
 ];
 
@@ -948,7 +948,7 @@ function BookSection({ onOpenPreview }) {
         transition: "all 0.9s cubic-bezier(0.23,1,0.32,1)",
       }} className="bkgrid">
 
-        {/* Book cover — large */}
+        {/* Book cover - large */}
         <div style={{ width: "clamp(180px, 24vw, 280px)", flexShrink: 0 }}>
           <div style={{ position: "relative", boxShadow: "20px 20px 56px rgba(0,0,0,0.7), -2px -2px 14px rgba(212,162,78,0.08)", transform: "rotate(-1.5deg)" }}>
             <img src={IMG.book} alt="Never Broken by Dr. Joe Profit" style={{ width: "100%", display: "block" }} />
@@ -963,7 +963,7 @@ function BookSection({ onOpenPreview }) {
             Never <em style={{ color: C.gold }}>Broken</em>
           </h2>
           <p style={{ fontFamily: FONT.body, fontSize: "clamp(1rem, 1.6vw, 1.1rem)", color: C.muted, lineHeight: 1.8, marginBottom: 10, fontWeight: 300 }}>
-            The complete story of Dr. Joe Profit — from cotton fields to the NFL, from the Oval Office to Kuwait.
+            The complete story of Dr. Joe Profit - from cotton fields to the NFL, from the Oval Office to Kuwait.
           </p>
           <p style={{ fontFamily: FONT.body, fontSize: "0.88rem", color: C.gold, marginBottom: 28, opacity: 0.85 }}>
             Available in hardcover, paperback, Kindle &amp; audiobook
@@ -999,12 +999,12 @@ const TESTIMONIALS = [
     title: "",
   },
   {
-    quote: "Joe Profit's story is one of grit, grace, and triumph. His perseverance—through challenges both seen and unseen—reveals a strength of character few ever develop.",
+    quote: "Joe Profit's story is one of grit, grace, and triumph. His perseverance-through challenges both seen and unseen-reveals a strength of character few ever develop.",
     name: "Joe R. Reeder",
     title: "Managing Shareholder, Greenberg Traurig LLP · Former Under Secretary of the U.S. Army",
   },
   {
-    quote: "Even as a young boy, Joe had the mind of an entrepreneur and the heart of a champion. His story is long overdue—and deeply inspiring.",
+    quote: "Even as a young boy, Joe had the mind of an entrepreneur and the heart of a champion. His story is long overdue-and deeply inspiring.",
     name: "Don Zimmerman",
     title: "Former NFL Wide Receiver, Philadelphia Eagles · Childhood Friend",
   },
@@ -1079,7 +1079,7 @@ function PortraitSection() {
           <img src={IMG.portrait40} alt="Oil portrait of Dr. Joe Profit at 40" style={{ width: "100%", display: "block", border: `1px solid ${C.lineBright}`, boxShadow: "0 24px 80px rgba(0,0,0,0.7)" }} />
           <div style={{ marginTop: 20, textAlign: "center" }}>
             <p style={{ fontFamily: FONT.display, fontSize: "clamp(0.9rem,1.3vw,1.05rem)", color: C.muted, fontStyle: "italic", lineHeight: 1.7 }}>
-              An oil painting commissioned by Joe's staff to mark his 40th year — a milestone portrait of a man who had already lived several lifetimes.
+              An oil painting commissioned by Joe's staff to mark his 40th year - a milestone portrait of a man who had already lived several lifetimes.
             </p>
           </div>
         </div>
@@ -1098,7 +1098,7 @@ function ContactSection() {
         <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>Reach Out</div>
         <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)", color: C.cream, fontWeight: 600, margin: "0 0 16px 0" }}>Every Great Story Begins<br /><span style={{ fontStyle: "italic", color: C.gold }}>With a Conversation</span></h2>
         <p style={{ fontFamily: FONT.body, fontSize: "0.88rem", color: C.muted, lineHeight: 1.75, marginBottom: 32 }}>
-          For the book, speaking engagements, the YUP Foundation, or media inquiries — we're here.
+          For the book, speaking engagements, the YUP Foundation, or media inquiries - we're here.
         </p>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           <a href="mailto:info@joeprofitneverbroken.com" style={{ fontFamily: FONT.body, fontSize: "0.78rem", color: C.black, background: C.gold, padding: "14px 36px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
@@ -1271,13 +1271,13 @@ function ChapterPage({ chapter, onBack, onNavigate }) {
   const handlePrevTap = () => {
     const now = Date.now();
     if (prevClickRef.current && now - prevClickRef.current < 600) {
-      // Double tap — go to prev chapter
+      // Double tap - go to prev chapter
       clearTimeout(prevHintTimerRef.current);
       setPrevHint(false);
       prevClickRef.current = null;
       onNavigate(prevCh.slug);
     } else {
-      // First tap — scroll to top, show hint
+      // First tap - scroll to top, show hint
       prevClickRef.current = now;
       window.scrollTo({ top: 0, behavior: 'smooth' });
       setPrevHint(true);
@@ -1434,7 +1434,7 @@ function HologramSection() {
             src={`https://player.vimeo.com/video/1169383000?autoplay=1&loop=1&muted=${muted ? 1 : 0}&background=${muted ? 1 : 0}`}
             style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
             allow="autoplay; fullscreen"
-            title="Dr. Joe Profit — Hologram"
+            title="Dr. Joe Profit - Hologram"
           />
         </div>
         <button
@@ -1581,7 +1581,7 @@ function ShopPage() {
       {orderSuccess && (
         <div style={{ background: 'rgba(212,162,78,0.1)', borderBottom: `1px solid ${C.gold}`, padding: '18px 24px', textAlign: 'center' }}>
           <p style={{ fontFamily: FONT.body, fontSize: '0.95rem', color: C.gold, margin: 0 }}>
-            <strong>Order received — thank you.</strong> Your book ships within 3–5 business days. 100% goes to the YUP Foundation.
+            <strong>Order received - thank you.</strong> Your book ships within 3–5 business days. 100% goes to the YUP Foundation.
           </p>
         </div>
       )}
@@ -1606,7 +1606,7 @@ function ShopPage() {
               <div key={key} style={{ background: C.dark, border: `1px solid ${C.lineBright}`, padding: 'clamp(28px, 4vw, 40px)', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ marginBottom: 24, textAlign: 'center' }}>
                   <div style={{ display: 'inline-block', position: 'relative', boxShadow: '12px 12px 40px rgba(0,0,0,0.6)', transform: 'rotate(-1deg)' }}>
-                    <img src={IMG.book} alt={`Never Broken — ${label}`} style={{ width: 'clamp(200px, 28vw, 324px)', display: 'block' }} />
+                    <img src={IMG.book} alt={`Never Broken - ${label}`} style={{ width: 'clamp(200px, 28vw, 324px)', display: 'block' }} />
                     <div style={{ position: 'absolute', inset: 0, boxShadow: 'inset 3px 0 10px rgba(0,0,0,0.4)' }} />
                   </div>
                 </div>
@@ -1649,7 +1649,7 @@ function ShopPage() {
                     Pay with CashApp · {cashLabel}
                   </a>
                   <p style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, opacity: 0.45, marginTop: 7, textAlign: 'center', fontStyle: 'italic', lineHeight: 1.5 }}>
-                    Includes $7.97 shipping · In your note: "{label} — Never Broken" + your full shipping address
+                    Includes $7.97 shipping · In your note: "{label} - Never Broken" + your full shipping address
                   </p>
                 </div>
               </div>
@@ -1662,13 +1662,13 @@ function ShopPage() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 64 }} className="shopgrid">
 
-            {/* Audiobook — LIVE */}
+            {/* Audiobook - LIVE */}
             <div style={{ background: C.dark, border: `1px solid ${C.lineBright}`, padding: 'clamp(28px, 4vw, 40px)', display: 'flex', flexDirection: 'column' }}>
               <div style={{ fontSize: '2.4rem', marginBottom: 20 }}>🎧</div>
               <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.gold, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 8 }}>Audiobook</div>
               <div style={{ fontFamily: FONT.display, fontSize: '1.6rem', color: C.gold, fontStyle: 'italic', marginBottom: 12 }}>$9.99</div>
               <p style={{ fontFamily: FONT.body, fontSize: '0.9rem', color: C.muted, lineHeight: 1.7, marginBottom: 8, flex: 1 }}>
-                19 chapters. Joe's full story in his own voice — a voice preservation project unlike any other.
+                19 chapters. Joe's full story in his own voice - a voice preservation project unlike any other.
               </p>
               <p style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.gold, opacity: 0.6, fontStyle: 'italic', marginBottom: 20 }}>22 tracks · Narrated in Joe's voice</p>
               <button
@@ -1692,7 +1692,7 @@ function ShopPage() {
               )}
             </div>
 
-            {/* eBook — LIVE */}
+            {/* eBook - LIVE */}
             <div style={{ background: C.dark, border: `1px solid ${C.lineBright}`, padding: 'clamp(28px, 4vw, 40px)', display: 'flex', flexDirection: 'column' }}>
               <div style={{ fontSize: '2.4rem', marginBottom: 20 }}>📖</div>
               <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.gold, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 8 }}>eBook</div>
@@ -1724,7 +1724,7 @@ function ShopPage() {
 
           </div>
 
-          {/* Digital Bundle — Best Value */}
+          {/* Digital Bundle - Best Value */}
           <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, letterSpacing: '0.28em', textTransform: 'uppercase', marginBottom: 24, paddingBottom: 12, borderBottom: `1px solid ${C.line}` }}>
             The Complete Experience
           </div>
@@ -1736,7 +1736,7 @@ function ShopPage() {
               animation: 'bundleGlow 3s ease-in-out infinite',
             }}>
 
-              {/* Stamp badge — top right corner */}
+              {/* Stamp badge - top right corner */}
               <img
                 src="/images/best-value.png"
                 alt="Best Value"
@@ -1764,7 +1764,7 @@ function ShopPage() {
                 <span style={{ fontFamily: FONT.body, fontSize: '0.7rem', color: C.gold, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase' }}>Save $5 · No tax · No shipping</span>
               </div>
               <p style={{ fontFamily: FONT.body, fontSize: '0.95rem', color: C.muted, lineHeight: 1.8, marginBottom: 8, maxWidth: 520 }}>
-                The complete digital experience. Read the book while listening to Joe's voice narrate every chapter — a Read Along experience that brings the story to life.
+                The complete digital experience. Read the book while listening to Joe's voice narrate every chapter - a Read Along experience that brings the story to life.
               </p>
               <p style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.gold, opacity: 0.65, fontStyle: 'italic', marginBottom: 28 }}>Audiobook + eBook + Read Along mode · Instant access</p>
               <button
@@ -1793,7 +1793,7 @@ function ShopPage() {
           {/* More coming */}
           <div style={{ textAlign: 'center', padding: '40px 0', borderTop: `1px solid ${C.line}` }}>
             <p style={{ fontFamily: FONT.display, fontSize: 'clamp(1.1rem, 2vw, 1.5rem)', color: C.muted, fontStyle: 'italic', marginBottom: 8, opacity: 0.6 }}>
-              More from Dr. Joe Profit — coming soon.
+              More from Dr. Joe Profit - coming soon.
             </p>
             <p style={{ fontFamily: FONT.body, fontSize: '0.8rem', color: C.muted, opacity: 0.4 }}>
               Speaking resources, foundation merchandise, and more.
@@ -1811,27 +1811,27 @@ function ShopPage() {
 // ─── AUDIOBOOK TRACK MANIFEST ───
 const AUDIOBOOK_TRACKS = [
   { file: '01_acknowledgments.mp3', title: 'Acknowledgments', num: 0 },
-  { file: '02_forward with dave emanual.mp3', title: 'Foreword — Dave Emanuel', num: 0 },
+  { file: '02_forward with dave emanual.mp3', title: 'Foreword - Dave Emanuel', num: 0 },
   { file: '03_introduction.mp3', title: 'Introduction', num: 0 },
-  { file: '04_chapter_01.mp3', title: 'Chapter 1 — The Roots of Resilience', num: 1 },
-  { file: '05_chapter_02.mp3', title: 'Chapter 2 — Pivotal Lesson in Determination', num: 2 },
-  { file: '06_chapter_03.mp3', title: 'Chapter 3 — Lead with Integrity - Win with Humility', num: 3 },
-  { file: '07_chapter_04.mp3', title: 'Chapter 4 — Entering Manhood: Fields of Responsibility', num: 4 },
-  { file: '08_chapter_05.mp3', title: "Chapter 5 — You Can't Limit Challenges, But You Can Challenge Your Limits", num: 5 },
-  { file: '09_chapter_06.mp3', title: "Chapter 6 — He's No Ordinary Joe", num: 6 },
-  { file: '10_chapter_07.mp3', title: 'Chapter 7 — The Crucible of Change', num: 7 },
-  { file: '11_chapter_08.mp3', title: 'Chapter 8 — Know What to Ask for and When to Ask', num: 8 },
-  { file: '12_chapter_09.mp3', title: 'Chapter 9 — Determination, Options, and Resiliency', num: 9 },
-  { file: '13_chapter_10.mp3', title: 'Chapter 10 — Establish Priorities and Set Goals', num: 10 },
-  { file: '14_chapter_11.mp3', title: 'Chapter 11 — Success, Momentum, Resilience', num: 11 },
-  { file: '15_chapter_12.mp3', title: 'Chapter 12 — Building a Business Against All Odds', num: 12 },
-  { file: '16_chapter_13.mp3', title: "Chapter 13 — You Can't Always Believe What You Think", num: 13 },
-  { file: '17_chapter_14.mp3', title: 'Chapter 14 — Success Is Iterative, Not Absolute', num: 14 },
-  { file: '18_chapter_15.mp3', title: 'Chapter 15 — The Game of Football Mimics Life', num: 15 },
-  { file: '19_chapter_16.mp3', title: 'Chapter 16 — The Absent Father: A System Built to Divide', num: 16 },
-  { file: '20_chapter_17.mp3', title: 'Chapter 17 — People Pay for What They Want and Beg for What They Need', num: 17 },
-  { file: '21_chapter_18.mp3', title: 'Chapter 18 — Legacy Impact Moments', num: 18 },
-  { file: '22_chapter_19.mp3', title: 'Chapter 19 — Ordination: A Call to Serve and Never Broken in Spirit', num: 19 },
+  { file: '04_chapter_01.mp3', title: 'Chapter 1 - The Roots of Resilience', num: 1 },
+  { file: '05_chapter_02.mp3', title: 'Chapter 2 - Pivotal Lesson in Determination', num: 2 },
+  { file: '06_chapter_03.mp3', title: 'Chapter 3 - Lead with Integrity - Win with Humility', num: 3 },
+  { file: '07_chapter_04.mp3', title: 'Chapter 4 - Entering Manhood: Fields of Responsibility', num: 4 },
+  { file: '08_chapter_05.mp3', title: "Chapter 5 - You Can't Limit Challenges, But You Can Challenge Your Limits", num: 5 },
+  { file: '09_chapter_06.mp3', title: "Chapter 6 - He's No Ordinary Joe", num: 6 },
+  { file: '10_chapter_07.mp3', title: 'Chapter 7 - The Crucible of Change', num: 7 },
+  { file: '11_chapter_08.mp3', title: 'Chapter 8 - Know What to Ask for and When to Ask', num: 8 },
+  { file: '12_chapter_09.mp3', title: 'Chapter 9 - Determination, Options, and Resiliency', num: 9 },
+  { file: '13_chapter_10.mp3', title: 'Chapter 10 - Establish Priorities and Set Goals', num: 10 },
+  { file: '14_chapter_11.mp3', title: 'Chapter 11 - Success, Momentum, Resilience', num: 11 },
+  { file: '15_chapter_12.mp3', title: 'Chapter 12 - Building a Business Against All Odds', num: 12 },
+  { file: '16_chapter_13.mp3', title: "Chapter 13 - You Can't Always Believe What You Think", num: 13 },
+  { file: '17_chapter_14.mp3', title: 'Chapter 14 - Success Is Iterative, Not Absolute', num: 14 },
+  { file: '18_chapter_15.mp3', title: 'Chapter 15 - The Game of Football Mimics Life', num: 15 },
+  { file: '19_chapter_16.mp3', title: 'Chapter 16 - The Absent Father: A System Built to Divide', num: 16 },
+  { file: '20_chapter_17.mp3', title: 'Chapter 17 - People Pay for What They Want and Beg for What They Need', num: 17 },
+  { file: '21_chapter_18.mp3', title: 'Chapter 18 - Legacy Impact Moments', num: 18 },
+  { file: '22_chapter_19.mp3', title: 'Chapter 19 - Ordination: A Call to Serve and Never Broken in Spirit', num: 19 },
 ];
 
 const AUDIOBOOK_BASE = '/audio/never_broken_audiobook/';
@@ -2011,7 +2011,7 @@ function AudiobookPlayer({ trackIndex, tracks, onTrackChange }) {
       {/* Time */}
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
         <span style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.muted, fontVariantNumeric: 'tabular-nums' }}>{fmt(currentTime)}</span>
-        <span style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.muted, fontVariantNumeric: 'tabular-nums' }}>{loaded ? fmt(duration) : '—:——'}</span>
+        <span style={{ fontFamily: FONT.body, fontSize: '0.78rem', color: C.muted, fontVariantNumeric: 'tabular-nums' }}>{loaded ? fmt(duration) : '-:--'}</span>
       </div>
 
       {/* Controls */}
@@ -2208,7 +2208,7 @@ function AudiobookPage() {
               Audiobook Access
             </h1>
             <p style={{ fontFamily: FONT.body, fontSize: '1rem', color: C.muted, lineHeight: 1.8, marginBottom: 32 }}>
-              Purchase the audiobook to unlock all 19 chapters of <em style={{ color: C.cream }}>Never Broken</em> — narrated in Joe's own voice.
+              Purchase the audiobook to unlock all 19 chapters of <em style={{ color: C.cream }}>Never Broken</em> - narrated in Joe's own voice.
             </p>
             <a href="/shop" style={{
               display: 'inline-block', fontFamily: FONT.body, fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase',
@@ -2240,7 +2240,7 @@ function AudiobookPage() {
                 Welcome to <em style={{ color: C.gold }}>Never Broken</em>
               </h2>
               <p style={{ fontFamily: FONT.body, fontSize: '0.85rem', color: C.muted, marginTop: 10, lineHeight: 1.6 }}>
-                Joe's complete story — told in his own voice.
+                Joe's complete story - told in his own voice.
               </p>
             </div>
             <div style={{ borderTop: `1px solid ${C.line}`, marginBottom: 24 }} />
@@ -2248,7 +2248,7 @@ function AudiobookPage() {
               {[
                 { icon: '▶', label: 'Press Play to start', desc: 'Hit the Play button to begin listening. Joe starts from the very beginning.' },
                 { icon: '📋', label: 'Jump to any chapter', desc: 'Use the chapter list to skip ahead or go back to any part of the story.' },
-                { icon: '🐢', label: 'Control the speed', desc: 'Use the speed buttons — Slow, Normal, Fast — to listen at your own pace.' },
+                { icon: '🐢', label: 'Control the speed', desc: 'Use the speed buttons - Slow, Normal, Fast - to listen at your own pace.' },
                 { icon: '💾', label: 'Your place is saved', desc: 'Close the page anytime. Come back and it picks up right where you left off.' },
               ].map(({ icon, label, desc }) => (
                 <div key={label} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
@@ -2264,7 +2264,7 @@ function AudiobookPage() {
               onMouseEnter={e => e.currentTarget.style.background = C.goldLight}
               onMouseLeave={e => e.currentTarget.style.background = C.gold}
               style={{ width: '100%', fontFamily: FONT.body, fontSize: '0.78rem', color: C.black, background: C.gold, border: 'none', padding: '16px 24px', cursor: 'pointer', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, transition: 'background 0.3s' }}>
-              Got it — Start Listening →
+              Got it - Start Listening →
             </button>
           </div>
         </div>
@@ -2406,7 +2406,7 @@ function playPageFlipSound() {
     filter.connect(ctx.destination);
     source.start();
     source.onended = () => ctx.close();
-  } catch { /* Audio not supported — fail silently */ }
+  } catch { /* Audio not supported - fail silently */ }
 }
 
 function EbookPage() {
@@ -2417,7 +2417,7 @@ function EbookPage() {
   const flipBookRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 400, height: 600 });
 
-  // Responsive sizing — fill ~90% of viewport
+  // Responsive sizing - fill ~90% of viewport
   useEffect(() => {
     const updateSize = () => {
       const vw = window.innerWidth;
@@ -2595,9 +2595,9 @@ function EbookPage() {
             <div style={{ borderTop: `1px solid ${C.line}`, marginBottom: 24 }} />
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18, marginBottom: 28 }}>
               {[
-                { icon: '👆', label: 'Flip pages to read', desc: 'Use the Prev and Next buttons below the book — or swipe left and right on a phone or tablet.' },
+                { icon: '👆', label: 'Flip pages to read', desc: 'Use the Prev and Next buttons below the book - or swipe left and right on a phone or tablet.' },
                 { icon: '🔍', label: 'Zoom in to read easier', desc: 'Tap the magnifying glass button below the book to make any page bigger and easier to read.' },
-                { icon: '💾', label: 'Your place is saved', desc: 'Close the page anytime and come back — it will remember exactly where you left off.' },
+                { icon: '💾', label: 'Your place is saved', desc: 'Close the page anytime and come back - it will remember exactly where you left off.' },
               ].map(({ icon, label, desc }) => (
                 <div key={label} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
                   <div style={{ fontSize: '1.2rem', lineHeight: 1, marginTop: 2, flexShrink: 0 }}>{icon}</div>
@@ -2612,13 +2612,13 @@ function EbookPage() {
               onMouseEnter={e => e.currentTarget.style.background = C.goldLight}
               onMouseLeave={e => e.currentTarget.style.background = C.gold}
               style={{ width: '100%', fontFamily: FONT.body, fontSize: '0.78rem', color: C.black, background: C.gold, border: 'none', padding: '16px 24px', cursor: 'pointer', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, transition: 'background 0.3s' }}>
-              Got it — Start Reading →
+              Got it - Start Reading →
             </button>
           </div>
         </div>
       )}
 
-      {/* Header — compact to maximize book space */}
+      {/* Header - compact to maximize book space */}
       <section style={{ background: C.black, paddingTop: 88, paddingBottom: 0 }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(20px, 4vw, 40px)', textAlign: 'center', marginBottom: 8 }}>
           <h1 style={{ fontFamily: FONT.display, fontSize: 'clamp(1.4rem, 3vw, 2rem)', color: C.cream, fontWeight: 400, margin: '0 0 4px', lineHeight: 1.1 }}>
@@ -2759,7 +2759,7 @@ function EbookPage() {
             )}
           </div>
 
-          {/* Page image — full resolution */}
+          {/* Page image - full resolution */}
           <img
             onClick={(e) => e.stopPropagation()}
             src={`/ebook/pages/page-${String(zoomPage).padStart(3, '0')}.jpg`}
@@ -2772,7 +2772,7 @@ function EbookPage() {
 
           {/* Page number */}
           <div style={{ marginTop: 12, fontFamily: FONT.body, fontSize: '0.75rem', color: C.muted, fontVariantNumeric: 'tabular-nums' }}>
-            Page {zoomPage} of {EBOOK_TOTAL_PAGES} — click outside or press ESC to close, arrow keys to navigate
+            Page {zoomPage} of {EBOOK_TOTAL_PAGES} - click outside or press ESC to close, arrow keys to navigate
           </div>
         </div>
       )}
@@ -2855,7 +2855,7 @@ function ReadAlongPage() {
     }
   }, [audioTrack]);
 
-  // Responsive sizing — account for mini-player bar (56px)
+  // Responsive sizing - account for mini-player bar (56px)
   useEffect(() => {
     const updateSize = () => {
       const vw = window.innerWidth;
@@ -2880,7 +2880,7 @@ function ReadAlongPage() {
     return () => window.removeEventListener('resize', updateSize);
   }, []);
 
-  // Purchase gate — bundle grants access to audiobook + ebook too
+  // Purchase gate - bundle grants access to audiobook + ebook too
   useEffect(() => {
     window.scrollTo(0, 0);
     const params = new URLSearchParams(window.location.search);
@@ -3094,7 +3094,7 @@ function ReadAlongPage() {
         <div style={{ position: 'fixed', inset: 0, zIndex: 999, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
           <div style={{ background: '#111008', border: `1px solid ${C.goldDim}`, maxWidth: 460, width: '100%', padding: 'clamp(28px, 5vw, 44px)', position: 'relative' }}>
 
-            {/* Big play button — top and center */}
+            {/* Big play button - top and center */}
             <div style={{ textAlign: 'center', marginBottom: 28 }}>
               <button onClick={toggleGuide}
                 onMouseEnter={e => { e.currentTarget.style.background = guidePlaying ? 'rgba(212,162,78,0.25)' : C.goldLight; e.currentTarget.style.transform = 'scale(1.08)'; }}
@@ -3116,7 +3116,7 @@ function ReadAlongPage() {
             {/* Steps */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 28 }}>
               {[
-                { icon: '📄', label: 'Flip pages manually', desc: 'Use Prev / Next below the book — or swipe. Pages do not turn automatically.' },
+                { icon: '📄', label: 'Flip pages manually', desc: 'Use Prev / Next below the book - or swipe. Pages do not turn automatically.' },
                 { icon: '🔖', label: 'Chapters jump automatically', desc: 'When audio reaches a new chapter, the book jumps to that section for you.' },
               ].map(({ icon, label, desc }) => (
                 <div key={label} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
@@ -3135,7 +3135,7 @@ function ReadAlongPage() {
               onMouseEnter={e => e.currentTarget.style.background = C.goldLight}
               onMouseLeave={e => e.currentTarget.style.background = C.gold}
               style={{ width: '100%', fontFamily: FONT.body, fontSize: '0.78rem', color: C.black, background: C.gold, border: 'none', padding: '16px 24px', cursor: 'pointer', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, transition: 'background 0.3s' }}>
-              Got it — Start Reading →
+              Got it - Start Reading →
             </button>
           </div>
         </div>
@@ -3178,7 +3178,7 @@ function ReadAlongPage() {
         </HTMLFlipBook>
       </section>
 
-      {/* Book controls — slim row */}
+      {/* Book controls - slim row */}
       <section style={{ background: C.black, padding: '4px 0 0' }}>
         <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
@@ -3521,12 +3521,12 @@ function HomePage() {
       <VideoShowcase videoId="1169383220" />
       <ArchiveSection />
       <TimelineSection />
-      <ParallaxQuote quote="Every morning the sun rises again. No matter what happened yesterday, you get another chance. That's not optimism — that's a fact." attribution="Dr. Joe Profit" />
+      <ParallaxQuote quote="Every morning the sun rises again. No matter what happened yesterday, you get another chance. That's not optimism - that's a fact." attribution="Dr. Joe Profit" />
       <CharitySection />
       <VideoShowcase videoId="1169381642" />
       <BookSection onOpenPreview={() => setPreviewOpen(true)} />
       {previewOpen && <BookPreviewModal onClose={() => setPreviewOpen(false)} />}
-      {/* <BookTrailerSection /> — restore when trailer Vimeo ID is ready */}
+      {/* <BookTrailerSection /> - restore when trailer Vimeo ID is ready */}
       <TestimonialsSection />
       <PortraitSection />
       <ContactSection />
@@ -3583,8 +3583,8 @@ function PrivacyPage() {
       <h2 style={LS.h2}>Information We Collect</h2>
       <p style={LS.p}>We collect information you provide directly when you:</p>
       <ul style={LS.ul}>
-        <li style={LS.li}><strong>Place an order</strong> — name, email address, shipping address, and payment information (processed securely by Stripe, PayPal, or Cash App — we do not store your payment card details).</li>
-        <li style={LS.li}><strong>Contact us</strong> — name, email, and message content.</li>
+        <li style={LS.li}><strong>Place an order</strong> - name, email address, shipping address, and payment information (processed securely by Stripe, PayPal, or Cash App - we do not store your payment card details).</li>
+        <li style={LS.li}><strong>Contact us</strong> - name, email, and message content.</li>
       </ul>
       <p style={LS.p}>We also automatically collect standard technical data when you visit the Site, including your IP address, browser type, pages viewed, and referring URLs. This is standard server/analytics logging.</p>
 
@@ -3598,7 +3598,7 @@ function PrivacyPage() {
       <p style={LS.p}>We do not sell, rent, or trade your personal information to third parties.</p>
 
       <h2 style={LS.h2}>Payment Processing</h2>
-      <p style={LS.p}>All payments are processed by third-party providers — Stripe, PayPal, and Cash App. Your payment information is transmitted directly to these processors and is subject to their privacy policies. We do not store full credit card numbers or financial account details on our servers.</p>
+      <p style={LS.p}>All payments are processed by third-party providers - Stripe, PayPal, and Cash App. Your payment information is transmitted directly to these processors and is subject to their privacy policies. We do not store full credit card numbers or financial account details on our servers.</p>
 
       <h2 style={LS.h2}>Cookies</h2>
       <p style={LS.p}>The Site may use essential cookies required for navigation and security. We do not use tracking cookies for advertising purposes.</p>
@@ -3649,7 +3649,7 @@ function TermsPage() {
       <p style={LS.p}>If you receive a damaged or defective product, contact us within 14 days of delivery at <a href="mailto:info@joeprofitneverbroken.com" style={LS.a}>info@joeprofitneverbroken.com</a> and we will arrange a replacement or full refund. Digital products (audiobooks, downloads) are non-refundable once accessed.</p>
 
       <h2 style={LS.h2}>Intellectual Property</h2>
-      <p style={LS.p}>All content on this Site — including text, images, audio, video, and design — is owned by Yeti Groove Media LLC or Dr. Joe Profit and is protected by copyright and other intellectual property laws. No content may be reproduced without express written consent.</p>
+      <p style={LS.p}>All content on this Site - including text, images, audio, video, and design - is owned by Yeti Groove Media LLC or Dr. Joe Profit and is protected by copyright and other intellectual property laws. No content may be reproduced without express written consent.</p>
 
       <h2 style={LS.h2}>Disclaimer of Warranties</h2>
       <p style={LS.p}>The Site and its content are provided "as is" without warranties of any kind, express or implied. We do not warrant that the Site will be uninterrupted, error-free, or free of harmful components.</p>
@@ -3674,7 +3674,7 @@ function TermsPage() {
 function SupportPage() {
   return (
     <LegalPage title="Customer Support">
-      <p style={LS.p}>We're here to help. Whether you have a question about your order, received a damaged book, or need assistance with anything related to your purchase — reach out and we'll make it right.</p>
+      <p style={LS.p}>We're here to help. Whether you have a question about your order, received a damaged book, or need assistance with anything related to your purchase - reach out and we'll make it right.</p>
 
       <h2 style={LS.h2}>Contact Us</h2>
       <p style={LS.p}>Email us at: <a href="mailto:info@joeprofitneverbroken.com" style={LS.a}>info@joeprofitneverbroken.com</a></p>
@@ -3690,7 +3690,7 @@ function SupportPage() {
       <p style={LS.p}>For speaking engagement requests or media inquiries, email us at: <a href="mailto:info@joeprofitneverbroken.com" style={LS.a}>info@joeprofitneverbroken.com</a></p>
 
       <h2 style={LS.h2}>General Questions</h2>
-      <p style={LS.p}>For anything else — foundation partnerships, media, or general questions about Dr. Joe Profit's story and work — we'd love to hear from you.</p>
+      <p style={LS.p}>For anything else - foundation partnerships, media, or general questions about Dr. Joe Profit's story and work - we'd love to hear from you.</p>
     </LegalPage>
   );
 }
@@ -3700,7 +3700,7 @@ const TALKS = [
   {
     type: "Signature Keynote",
     title: "Never Broken",
-    purpose: "Joe's flagship talk — built around his life story and the Never Broken philosophy.",
+    purpose: "Joe's flagship talk - built around his life story and the Never Broken philosophy.",
     lengths: ["30 minutes", "45 minutes", "60 minutes"],
     focus: ["Turning adversity into strength", "Responsibility over victimhood", "Discipline under pressure", "Choosing growth instead of bitterness"],
     audience: ["Schools", "Leadership events", "Conferences", "Youth programs"],
@@ -3730,7 +3730,7 @@ const TALKS = [
   {
     type: "Athletic Program",
     title: "Athletic Program Talk",
-    purpose: "For sports teams and athletic programs — from a man who lived it.",
+    purpose: "For sports teams and athletic programs - from a man who lived it.",
     lengths: ["30–45 minutes"],
     focus: ["Mental toughness", "Discipline", "Life beyond sports", "Handling wins, losses, and setbacks"],
     audience: ["Sports teams", "Athletic programs", "Coaches and athletes"],
@@ -3913,7 +3913,7 @@ function SpeakingPage() {
             {[
               { src: IMG.reagan, label: 'The White House' },
               { src: IMG.ali, label: 'Muhammad Ali' },
-              { src: IMG.falcons, label: 'NFL — Atlanta Falcons' },
+              { src: IMG.falcons, label: 'NFL - Atlanta Falcons' },
               { src: IMG.speaks, label: 'Live Keynote' },
               { src: IMG.ambassador, label: 'Ambassador Andrew Young' },
             ].map(item => (
@@ -4047,7 +4047,7 @@ function SpeakingPage() {
         <div style={{ maxWidth: 760, margin: '0 auto', padding: '0 clamp(20px,4vw,48px)', textAlign: 'center' }}>
           <div style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.muted, letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: 12, opacity: 0.6 }}>Media & Event Planners</div>
           <p style={{ fontFamily: FONT.body, fontSize: '0.9rem', color: C.muted, lineHeight: 1.7, marginBottom: 20 }}>
-            Bios, approved photos, press coverage, and speaker description — all in one place.
+            Bios, approved photos, press coverage, and speaker description - all in one place.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             <a href="/press" style={{ fontFamily: FONT.body, fontSize: '0.75rem', color: C.gold, border: `1px solid ${C.goldDim}`, padding: '10px 24px', textDecoration: 'none', letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 600, transition: 'border-color 0.3s' }}
@@ -4080,11 +4080,11 @@ const BIO_SHORT = `Joe Profit is a former elite athlete, leader, and mentor whos
 
 const BIO_LONG = `Joe Profit's life is proof that circumstances do not dictate destiny.
 
-As a young boy, Joe experienced fear and adversity that could have easily hardened his heart and narrowed his future. Instead, he made a different choice — one that would define his life. He chose discipline over resentment, growth over excuses, and purpose over pain.
+As a young boy, Joe experienced fear and adversity that could have easily hardened his heart and narrowed his future. Instead, he made a different choice - one that would define his life. He chose discipline over resentment, growth over excuses, and purpose over pain.
 
 That mindset carried him into elite athletics, leadership roles, business success, and a lifelong commitment to mentoring young people and leaders facing their own challenges. Joe's journey is not about escaping hardship. It's about transforming it.
 
-After a career in the NFL with the Atlanta Falcons and New Orleans Saints, Joe built CII — a $100 million multimedia company — and went on to serve in ministry, politics, and community leadership. He has stood alongside presidents, world leaders, and icons from Muhammad Ali to Ambassador Andrew Young.
+After a career in the NFL with the Atlanta Falcons and New Orleans Saints, Joe built CII - a $100 million multimedia company - and went on to serve in ministry, politics, and community leadership. He has stood alongside presidents, world leaders, and icons from Muhammad Ali to Ambassador Andrew Young.
 
 Through his book Never Broken, his speaking, and his mentorship, Joe teaches a powerful truth: pain is part of life, but staying broken is a decision. His message resonates with students, athletes, professionals, and leaders who want to build character, resilience, and personal accountability in a world that often promotes blame instead of growth.
 
@@ -4215,9 +4215,9 @@ function PressPage() {
               {[
                 { src: IMG.reagan, label: 'With President Reagan', featured: true },
                 { src: IMG.ali, label: 'With Muhammad Ali', featured: true },
-                { src: IMG.joeJoe, label: 'Portrait — Suited' },
+                { src: IMG.joeJoe, label: 'Portrait - Suited' },
                 { src: IMG.speaks, label: 'Live Keynote' },
-                { src: IMG.book, label: 'Never Broken — Book' },
+                { src: IMG.book, label: 'Never Broken - Book' },
                 { src: IMG.reverend, label: 'Reverend Joe Profit' },
               ].map(item => (
                 <div key={item.label} style={{ cursor: 'context-menu' }}>
@@ -4263,9 +4263,9 @@ function PressPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 20 }}>
             {[
               { stat: 'NFL Career', detail: 'Atlanta Falcons + New Orleans Saints, 1971–' },
-              { stat: '$100M', detail: 'CII Multimedia Company — founded and led' },
-              { stat: 'Never Broken', detail: 'Author — available in hardcover and paperback' },
-              { stat: 'YUP Foundation', detail: 'Youth United for Prosperity — founder' },
+              { stat: '$100M', detail: 'CII Multimedia Company - founded and led' },
+              { stat: 'Never Broken', detail: 'Author - available in hardcover and paperback' },
+              { stat: 'YUP Foundation', detail: 'Youth United for Prosperity - founder' },
               { stat: '4 Talks', detail: 'Keynote, Youth, Leadership, Athletic Program' },
               { stat: '30–60 min', detail: 'Flexible formats, add-ons available' },
             ].map(item => (

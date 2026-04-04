@@ -20,9 +20,9 @@ const DIGITAL_PATHS = {
 };
 
 const DIGITAL_DESCRIPTIONS = {
-  audiobook: 'Listen to Never Broken — all 19 chapters, read by Joe himself.',
-  ebook: 'Read Never Broken — the full book, page by page, right on your screen.',
-  bundle: 'Listen AND read along — the full audiobook and eBook together.',
+  audiobook: 'Listen to Never Broken - all 19 chapters, read by Joe himself.',
+  ebook: 'Read Never Broken - the full book, page by page, right on your screen.',
+  bundle: 'Listen AND read along - the full audiobook and eBook together.',
 };
 
 function buildBuyerEmail(session, edition, siteUrl) {
@@ -33,7 +33,7 @@ function buildBuyerEmail(session, edition, siteUrl) {
   const accessUrl = `${siteUrl}${path}?session_id=${session.id}`;
 
   return {
-    subject: `You're all set — your ${label} is ready`,
+    subject: `You're all set - your ${label} is ready`,
     html: `
 <!DOCTYPE html>
 <html>
@@ -82,7 +82,7 @@ function buildBuyerEmail(session, edition, siteUrl) {
         &#11088; Save this email!
       </p>
       <p style="font-size:20px; color:#444; margin:0; line-height:1.7;">
-        This email is how you get back to your ${label.toLowerCase()}. If you ever switch phones, get a new computer, or just can't find it — open this email and tap the button above. <strong>It will always work.</strong>
+        This email is how you get back to your ${label.toLowerCase()}. If you ever switch phones, get a new computer, or just can't find it - open this email and tap the button above. <strong>It will always work.</strong>
       </p>
     </td></tr>
     </table>
@@ -138,7 +138,7 @@ function buildBuyerEmail(session, edition, siteUrl) {
       ``,
       `SAVE THIS EMAIL! This is your ticket back in.`,
       `If you ever switch phones, get a new computer, or just can't find`,
-      `your ${label.toLowerCase()} — come back to this email and tap the link above.`,
+      `your ${label.toLowerCase()} - come back to this email and tap the link above.`,
       `It will always work.`,
       ``,
       `---`,
@@ -163,7 +163,7 @@ function buildPhysicalBuyerEmail(session, editionLabel, shippingLines, shipName,
   const firstName = session.customer_details?.name?.split(' ')[0] || 'Friend';
 
   return {
-    subject: `Order confirmed — Never Broken ${editionLabel}`,
+    subject: `Order confirmed - Never Broken ${editionLabel}`,
     html: `
 <!DOCTYPE html>
 <html>
@@ -194,7 +194,7 @@ function buildPhysicalBuyerEmail(session, editionLabel, shippingLines, shipName,
     <table width="100%" cellpadding="0" cellspacing="0" style="background:#fff8ee; border:3px solid #d4a95a; border-radius:10px; margin:0 0 30px;">
     <tr><td style="padding:25px 30px;">
       <p style="font-size:18px; color:#888; margin:0 0 6px; text-transform:uppercase; letter-spacing:1px;">Your Order</p>
-      <p style="font-size:22px; color:#1a1a2e; margin:0 0 20px; font-weight:bold;">Never Broken — ${editionLabel} &nbsp;·&nbsp; $${amount}</p>
+      <p style="font-size:22px; color:#1a1a2e; margin:0 0 20px; font-weight:bold;">Never Broken - ${editionLabel} &nbsp;·&nbsp; $${amount}</p>
       <p style="font-size:18px; color:#888; margin:0 0 6px; text-transform:uppercase; letter-spacing:1px;">Ships To</p>
       <p style="font-size:20px; color:#333; margin:0; line-height:1.7; white-space:pre-line;">${shipName}\n${shippingLines}</p>
     </td></tr>
@@ -227,7 +227,7 @@ function buildPhysicalBuyerEmail(session, editionLabel, shippingLines, shipName,
       `Your order is confirmed! Joe will get your ${editionLabel} shipped out shortly.`,
       ``,
       `ORDER SUMMARY`,
-      `Product: Never Broken — ${editionLabel}`,
+      `Product: Never Broken - ${editionLabel}`,
       `Amount:  $${amount}`,
       ``,
       `SHIPS TO:`,
@@ -307,9 +307,9 @@ module.exports = async function handler(req, res) {
       await resend.emails.send({
         from: 'Never Broken Shop <neverbroken@yetigroove.com>',
         to: ['jprofit23@gmail.com'],
-        subject: `New Digital Sale — ${label} · $${amount}`,
+        subject: `New Digital Sale - ${label} · $${amount}`,
         text: [
-          `NEW DIGITAL SALE — Never Broken`,
+          `NEW DIGITAL SALE - Never Broken`,
           ``,
           `Product:  ${label}`,
           `Amount:   $${amount}`,
@@ -362,9 +362,9 @@ module.exports = async function handler(req, res) {
       await resend.emails.send({
         from: 'Never Broken Shop <neverbroken@yetigroove.com>',
         to: ['jprofit23@gmail.com'],
-        subject: `New Book Order — ${editionLabel} · $${amount}`,
+        subject: `New Book Order - ${editionLabel} · $${amount}`,
         text: [
-          `NEW ORDER — Never Broken`,
+          `NEW ORDER - Never Broken`,
           ``,
           `Product:  ${editionLabel}`,
           `Amount:   $${amount}`,

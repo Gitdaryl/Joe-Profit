@@ -1,20 +1,20 @@
-# Dr. Joe Profit — Never Broken
+# Dr. Joe Profit - Never Broken
 
 A Legends Series Production.
 
 ## Setup
 
-1. **Add your images** — Copy all 61+ images into `/public/images/`
-2. **Install dependencies** — Run `npm install`
-3. **Run locally** — Run `npm start` (opens at http://localhost:3000)
-4. **Build for production** — Run `npm run build`
+1. **Add your images** - Copy all 61+ images into `/public/images/`
+2. **Install dependencies** - Run `npm install`
+3. **Run locally** - Run `npm start` (opens at http://localhost:3000)
+4. **Build for production** - Run `npm run build`
 
 ## Deploy to Vercel
 
 ### Option A: GitHub + Vercel (recommended)
 1. Push this entire folder to a GitHub repo
 2. Go to vercel.com → New Project → Import your repo
-3. Vercel auto-detects React — just click Deploy
+3. Vercel auto-detects React - just click Deploy
 4. Done! Your site is live.
 
 ### Option B: Vercel CLI
