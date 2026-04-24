@@ -1472,6 +1472,81 @@ function ChapterImage({ img, i }) {
   );
 }
 
+// ─── LOST LINK FORM ───
+function LostLinkForm() {
+  const [email, setEmail] = useState('');
+  const [state, setState] = useState('idle'); // idle | loading | sent | error
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!email.includes('@')) return;
+    setState('loading');
+    try {
+      await fetch('/api/resend-access', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      setState('sent');
+    } catch {
+      setState('error');
+    }
+  };
+
+  if (state === 'sent') {
+    return (
+      <div style={{ marginTop: 40, padding: '28px 32px', background: 'rgba(212,162,78,0.08)', border: `1px solid rgba(212,162,78,0.4)`, textAlign: 'center' }}>
+        <div style={{ fontSize: '2rem', marginBottom: 12 }}>📬</div>
+        <p style={{ fontFamily: FONT.body, fontSize: '1.05rem', color: C.gold, margin: '0 0 8px', fontWeight: 700 }}>Check your inbox!</p>
+        <p style={{ fontFamily: FONT.body, fontSize: '0.95rem', color: C.muted, margin: 0, lineHeight: 1.6 }}>
+          If we found your purchase, your access link is on its way. Check your spam folder too if you don't see it in a minute.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ marginTop: 40, paddingTop: 36, borderTop: `1px solid rgba(154,142,127,0.2)` }}>
+      <p style={{ fontFamily: FONT.body, fontSize: '0.85rem', color: C.muted, textAlign: 'center', margin: '0 0 6px', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Already purchased?</p>
+      <p style={{ fontFamily: FONT.body, fontSize: '1rem', color: C.cream, textAlign: 'center', margin: '0 0 20px', lineHeight: 1.6 }}>
+        Enter the email you used when you bought - we'll send your access link right to your inbox.
+      </p>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        <input
+          type="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          placeholder="Your email address"
+          required
+          style={{
+            flex: 1, minWidth: 200, fontFamily: FONT.body, fontSize: '0.95rem',
+            padding: '12px 16px', background: 'rgba(255,255,255,0.05)',
+            border: `1px solid rgba(154,142,127,0.4)`, color: C.cream,
+            outline: 'none',
+          }}
+        />
+        <button
+          type="submit"
+          disabled={state === 'loading'}
+          style={{
+            fontFamily: FONT.body, fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase',
+            fontWeight: 700, padding: '12px 24px', background: state === 'loading' ? C.muted : C.gold,
+            color: C.black, border: 'none', cursor: state === 'loading' ? 'not-allowed' : 'pointer',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {state === 'loading' ? 'Sending...' : 'Send My Link'}
+        </button>
+      </form>
+      {state === 'error' && (
+        <p style={{ fontFamily: FONT.body, fontSize: '0.85rem', color: '#c0392b', marginTop: 10, textAlign: 'center' }}>
+          Something went wrong. Try again or reply to your original purchase email.
+        </p>
+      )}
+    </div>
+  );
+}
+
 // ─── SHOP PAGE ───
 const DIGITAL_PATHS = { audiobook: '/audiobook', ebook: '/ebook', bundle: '/read-along' };
 const DIGITAL_LABELS = { audiobook: 'Audiobook', ebook: 'eBook', bundle: 'Read-Along Bundle' };
@@ -1852,6 +1927,13 @@ function ShopPage() {
               Speaking resources, foundation merchandise, and more.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* Already purchased? */}
+      <section style={{ background: C.dark, padding: 'clamp(48px, 6vw, 72px) clamp(20px, 4vw, 40px)' }}>
+        <div style={{ maxWidth: 560, margin: '0 auto' }}>
+          <LostLinkForm />
         </div>
       </section>
 
@@ -2269,6 +2351,7 @@ function AudiobookPage() {
             }}>
               Go to Shop
             </a>
+            <LostLinkForm />
           </div>
         </section>
         <Footer />
@@ -2618,6 +2701,7 @@ function EbookPage() {
             }}>
               Go to Shop
             </a>
+            <LostLinkForm />
           </div>
         </section>
         <Footer />
