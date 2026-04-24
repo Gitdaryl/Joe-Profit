@@ -1473,9 +1473,15 @@ function ChapterImage({ img, i }) {
 }
 
 // ─── SHOP PAGE ───
+const DIGITAL_PATHS = { audiobook: '/audiobook', ebook: '/ebook', bundle: '/read-along' };
+const DIGITAL_LABELS = { audiobook: 'Audiobook', ebook: 'eBook', bundle: 'Read-Along Bundle' };
+const DIGITAL_ICONS = { audiobook: '🎧', ebook: '📖', bundle: '🎧📖' };
+
 function ShopPage() {
   const [orderStates, setOrderStates] = useState({ hardcover: 'idle', paperback: 'idle', audiobook: 'idle', ebook: 'idle', bundle: 'idle' });
   const [orderSuccess, setOrderSuccess] = useState(false);
+  const [successEdition, setSuccessEdition] = useState(null); // null = physical/unknown, or 'audiobook'|'ebook'|'bundle'
+  const [successSessionId, setSuccessSessionId] = useState(null);
   const [headRef, headVis] = useScrollReveal(0.1);
   const [productsRef, productsVis] = useScrollReveal(0.08);
 
@@ -1485,14 +1491,29 @@ function ShopPage() {
     if (params.get('order') === 'success') {
       setOrderSuccess(true);
       const sessionId = params.get('session_id');
+      window.history.replaceState({}, '', '/shop');
       if (sessionId) {
-        fetch('/api/fulfill-order', {
+        setSuccessSessionId(sessionId);
+        fetch('/api/validate-purchase', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ session_id: sessionId }),
-        }).catch(() => {});
+        })
+          .then(r => r.json())
+          .then(data => {
+            if (data.valid && DIGITAL_PATHS[data.product]) {
+              setSuccessEdition(data.product);
+            } else {
+              // Physical order — trigger fulfillment email to Joe
+              fetch('/api/fulfill-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ session_id: sessionId }),
+              }).catch(() => {});
+            }
+          })
+          .catch(() => {});
       }
-      window.history.replaceState({}, '', '/shop');
     }
   }, []);
 
@@ -1578,10 +1599,42 @@ function ShopPage() {
       </section>
 
       {/* ── Order success banner ── */}
-      {orderSuccess && (
+      {orderSuccess && successEdition && (
+        <div style={{ background: C.dark, borderBottom: `3px solid ${C.gold}`, padding: 'clamp(40px, 6vw, 64px) clamp(20px, 4vw, 40px)', textAlign: 'center' }}>
+          <div style={{ maxWidth: 600, margin: '0 auto' }}>
+            <div style={{ fontSize: '3.5rem', marginBottom: 16 }}>{DIGITAL_ICONS[successEdition]}</div>
+            <h2 style={{ fontFamily: FONT.display, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: C.gold, fontWeight: 600, margin: '0 0 12px' }}>
+              You're all set!
+            </h2>
+            <p style={{ fontFamily: FONT.body, fontSize: 'clamp(1rem, 2.5vw, 1.2rem)', color: C.cream, margin: '0 0 32px', lineHeight: 1.6 }}>
+              Your <strong>{DIGITAL_LABELS[successEdition]}</strong> is ready right now. Tap the big button below to open it.
+            </p>
+            <a
+              href={`${DIGITAL_PATHS[successEdition]}${successSessionId ? `?session_id=${successSessionId}` : ''}`}
+              style={{
+                display: 'inline-block', fontFamily: FONT.body, fontSize: 'clamp(1rem, 2.5vw, 1.25rem)',
+                fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase',
+                background: C.gold, color: C.black, textDecoration: 'none',
+                padding: 'clamp(16px, 3vw, 22px) clamp(32px, 6vw, 56px)', marginBottom: 28,
+              }}
+            >
+              &#9654;&nbsp; Open Your {DIGITAL_LABELS[successEdition]}
+            </a>
+            <div style={{ background: 'rgba(212,162,78,0.08)', border: `1px solid rgba(212,162,78,0.3)`, borderRadius: 8, padding: '18px 24px', marginBottom: 16 }}>
+              <p style={{ fontFamily: FONT.body, fontSize: 'clamp(0.9rem, 2vw, 1rem)', color: C.muted, margin: 0, lineHeight: 1.7 }}>
+                <strong style={{ color: C.gold }}>We also emailed it to you.</strong> Check your inbox for a message from Joe Profit with a permanent link - you can use it anytime, on any device.
+              </p>
+            </div>
+            <p style={{ fontFamily: FONT.body, fontSize: '0.8rem', color: C.muted, opacity: 0.6, margin: 0 }}>
+              100% of proceeds support the YUP Foundation. Thank you.
+            </p>
+          </div>
+        </div>
+      )}
+      {orderSuccess && !successEdition && (
         <div style={{ background: 'rgba(212,162,78,0.1)', borderBottom: `1px solid ${C.gold}`, padding: '18px 24px', textAlign: 'center' }}>
           <p style={{ fontFamily: FONT.body, fontSize: '0.95rem', color: C.gold, margin: 0 }}>
-            <strong>Order received - thank you.</strong> Your book ships within 3–5 business days. 100% goes to the YUP Foundation.
+            <strong>Order received - thank you.</strong> Your book ships within 3-5 business days. 100% goes to the YUP Foundation.
           </p>
         </div>
       )}
