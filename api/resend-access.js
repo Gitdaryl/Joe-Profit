@@ -81,7 +81,8 @@ module.exports = async function handler(req, res) {
 
   <tr><td style="background:#1a1a2e;padding:35px 40px;text-align:center;">
     <h1 style="color:#d4a95a;margin:0;font-size:32px;font-weight:normal;letter-spacing:1px;">Never Broken</h1>
-    <p style="color:#ccc;margin:10px 0 0;font-size:18px;">by Joe Profit</p>
+    <p style="color:#d4a95a;margin:4px 0 0;font-size:13px;letter-spacing:2px;text-transform:uppercase;opacity:0.8;">An Unrelenting Pursuit for Success</p>
+    <p style="color:#ccc;margin:10px 0 0;font-size:16px;">by Dr. Joe Profit</p>
   </td></tr>
 
   <tr><td style="padding:40px;">
