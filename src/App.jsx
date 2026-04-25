@@ -340,7 +340,10 @@ function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 60);
+    const h = () => {
+      setScrolled(window.scrollY > 60);
+      if (window.scrollY > 60) setMobileOpen(false);
+    };
     window.addEventListener("scroll", h, { passive: true });
     return () => window.removeEventListener("scroll", h);
   }, []);
@@ -354,51 +357,58 @@ function Nav() {
   const navBg = scrolled ? "rgba(10,9,8,0.92)" : "transparent";
   const navBorder = scrolled ? C.lineBright : "transparent";
   return (
-    <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, transition: "all 0.5s ease", background: navBg, borderBottom: `1px solid ${navBorder}`, backdropFilter: scrolled ? "blur(20px) saturate(1.4)" : "none" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: scrolled ? 56 : 72, transition: "height 0.5s ease" }}>
-        <a href="#" style={{ textDecoration: "none", display: "flex", alignItems: "baseline", gap: 8 }}>
-          <span style={{ fontFamily: FONT.display, fontSize: "1.1rem", fontWeight: 700, color: C.gold, letterSpacing: "0.04em" }}>JOE PROFIT</span>
-          <span style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.muted, letterSpacing: "0.3em", textTransform: "uppercase" }}>Never Broken</span>
-        </a>
-        <div className="dnav" style={{ display: "flex", gap: 32, alignItems: "center" }}>
-          {links.map(l => l.sub ? (
-            <div key={l.label} style={{ position: "relative" }} className="nav-dropdown-wrap">
-              <a href={l.href} style={{ fontFamily: FONT.body, fontSize: "0.9rem", color: C.gold, textDecoration: "none", letterSpacing: "0.1em", textTransform: "uppercase", transition: "color 0.3s", borderBottom: `1px solid ${C.gold}`, paddingBottom: 2 }}>
-                {l.label}
+    <>
+      {mobileOpen && (
+        <div onClick={() => setMobileOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 99, background: "rgba(0,0,0,0.5)" }} />
+      )}
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, transition: "all 0.5s ease", background: mobileOpen ? C.black : navBg, borderBottom: `1px solid ${mobileOpen ? C.line : navBorder}`, backdropFilter: scrolled && !mobileOpen ? "blur(20px) saturate(1.4)" : "none" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: scrolled ? 56 : 72, transition: "height 0.5s ease" }}>
+          <a href="#" style={{ textDecoration: "none", display: "flex", alignItems: "baseline", gap: 8 }}>
+            <span style={{ fontFamily: FONT.display, fontSize: "1.1rem", fontWeight: 700, color: C.gold, letterSpacing: "0.04em" }}>JOE PROFIT</span>
+            <span style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.muted, letterSpacing: "0.3em", textTransform: "uppercase" }}>Never Broken</span>
+          </a>
+          <div className="dnav" style={{ display: "flex", gap: 32, alignItems: "center" }}>
+            {links.map(l => l.sub ? (
+              <div key={l.label} style={{ position: "relative" }} className="nav-dropdown-wrap">
+                <a href={l.href} style={{ fontFamily: FONT.body, fontSize: "0.9rem", color: C.gold, textDecoration: "none", letterSpacing: "0.1em", textTransform: "uppercase", transition: "color 0.3s", borderBottom: `1px solid ${C.gold}`, paddingBottom: 2 }}>
+                  {l.label}
+                </a>
+                <div className="nav-dropdown" style={{ position: "absolute", top: "calc(100% + 12px)", right: 0, background: "rgba(10,9,8,0.96)", border: `1px solid ${C.lineBright}`, backdropFilter: "blur(20px)", minWidth: 160, display: "none", flexDirection: "column" }}>
+                  {l.sub.map(s => (
+                    <a key={s.label} href={s.href} style={{ fontFamily: FONT.body, fontSize: "0.78rem", color: C.muted, textDecoration: "none", letterSpacing: "0.12em", textTransform: "uppercase", padding: "12px 18px", transition: "all 0.2s", borderBottom: `1px solid ${C.line}` }}
+                      onMouseEnter={e => { e.currentTarget.style.color = C.gold; e.currentTarget.style.background = C.goldDim; }}
+                      onMouseLeave={e => { e.currentTarget.style.color = C.muted; e.currentTarget.style.background = "transparent"; }}>
+                      {s.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <a key={l.label} href={l.href} style={{ fontFamily: FONT.body, fontSize: "0.9rem", color: C.muted, textDecoration: "none", letterSpacing: "0.1em", textTransform: "uppercase", transition: "color 0.3s" }}
+                onMouseEnter={e => e.target.style.color = C.gold} onMouseLeave={e => e.target.style.color = C.muted}>{l.label}
               </a>
-              <div className="nav-dropdown" style={{ position: "absolute", top: "calc(100% + 12px)", right: 0, background: "rgba(10,9,8,0.96)", border: `1px solid ${C.lineBright}`, backdropFilter: "blur(20px)", minWidth: 160, display: "none", flexDirection: "column" }}>
+            ))}
+          </div>
+          <button onClick={() => setMobileOpen(!mobileOpen)} className="mobile-nav-btn" style={{ display: "none", background: "none", border: "none", color: C.gold, fontSize: mobileOpen ? "1.8rem" : "1.5rem", cursor: "pointer", lineHeight: 1, padding: "4px 8px" }}>
+            {mobileOpen ? "✕" : "☰"}
+          </button>
+        </div>
+        {mobileOpen && (
+          <div style={{ background: C.black, padding: "16px 24px", display: "flex", flexDirection: "column", gap: 16, borderTop: `1px solid ${C.line}` }}>
+            {links.map(l => l.sub ? (
+              <div key={l.label}>
+                <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.gold, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 8 }}>{l.label}</div>
                 {l.sub.map(s => (
-                  <a key={s.label} href={s.href} style={{ fontFamily: FONT.body, fontSize: "0.78rem", color: C.muted, textDecoration: "none", letterSpacing: "0.12em", textTransform: "uppercase", padding: "12px 18px", transition: "all 0.2s", borderBottom: `1px solid ${C.line}` }}
-                    onMouseEnter={e => { e.currentTarget.style.color = C.gold; e.currentTarget.style.background = C.goldDim; }}
-                    onMouseLeave={e => { e.currentTarget.style.color = C.muted; e.currentTarget.style.background = "transparent"; }}>
-                    {s.label}
-                  </a>
+                  <a key={s.label} href={s.href} onClick={() => setMobileOpen(false)} style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.mutedLight, textDecoration: "none", letterSpacing: "0.12em", textTransform: "uppercase", display: "block", paddingLeft: 12, marginBottom: 8 }}>{s.label}</a>
                 ))}
               </div>
-            </div>
-          ) : (
-            <a key={l.label} href={l.href} style={{ fontFamily: FONT.body, fontSize: "0.9rem", color: C.muted, textDecoration: "none", letterSpacing: "0.1em", textTransform: "uppercase", transition: "color 0.3s" }}
-              onMouseEnter={e => e.target.style.color = C.gold} onMouseLeave={e => e.target.style.color = C.muted}>{l.label}
-            </a>
-          ))}
-        </div>
-        <button onClick={() => setMobileOpen(!mobileOpen)} className="mobile-nav-btn" style={{ display: "none", background: "none", border: "none", color: C.gold, fontSize: "1.5rem", cursor: "pointer" }}>☰</button>
-      </div>
-      {mobileOpen && (
-        <div style={{ background: C.black, padding: "16px 24px", display: "flex", flexDirection: "column", gap: 16, borderTop: `1px solid ${C.line}` }}>
-          {links.map(l => l.sub ? (
-            <div key={l.label}>
-              <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.gold, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 8 }}>{l.label}</div>
-              {l.sub.map(s => (
-                <a key={s.label} href={s.href} onClick={() => setMobileOpen(false)} style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.mutedLight, textDecoration: "none", letterSpacing: "0.12em", textTransform: "uppercase", display: "block", paddingLeft: 12, marginBottom: 8 }}>{s.label}</a>
-              ))}
-            </div>
-          ) : (
-            <a key={l.label} href={l.href} onClick={() => setMobileOpen(false)} style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.cream, textDecoration: "none", letterSpacing: "0.12em", textTransform: "uppercase" }}>{l.label}</a>
-          ))}
-        </div>
-      )}
-    </nav>
+            ) : (
+              <a key={l.label} href={l.href} onClick={() => setMobileOpen(false)} style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.cream, textDecoration: "none", letterSpacing: "0.12em", textTransform: "uppercase" }}>{l.label}</a>
+            ))}
+          </div>
+        )}
+      </nav>
+    </>
   );
 }
 
