@@ -55,7 +55,7 @@ Reply to this email to respond directly to ${name}.
     }
 
     await resend.emails.send({
-      from: 'Joe Profit Bookings <bookings@yetigroove.com>',
+      from: 'Joe Profit Bookings <bookings@joeprofitneverbroken.com>',
       to: toAddresses,
       replyTo: email,
       subject: `New Speaking Inquiry - ${organization} - ${eventType}`,

@@ -289,7 +289,7 @@ module.exports = async function handler(req, res) {
     if (buyerEmail) {
       try {
         await resend.emails.send({
-          from: 'Joe Profit <neverbroken@yetigroove.com>',
+          from: 'Joe Profit <neverbroken@joeprofitneverbroken.com>',
           to: [buyerEmail],
           replyTo: 'jprofit23@gmail.com',
           subject: emailContent.subject,
@@ -305,7 +305,7 @@ module.exports = async function handler(req, res) {
     // Notify Joe of the digital sale
     try {
       await resend.emails.send({
-        from: 'Never Broken Shop <neverbroken@yetigroove.com>',
+        from: 'Never Broken Shop <neverbroken@joeprofitneverbroken.com>',
         to: ['jprofit23@gmail.com'],
         subject: `New Digital Sale - ${label} · $${amount}`,
         text: [
@@ -344,7 +344,7 @@ module.exports = async function handler(req, res) {
       const receipt = buildPhysicalBuyerEmail(session, editionLabel, shippingLines, shipName, amount);
       try {
         await resend.emails.send({
-          from: 'Joe Profit <neverbroken@yetigroove.com>',
+          from: 'Joe Profit <neverbroken@joeprofitneverbroken.com>',
           to: [buyerEmail],
           replyTo: 'jprofit23@gmail.com',
           subject: receipt.subject,
@@ -360,7 +360,7 @@ module.exports = async function handler(req, res) {
     // Notify Joe of the physical sale
     try {
       await resend.emails.send({
-        from: 'Never Broken Shop <neverbroken@yetigroove.com>',
+        from: 'Never Broken Shop <neverbroken@joeprofitneverbroken.com>',
         to: ['jprofit23@gmail.com'],
         subject: `New Book Order - ${editionLabel} · $${amount}`,
         text: [

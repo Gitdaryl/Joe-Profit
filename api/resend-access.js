@@ -145,7 +145,7 @@ module.exports = async function handler(req, res) {
 
   try {
     await resend.emails.send({
-      from: 'Joe Profit <neverbroken@yetigroove.com>',
+      from: 'Joe Profit <neverbroken@joeprofitneverbroken.com>',
       to: [email.trim()],
       replyTo: 'jprofit23@gmail.com',
       subject: 'Your Never Broken access link',
