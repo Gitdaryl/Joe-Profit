@@ -30,15 +30,16 @@ module.exports = async function handler(req, res) {
 
   let paidSessions;
   try {
-    const result = await stripe.checkout.sessions.search({
-      query: `customer_email:"${normalized}"`,
+    const result = await stripe.checkout.sessions.list({
+      customer_details: { email: normalized },
+      status: 'complete',
       limit: 20,
     });
     paidSessions = result.data.filter(
       s => s.payment_status === 'paid' && DIGITAL_EDITIONS.includes(s.metadata?.edition)
     );
   } catch (err) {
-    console.error('Stripe search error:', err.message);
+    console.error('Stripe lookup error:', err.message);
     return res.status(500).json({ error: 'Lookup failed' });
   }
 
