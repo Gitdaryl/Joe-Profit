@@ -30,14 +30,32 @@ module.exports = async function handler(req, res) {
 
   let paidSessions;
   try {
-    const result = await stripe.checkout.sessions.list({
+    // Primary: sessions where customer typed this email at checkout (guest checkout)
+    const byEmail = await stripe.checkout.sessions.list({
       customer_details: { email: normalized },
       status: 'complete',
       limit: 20,
     });
-    paidSessions = result.data.filter(
-      s => s.payment_status === 'paid' && DIGITAL_EDITIONS.includes(s.metadata?.edition)
-    );
+
+    // Secondary: sessions tied to a Stripe customer/guest profile (e.g. Stripe Link purchases)
+    const customers = await stripe.customers.list({ email: normalized, limit: 5 });
+    const byCustomer = [];
+    for (const cust of customers.data) {
+      const result = await stripe.checkout.sessions.list({
+        customer: cust.id,
+        status: 'complete',
+        limit: 20,
+      });
+      byCustomer.push(...result.data);
+    }
+
+    // Merge, deduplicate by session ID, filter to paid digital editions
+    const seen = new Set();
+    paidSessions = [...byEmail.data, ...byCustomer].filter(s => {
+      if (seen.has(s.id)) return false;
+      seen.add(s.id);
+      return s.payment_status === 'paid' && DIGITAL_EDITIONS.includes(s.metadata?.edition);
+    });
   } catch (err) {
     console.error('Stripe lookup error:', err.message);
     return res.status(500).json({ error: 'Lookup failed' });
