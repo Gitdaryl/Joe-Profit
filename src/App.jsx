@@ -1184,6 +1184,7 @@ function Footer() {
         A Legends Commission Production
       </a>
       <div style={{ display: "flex", gap: 20, marginTop: 4 }}>
+        <a href="/press" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>Press</a>
         <a href="/privacy" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>Privacy Policy</a>
         <a href="/terms" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>Terms of Service</a>
         <a href="/support" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>Support</a>
@@ -2223,6 +2224,8 @@ function AudiobookPage() {
   const [showTracklist, setShowTracklist] = useState(true);
   const [resumeInfo, setResumeInfo] = useState(null);
 
+  useEffect(() => { document.title = 'Audiobook - Never Broken by Dr. Joe Profit'; return () => { document.title = 'Dr. Joe Profit - Never Broken'; }; }, []);
+
   // Check purchase access
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -2563,6 +2566,11 @@ function EbookPage() {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const flipBookRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 400, height: 600 });
+
+  useEffect(() => {
+    document.title = 'Ebook - Never Broken by Dr. Joe Profit';
+    return () => { document.title = 'Dr. Joe Profit - Never Broken'; };
+  }, []);
 
   // Responsive sizing - fill ~90% of viewport
   useEffect(() => {
@@ -2949,6 +2957,11 @@ function ReadAlongPage() {
   const [audioSpeed, setAudioSpeed] = useState(1);
   const [miniPlayerExpanded, setMiniPlayerExpanded] = useState(true);
   const [showChapterPicker, setShowChapterPicker] = useState(false);
+
+  useEffect(() => {
+    document.title = 'Read Along - Never Broken by Dr. Joe Profit';
+    return () => { document.title = 'Dr. Joe Profit - Never Broken'; };
+  }, []);
 
   const audioTrackData = AUDIOBOOK_TRACKS[audioTrack];
   const fmt = (s) => { const m = Math.floor(s / 60); const sec = Math.floor(s % 60); return `${m}:${sec < 10 ? '0' : ''}${sec}`; };
@@ -3687,6 +3700,10 @@ function HomePage() {
 
 // ─── LEGAL PAGE SHELL ───
 function LegalPage({ title, children }) {
+  useEffect(() => {
+    document.title = `${title} - Dr. Joe Profit`;
+    return () => { document.title = 'Dr. Joe Profit - Never Broken'; };
+  }, [title]);
   return (
     <>
       <style>{`
