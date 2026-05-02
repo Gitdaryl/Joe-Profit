@@ -3850,11 +3850,11 @@ const FAQ_ITEMS = [
       },
       {
         q: "I didn't get a confirmation email - what do I do?",
-        a: "First, check your spam or junk folder. Look for an email from neverbroken@joeprofitneverbroken.com. If it's not there, go to the Shop page and use the \"Lost your link?\" form at the bottom - enter the email you used when you bought and we'll resend it right away.",
+        a: <>First, check your spam or junk folder. Look for an email from neverbroken@joeprofitneverbroken.com. If it's not there, go to the <a href="/shop" style={{ color: C.gold, textDecoration: 'none' }}>Shop page</a> and use the "Lost your link?" form at the bottom - enter the email you used when you bought and we'll resend it right away.</>,
       },
       {
         q: "I lost or deleted my access email. Can I get a new link?",
-        a: "Absolutely. Head to the Shop page, scroll to the bottom, and use the \"Lost your link?\" section. Enter the email address you used when you purchased and we'll send a fresh link immediately.",
+        a: <>Absolutely. Head to the <a href="/shop" style={{ color: C.gold, textDecoration: 'none' }}>Shop page</a>, scroll to the bottom, and use the "Lost your link?" section. Enter the email address you used when you purchased and we'll send a fresh link immediately.</>,
       },
     ],
   },
@@ -3892,7 +3892,7 @@ const FAQ_ITEMS = [
       },
       {
         q: "My book arrived damaged. What do I do?",
-        a: "Email us at info@joeprofitneverbroken.com within 14 days of receiving it. Tell us what happened and include a quick photo if you can. We'll send a replacement or refund - no hassle.",
+        a: <>Email us at <a href="mailto:info@joeprofitneverbroken.com" style={{ color: C.gold, textDecoration: 'none' }}>info@joeprofitneverbroken.com</a> within 14 days of receiving it. Tell us what happened and include a quick photo if you can. We'll send a replacement or refund - no hassle.</>,
       },
     ],
   },
@@ -3914,7 +3914,7 @@ const FAQ_ITEMS = [
     items: [
       {
         q: "How do I book Dr. Joe Profit for a speaking engagement?",
-        a: "Head to the Speaking page and fill out the inquiry form. Joe speaks at schools, corporate events, youth programs, athletic programs, and more. You can also email directly at info@joeprofitneverbroken.com.",
+        a: <>Head to the <a href="/speaking" style={{ color: C.gold, textDecoration: 'none' }}>Speaking page</a> and fill out the inquiry form. Joe speaks at schools, corporate events, youth programs, athletic programs, and more. You can also email directly at <a href="mailto:info@joeprofitneverbroken.com" style={{ color: C.gold, textDecoration: 'none' }}>info@joeprofitneverbroken.com</a>.</>,
       },
       {
         q: "Does Joe do virtual events?",
@@ -3927,7 +3927,7 @@ const FAQ_ITEMS = [
     items: [
       {
         q: "My question isn't answered here - how do I reach someone?",
-        a: "Email us at info@joeprofitneverbroken.com. We read every message and respond within 1-2 business days. If it's urgent, say so in the subject line.",
+        a: <>Email us at <a href="mailto:info@joeprofitneverbroken.com" style={{ color: C.gold, textDecoration: 'none' }}>info@joeprofitneverbroken.com</a>. We read every message and respond within 1-2 business days. If it's urgent, say so in the subject line.</>,
       },
     ],
   },
