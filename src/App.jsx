@@ -1185,9 +1185,9 @@ function Footer() {
       </a>
       <div style={{ display: "flex", gap: 20, marginTop: 4 }}>
         <a href="/press" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>Press</a>
+        <a href="/support" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>FAQ & Support</a>
         <a href="/privacy" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>Privacy Policy</a>
         <a href="/terms" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>Terms of Service</a>
-        <a href="/support" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>Support</a>
       </div>
     </footer>
   );
@@ -3835,27 +3835,144 @@ function TermsPage() {
   );
 }
 
-// ─── SUPPORT PAGE ───
+// ─── FAQ PAGE ───
+const FAQ_ITEMS = [
+  {
+    category: "Accessing Your Purchase",
+    items: [
+      {
+        q: "I just bought the book - now what?",
+        a: "Check your email. You should have a message from neverbroken@joeprofitneverbroken.com with the subject line \"You're all set.\" Open it and tap the big gold button. That's it - you're in.",
+      },
+      {
+        q: "I got an email from joeprofitneverbroken.com - is it legit?",
+        a: "Yes, that's us. The email comes from neverbroken@joeprofitneverbroken.com and contains your personal access link. Don't share it publicly, but feel free to open it on any device you own.",
+      },
+      {
+        q: "I didn't get a confirmation email - what do I do?",
+        a: "First, check your spam or junk folder. Look for an email from neverbroken@joeprofitneverbroken.com. If it's not there, go to the Shop page and use the \"Lost your link?\" form at the bottom - enter the email you used when you bought and we'll resend it right away.",
+      },
+      {
+        q: "I lost or deleted my access email. Can I get a new link?",
+        a: "Absolutely. Head to the Shop page, scroll to the bottom, and use the \"Lost your link?\" section. Enter the email address you used when you purchased and we'll send a fresh link immediately.",
+      },
+    ],
+  },
+  {
+    category: "Using the Book",
+    items: [
+      {
+        q: "Does this work on my phone?",
+        a: "Yes. The audiobook, ebook, and read-along bundle all work on any phone, tablet, or computer - no app needed. Just tap your link and you're reading or listening right in your browser.",
+      },
+      {
+        q: "Do I need to create an account or download anything?",
+        a: "No account, no download. Your link is your key. Click it, and you're in. Simple as that.",
+      },
+      {
+        q: "Can my family members read it too?",
+        a: "Your link works on any device you own. Open it at home on the TV, on your phone at the gym, or hand it to your kid on a tablet. It's your copy.",
+      },
+      {
+        q: "What's the difference between the Audiobook, eBook, and Read-Along Bundle?",
+        a: "The Audiobook lets you listen to Joe's story narrated by Joe himself - great for commutes or workouts. The eBook is the full text you can read at your own pace. The Read-Along Bundle gives you both at the same time - the pages flip as Joe narrates, so you can follow along. The physical book ships to your door.",
+      },
+      {
+        q: "Will the audiobook remember where I left off?",
+        a: "Yes. Your progress is saved automatically in your browser. As long as you're using the same device and browser, you'll pick up right where you stopped.",
+      },
+    ],
+  },
+  {
+    category: "Physical Book Orders",
+    items: [
+      {
+        q: "When will my physical book arrive?",
+        a: "Your order is confirmed immediately. Joe ships within 2-3 business days, and delivery from there typically takes 3-7 business days depending on your location. You'll get an order confirmation email when you purchase.",
+      },
+      {
+        q: "My book arrived damaged. What do I do?",
+        a: "Email us at info@joeprofitneverbroken.com within 14 days of receiving it. Tell us what happened and include a quick photo if you can. We'll send a replacement or refund - no hassle.",
+      },
+    ],
+  },
+  {
+    category: "Returns & Refunds",
+    items: [
+      {
+        q: "Can I get a refund on the physical book?",
+        a: "If your book arrived damaged or defective, yes - full refund or replacement, no questions asked. Email us within 14 days. We'll make it right.",
+      },
+      {
+        q: "Can I get a refund on a digital purchase?",
+        a: "Digital products (audiobook, ebook, read-along) are non-refundable once you've accessed them - that's standard for digital content. But if something went wrong with your purchase or the product isn't working, reach out and we'll figure it out.",
+      },
+    ],
+  },
+  {
+    category: "Booking & Speaking",
+    items: [
+      {
+        q: "How do I book Dr. Joe Profit for a speaking engagement?",
+        a: "Head to the Speaking page and fill out the inquiry form. Joe speaks at schools, corporate events, youth programs, athletic programs, and more. You can also email directly at info@joeprofitneverbroken.com.",
+      },
+      {
+        q: "Does Joe do virtual events?",
+        a: "Yes. Joe can appear in person or virtually depending on your needs and location. Mention it in your booking inquiry and we'll discuss what works best.",
+      },
+    ],
+  },
+  {
+    category: "Still Need Help?",
+    items: [
+      {
+        q: "My question isn't answered here - how do I reach someone?",
+        a: "Email us at info@joeprofitneverbroken.com. We read every message and respond within 1-2 business days. If it's urgent, say so in the subject line.",
+      },
+    ],
+  },
+];
+
+function FaqItem({ q, a }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ borderBottom: `1px solid ${C.line}`, padding: '4px 0' }}>
+      <button
+        onClick={() => setOpen(o => !o)}
+        style={{ width: '100%', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16, padding: '20px 0', textAlign: 'left' }}
+      >
+        <span style={{ fontFamily: FONT.body, fontSize: '1rem', color: C.cream, lineHeight: 1.5, fontWeight: open ? 600 : 400 }}>{q}</span>
+        <span style={{ fontFamily: FONT.display, fontSize: '1.4rem', color: C.gold, lineHeight: 1, flexShrink: 0, marginTop: 2, transition: 'transform 0.2s', transform: open ? 'rotate(45deg)' : 'none' }}>+</span>
+      </button>
+      {open && (
+        <p style={{ fontFamily: FONT.body, fontSize: '0.95rem', color: 'rgba(245,237,224,0.75)', lineHeight: 1.8, paddingBottom: 20, paddingRight: 32 }}>{a}</p>
+      )}
+    </div>
+  );
+}
+
 function SupportPage() {
   return (
-    <LegalPage title="Customer Support">
-      <p style={LS.p}>We're here to help. Whether you have a question about your order, received a damaged book, or need assistance with anything related to your purchase - reach out and we'll make it right.</p>
+    <LegalPage title="FAQ & Support">
+      <p style={{ ...LS.p, fontSize: '1.05rem', marginBottom: 40 }}>
+        Got a question? You're probably not the only one. Find your answer below - and if it's not here, email us and we'll get back to you.
+      </p>
 
-      <h2 style={LS.h2}>Contact Us</h2>
-      <p style={LS.p}>Email us at: <a href="mailto:info@joeprofitneverbroken.com" style={LS.a}>info@joeprofitneverbroken.com</a></p>
-      <p style={LS.p}>We respond within 1–2 business days.</p>
+      {FAQ_ITEMS.map(({ category, items }) => (
+        <div key={category} style={{ marginBottom: 40 }}>
+          <h2 style={{ ...LS.h2, marginTop: 0 }}>{category}</h2>
+          {items.map(item => <FaqItem key={item.q} q={item.q} a={item.a} />)}
+        </div>
+      ))}
 
-      <h2 style={LS.h2}>Order Issues</h2>
-      <p style={LS.p}>If your order hasn't arrived, arrived damaged, or you received the wrong item, email us with your order confirmation number and a brief description. We'll resolve it promptly.</p>
-
-      <h2 style={LS.h2}>Returns & Refunds</h2>
-      <p style={LS.p}>Damaged or defective physical books qualify for a full refund or replacement within 14 days of delivery. Digital products are non-refundable once accessed. See our <a href="/terms" style={LS.a}>Terms of Service</a> for full details.</p>
-
-      <h2 style={LS.h2}>Speaking & Booking Inquiries</h2>
-      <p style={LS.p}>For speaking engagement requests or media inquiries, email us at: <a href="mailto:info@joeprofitneverbroken.com" style={LS.a}>info@joeprofitneverbroken.com</a></p>
-
-      <h2 style={LS.h2}>General Questions</h2>
-      <p style={LS.p}>For anything else - foundation partnerships, media, or general questions about Dr. Joe Profit's story and work - we'd love to hear from you.</p>
+      <div style={{ marginTop: 48, padding: '28px 32px', background: 'rgba(212,162,78,0.07)', border: `1px solid rgba(212,162,78,0.2)` }}>
+        <p style={{ fontFamily: FONT.display, fontSize: '1.1rem', color: C.gold, marginBottom: 8 }}>Still stuck?</p>
+        <p style={{ fontFamily: FONT.body, fontSize: '0.95rem', color: 'rgba(245,237,224,0.75)', lineHeight: 1.7 }}>
+          Email us at{' '}
+          <a href="mailto:info@joeprofitneverbroken.com" style={LS.a}>info@joeprofitneverbroken.com</a>
+          {' '}and we'll take care of you. We respond within 1-2 business days.
+        </p>
+      </div>
     </LegalPage>
   );
 }
