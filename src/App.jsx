@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo, forwardRef } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useParams, Navigate } from "react-router-dom";
 import HTMLFlipBook from "react-pageflip";
 
 // ─── DESIGN TOKENS ───
@@ -1178,7 +1178,7 @@ function Footer() {
       <div style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.muted, letterSpacing: "0.15em" }}>
         <span>© {new Date().getFullYear()} All rights reserved.</span>
       </div>
-      <a href="https://yeti-signature-films.vercel.app" target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT.body, fontSize: "0.72rem", color: C.gold, letterSpacing: "0.3em", textTransform: "uppercase", textDecoration: "none", opacity: 0.65, transition: "opacity 0.3s" }}
+      <a href="https://yetigroove.com" target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT.body, fontSize: "0.72rem", color: C.gold, letterSpacing: "0.3em", textTransform: "uppercase", textDecoration: "none", opacity: 0.65, transition: "opacity 0.3s" }}
         onMouseEnter={e => e.currentTarget.style.opacity = "1"}
         onMouseLeave={e => e.currentTarget.style.opacity = "0.65"}>
         A Legends Commission Production
@@ -1565,6 +1565,7 @@ const DIGITAL_ICONS = { audiobook: '🎧', ebook: '📖', bundle: '🎧📖' };
 function ShopPage() {
   const [orderStates, setOrderStates] = useState({ hardcover: 'idle', paperback: 'idle', audiobook: 'idle', ebook: 'idle', bundle: 'idle' });
   const [orderSuccess, setOrderSuccess] = useState(false);
+  useEffect(() => { document.title = 'Shop - Never Broken by Dr. Joe Profit'; }, []);
   const [successEdition, setSuccessEdition] = useState(null); // null = physical/unknown, or 'audiobook'|'ebook'|'bundle'
   const [successSessionId, setSuccessSessionId] = useState(null);
   const [headRef, headVis] = useScrollReveal(0.1);
@@ -3725,7 +3726,7 @@ const LS = {
 function PrivacyPage() {
   return (
     <LegalPage title="Privacy Policy">
-      <p style={LS.p}>This Privacy Policy describes how Yeti Groove Media LLC ("we," "us," or "our") collects, uses, and protects information when you visit <strong>joe-profit.com</strong> (the "Site") or make a purchase.</p>
+      <p style={LS.p}>This Privacy Policy describes how Yeti Groove Media LLC ("we," "us," or "our") collects, uses, and protects information when you visit <strong>joeprofitneverbroken.com</strong> (the "Site") or make a purchase.</p>
 
       <h2 style={LS.h2}>Information We Collect</h2>
       <p style={LS.p}>We collect information you provide directly when you:</p>
@@ -3773,7 +3774,7 @@ function PrivacyPage() {
 function TermsPage() {
   return (
     <LegalPage title="Terms of Service">
-      <p style={LS.p}>These Terms of Service ("Terms") govern your use of <strong>joe-profit.com</strong> (the "Site") operated by Yeti Groove Media LLC ("we," "us," or "our"). By accessing or using the Site, you agree to these Terms.</p>
+      <p style={LS.p}>These Terms of Service ("Terms") govern your use of <strong>joeprofitneverbroken.com</strong> (the "Site") operated by Yeti Groove Media LLC ("we," "us," or "our"). By accessing or using the Site, you agree to these Terms.</p>
 
       <h2 style={LS.h2}>Use of the Site</h2>
       <p style={LS.p}>You may use the Site for lawful purposes only. You agree not to:</p>
@@ -3898,6 +3899,8 @@ function SpeakingPage() {
   const [formRef, formVis] = useScrollReveal(0.08);
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  useEffect(() => { document.title = 'Book Joe to Speak - Dr. Joe Profit'; }, []);
 
   const handleChange = (e) => setFormData(p => ({ ...p, [e.target.name]: e.target.value }));
 
@@ -4446,6 +4449,37 @@ function PressPage() {
   );
 }
 
+// ─── CHAPTER ROUTE (direct URL: /chapter/:slug) ───
+function ChapterRoute() {
+  const { slug } = useParams();
+  const chapter = CHAPTERS.find(c => c.slug === slug);
+  if (!chapter) return <Navigate to="/" replace />;
+
+  useEffect(() => {
+    document.title = `Chapter ${chapter.num}: ${chapter.title} - Never Broken`;
+    return () => { document.title = 'Dr. Joe Profit - Never Broken'; };
+  }, [chapter]);
+
+  const goHome = () => { window.location.href = '/'; };
+  const goChapter = (nextSlug) => { window.location.href = `/chapter/${nextSlug}`; };
+
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{background:${C.black};overflow-x:hidden}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+        ::selection{background:${C.gold};color:${C.black}}
+        img{-webkit-user-drag:none}
+      `}</style>
+      <Grain />
+      <ChapterPage chapter={chapter} onBack={goHome} onNavigate={goChapter} />
+    </>
+  );
+}
+
 // ─── APP ───
 export default function App() {
   return (
@@ -4461,6 +4495,7 @@ export default function App() {
         <Route path="/support" element={<SupportPage />} />
         <Route path="/speaking" element={<SpeakingPage />} />
         <Route path="/press" element={<PressPage />} />
+        <Route path="/chapter/:slug" element={<ChapterRoute />} />
       </Routes>
     </BrowserRouter>
   );
