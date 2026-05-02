@@ -38,15 +38,20 @@ module.exports = async function handler(req, res) {
     });
 
     // Secondary: sessions tied to a Stripe customer/guest profile (e.g. Stripe Link purchases)
-    const customers = await stripe.customers.list({ email: normalized, limit: 5 });
+    // Wrapped separately — restricted API keys may not have customers.list permission
     const byCustomer = [];
-    for (const cust of customers.data) {
-      const result = await stripe.checkout.sessions.list({
-        customer: cust.id,
-        status: 'complete',
-        limit: 20,
-      });
-      byCustomer.push(...result.data);
+    try {
+      const customers = await stripe.customers.list({ email: normalized, limit: 5 });
+      for (const cust of customers.data) {
+        const result = await stripe.checkout.sessions.list({
+          customer: cust.id,
+          status: 'complete',
+          limit: 20,
+        });
+        byCustomer.push(...result.data);
+      }
+    } catch (_) {
+      // Silently skip — restricted key without customer read permission
     }
 
     // Merge, deduplicate by session ID, filter to paid digital editions
