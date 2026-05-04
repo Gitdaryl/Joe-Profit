@@ -232,7 +232,7 @@ const CHAPTERS = [
     nextChapter: "the-draft",
   },
   {
-    num: "IV", slug: "the-draft", title: "The Draft", sub: "Atlanta Falcons · 1971",
+    num: "IV", slug: "the-draft", title: "The Draft", sub: "NFL Draft 1st Round, 7th Overall Pick",
     hero: IMG.thePick, audio: "/audio/chapter-4-the-draft.mp3",
     pullQuote: "You don't survive Lake Providence and quit because of a knee. I came back. Because that's what I do.",
     paragraphs: [
@@ -353,6 +353,7 @@ function Nav() {
     { label: "Shop", href: "/shop" }, { label: "Speaking", href: "/speaking" },
     { label: "My Books", href: "/audiobook", sub: [{ label: "Audiobook", href: "/audiobook" }, { label: "eBook", href: "/ebook" }, { label: "Read Along", href: "/read-along" }] },
     { label: "Contact", href: "/#contact" },
+    { label: "FAQ", href: "/support" },
   ];
   const navBg = scrolled ? "rgba(10,9,8,0.92)" : "transparent";
   const navBorder = scrolled ? C.lineBright : "transparent";
