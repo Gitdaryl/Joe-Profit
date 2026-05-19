@@ -4628,12 +4628,12 @@ function AdminPage() {
   const [compError, setCompError] = useState('');
   const [copied, setCopied] = useState(false);
 
-  // test email state
-  const [testEmail, setTestEmail] = useState('');
-  const [testEdition, setTestEdition] = useState('bundle');
-  const [testLoading, setTestLoading] = useState(false);
-  const [testSent, setTestSent] = useState(false);
-  const [testError, setTestError] = useState('');
+  // send comp state
+  const [recipientName, setRecipientName] = useState('');
+  const [recipientEmail, setRecipientEmail] = useState('');
+  const [sendLoading, setSendLoading] = useState(false);
+  const [sendResult, setSendResult] = useState(null);
+  const [sendError, setSendError] = useState('');
 
   async function handleAuth() {
     setAuthLoading(true);
@@ -4680,24 +4680,25 @@ function AdminPage() {
     setTimeout(() => setCopied(false), 2000);
   }
 
-  async function handleTestEmail() {
-    setTestLoading(true);
-    setTestSent(false);
-    setTestError('');
+  async function handleSendComp() {
+    setSendLoading(true);
+    setSendResult(null);
+    setSendError('');
     try {
-      const res = await fetch('/api/send-test-email', {
+      const res = await fetch('/api/send-comp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ key, email: testEmail, edition: testEdition }),
+        body: JSON.stringify({ key, email: recipientEmail, name: recipientName }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
-      setTestSent(true);
-      setTimeout(() => setTestSent(false), 4000);
+      setSendResult({ name: recipientName, email: recipientEmail, code: data.code });
+      setRecipientName('');
+      setRecipientEmail('');
     } catch (err) {
-      setTestError(err.message);
+      setSendError(err.message);
     } finally {
-      setTestLoading(false);
+      setSendLoading(false);
     }
   }
 
@@ -4730,8 +4731,10 @@ function AdminPage() {
             <label style={s.label}>Admin key</label>
             <input
               style={s.input}
-              type="password"
+              type="text"
               autoComplete="off"
+              autoCapitalize="none"
+              autoCorrect="off"
               value={key}
               onChange={e => { setKey(e.target.value); setAuthError(''); }}
               onKeyDown={e => e.key === 'Enter' && handleAuth()}
@@ -4768,37 +4771,46 @@ function AdminPage() {
 
             <hr style={s.divider} />
 
-            {/* TEST EMAIL */}
-            <p style={s.sectionTitle}>Send Test Email</p>
+            {/* SEND COMP TO CUSTOMER */}
+            <p style={s.sectionTitle}>Send Comp to Customer</p>
             <p style={{ color: C.mutedLight, fontSize: 13, marginBottom: 16 }}>
-              Preview exactly what a customer receives after purchase.
+              Generates a code and sends a personal email from Joe with the bundle as a gift.
             </p>
-            <label style={s.label}>Send to</label>
+            <label style={s.label}>Recipient name</label>
+            <input
+              style={s.input}
+              type="text"
+              autoComplete="off"
+              autoCapitalize="words"
+              value={recipientName}
+              onChange={e => { setRecipientName(e.target.value); setSendError(''); setSendResult(null); }}
+              placeholder="First and last name"
+            />
+            <label style={{ ...s.label, marginTop: 12 }}>Recipient email</label>
             <input
               style={s.input}
               type="email"
-              value={testEmail}
-              onChange={e => setTestEmail(e.target.value)}
+              autoComplete="off"
+              value={recipientEmail}
+              onChange={e => { setRecipientEmail(e.target.value); setSendError(''); setSendResult(null); }}
               placeholder="email@example.com"
             />
-            <select
-              style={s.select}
-              value={testEdition}
-              onChange={e => setTestEdition(e.target.value)}
-            >
-              <option value="bundle">Read-Along Bundle</option>
-              <option value="audiobook">Audiobook</option>
-              <option value="ebook">eBook</option>
-            </select>
             <button
-              style={{ ...s.btn, ...(testLoading ? s.btnDisabled : {}) }}
-              onClick={handleTestEmail}
-              disabled={testLoading || !testEmail}
+              style={{ ...s.btn, ...(sendLoading ? s.btnDisabled : {}) }}
+              onClick={handleSendComp}
+              disabled={sendLoading || !recipientName || !recipientEmail}
             >
-              {testLoading ? 'Sending...' : 'Send Test Email'}
+              {sendLoading ? 'Sending...' : 'Send Comp to Customer'}
             </button>
-            {testSent && <p style={s.success}>Sent! Check your inbox.</p>}
-            {testError && <p style={s.error}>{testError}</p>}
+            {sendResult && (
+              <div style={{ ...s.codeBox, marginTop: 16 }}>
+                <p style={{ color: '#6fcf97', fontSize: 14, margin: '0 0 6px' }}>
+                  Sent to {sendResult.name} at {sendResult.email}
+                </p>
+                <p style={{ ...s.codeText, fontSize: 20 }}>{sendResult.code}</p>
+              </div>
+            )}
+            {sendError && <p style={s.error}>{sendError}</p>}
           </>
         )}
       </div>
