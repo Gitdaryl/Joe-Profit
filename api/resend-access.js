@@ -59,7 +59,8 @@ module.exports = async function handler(req, res) {
     paidSessions = [...byEmail.data, ...byCustomer].filter(s => {
       if (seen.has(s.id)) return false;
       seen.add(s.id);
-      return s.payment_status === 'paid' && DIGITAL_EDITIONS.includes(s.metadata?.edition);
+      const paid = s.payment_status === 'paid' || s.payment_status === 'no_payment_required';
+      return paid && DIGITAL_EDITIONS.includes(s.metadata?.edition);
     });
   } catch (err) {
     console.error('Stripe lookup error:', err.message);

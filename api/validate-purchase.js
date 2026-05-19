@@ -16,7 +16,8 @@ module.exports = async function handler(req, res) {
   try {
     const session = await stripe.checkout.sessions.retrieve(session_id);
 
-    if (session.payment_status !== 'paid') {
+    const authorized = session.payment_status === 'paid' || session.payment_status === 'no_payment_required';
+    if (!authorized) {
       return res.status(403).json({ valid: false, error: 'Payment not completed' });
     }
 

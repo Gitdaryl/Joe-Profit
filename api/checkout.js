@@ -29,7 +29,7 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid edition' });
   }
 
-  const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+  const stripe = Stripe(process.env.STRIPE_SECRET_KEY?.trim());
   const siteUrl = process.env.SITE_URL || 'https://joe-profit.vercel.app';
   const isDigital = DIGITAL_EDITIONS.includes(edition);
 
@@ -40,10 +40,15 @@ module.exports = async function handler(req, res) {
       mode: 'payment',
       success_url: `${siteUrl}${SUCCESS_PATHS[edition]}`,
       cancel_url: `${siteUrl}/shop`,
-      ...(!isDigital ? { shipping_address_collection: { allowed_countries: ['US'] } } : {}),
+      ...(!isDigital ? {
+        shipping_address_collection: { allowed_countries: ['US'] },
+        // Disable Stripe Link for physical orders — Link's express flow can bypass shipping collection
+        payment_method_options: { link: { display_preference: { preference: 'none' } } },
+      } : {}),
       ...(!isDigital && process.env.STRIPE_SHIPPING_RATE_ID
         ? { shipping_options: [{ shipping_rate: process.env.STRIPE_SHIPPING_RATE_ID }] }
         : {}),
+      ...(isDigital ? { allow_promotion_codes: true } : {}),
       metadata: {
         product: 'Never Broken',
         edition,
