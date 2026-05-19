@@ -4621,12 +4621,12 @@ function AdminPage() {
   const [authed, setAuthed] = useState(false);
   const [authError, setAuthError] = useState('');
   const [authLoading, setAuthLoading] = useState(false);
+  const [tab, setTab] = useState('send');
 
-  // comp state
+  // generate comp state
   const [compLoading, setCompLoading] = useState(false);
   const [code, setCode] = useState('');
   const [compError, setCompError] = useState('');
-  const [copied, setCopied] = useState(false);
 
   // send comp state
   const [recipientName, setRecipientName] = useState('');
@@ -4634,6 +4634,11 @@ function AdminPage() {
   const [sendLoading, setSendLoading] = useState(false);
   const [sendResult, setSendResult] = useState(null);
   const [sendError, setSendError] = useState('');
+
+  // dashboard state
+  const [history, setHistory] = useState(null);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [historyError, setHistoryError] = useState('');
 
   async function handleAuth() {
     setAuthLoading(true);
@@ -4657,7 +4662,6 @@ function AdminPage() {
     setCompLoading(true);
     setCode('');
     setCompError('');
-    setCopied(false);
     try {
       const res = await fetch('/api/generate-comp', {
         method: 'POST',
@@ -4674,12 +4678,6 @@ function AdminPage() {
     }
   }
 
-  function handleCopy() {
-    navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  }
-
   async function handleSendComp() {
     setSendLoading(true);
     setSendResult(null);
@@ -4693,8 +4691,6 @@ function AdminPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
       setSendResult({ name: recipientName, email: recipientEmail, code: data.code });
-      setRecipientName('');
-      setRecipientEmail('');
     } catch (err) {
       setSendError(err.message);
     } finally {
@@ -4702,117 +4698,216 @@ function AdminPage() {
     }
   }
 
+  async function loadHistory() {
+    setHistoryLoading(true);
+    setHistoryError('');
+    try {
+      const res = await fetch('/api/comp-history', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed');
+      setHistory(data.records);
+    } catch (err) {
+      setHistoryError(err.message);
+    } finally {
+      setHistoryLoading(false);
+    }
+  }
+
+  function handleTabChange(t) {
+    setTab(t);
+    if (t === 'dashboard' && !history) loadHistory();
+  }
+
   const s = {
-    page: { minHeight: '100vh', background: C.black, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: FONT.body, padding: 24 },
-    card: { background: C.dark2, border: `1px solid ${C.lineBright}`, borderRadius: 16, padding: '48px 40px', width: '100%', maxWidth: 440, boxShadow: `0 0 40px ${C.goldGlow}` },
-    title: { fontFamily: FONT.display, color: C.gold, fontSize: 22, fontWeight: 600, marginBottom: 8, textAlign: 'center' },
-    divider: { border: 'none', borderTop: `1px solid ${C.lineBright}`, margin: '32px 0' },
-    sectionTitle: { color: C.cream, fontSize: 13, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16 },
+    page: { minHeight: '100vh', background: C.black, fontFamily: FONT.body, padding: '40px 16px' },
+    wrap: { maxWidth: 560, margin: '0 auto' },
+    card: { background: C.dark2, border: `1px solid ${C.lineBright}`, borderRadius: 16, padding: '40px 36px', boxShadow: `0 0 40px ${C.goldGlow}` },
+    title: { fontFamily: FONT.display, color: C.gold, fontSize: 22, fontWeight: 600, marginBottom: 24, textAlign: 'center' },
+    tabs: { display: 'flex', gap: 8, marginBottom: 28 },
+    tab: (active) => ({ flex: 1, padding: '10px 0', borderRadius: 8, border: `1px solid ${active ? C.gold : C.lineBright}`, background: active ? C.goldDim : 'transparent', color: active ? C.gold : C.muted, fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', cursor: 'pointer' }),
+    sectionTitle: { color: C.cream, fontSize: 13, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 },
     label: { color: C.mutedLight, fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 6, display: 'block' },
     input: { width: '100%', background: C.dark3, border: `1px solid ${C.lineBright}`, borderRadius: 8, color: C.cream, fontSize: 15, padding: '12px 14px', outline: 'none', boxSizing: 'border-box' },
-    select: { width: '100%', background: C.dark3, border: `1px solid ${C.lineBright}`, borderRadius: 8, color: C.cream, fontSize: 15, padding: '12px 14px', outline: 'none', boxSizing: 'border-box', marginTop: 12 },
     btn: { width: '100%', background: C.gold, color: C.black, border: 'none', borderRadius: 8, padding: '14px 0', fontSize: 15, fontWeight: 700, cursor: 'pointer', marginTop: 16 },
+    btnGhost: { width: '100%', background: 'transparent', color: C.mutedLight, border: `1px solid ${C.lineBright}`, borderRadius: 8, padding: '12px 0', fontSize: 14, cursor: 'pointer', marginTop: 10 },
     btnDisabled: { opacity: 0.6, cursor: 'not-allowed' },
-    codeBox: { background: C.dark3, border: `1px solid ${C.gold}`, borderRadius: 8, padding: '16px 14px', marginTop: 20, textAlign: 'center' },
-    codeText: { color: C.gold, fontSize: 26, fontWeight: 700, letterSpacing: '0.1em', fontFamily: 'monospace' },
-    copyBtn: { marginTop: 12, background: 'transparent', border: `1px solid ${C.lineBright}`, borderRadius: 6, color: copied ? C.gold : C.mutedLight, fontSize: 13, padding: '7px 18px', cursor: 'pointer' },
+    codeBox: { background: C.dark3, border: `1px solid ${C.gold}`, borderRadius: 8, padding: '16px 14px', marginTop: 16, textAlign: 'center' },
+    codeText: { color: C.gold, fontSize: 28, fontWeight: 700, letterSpacing: '0.1em', fontFamily: 'monospace', margin: 0 },
+    divider: { border: 'none', borderTop: `1px solid ${C.lineBright}`, margin: '28px 0' },
     error: { color: '#e05c5c', fontSize: 13, marginTop: 12, textAlign: 'center' },
-    success: { color: '#6fcf97', fontSize: 13, marginTop: 12, textAlign: 'center' },
+    overlay: { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: 24 },
+    modal: { background: C.dark2, border: `1px solid ${C.gold}`, borderRadius: 16, padding: '40px 32px', maxWidth: 380, width: '100%', textAlign: 'center', boxShadow: `0 0 60px ${C.goldGlow}` },
   };
+
+  // Success modal
+  if (sendResult) return (
+    <div style={s.overlay}>
+      <div style={s.modal}>
+        <p style={{ fontSize: 32, margin: '0 0 8px' }}>✓</p>
+        <p style={{ color: C.gold, fontFamily: FONT.display, fontSize: 20, margin: '0 0 16px' }}>Comp Sent!</p>
+        <p style={{ color: C.cream, fontSize: 16, margin: '0 0 6px' }}>{sendResult.name}</p>
+        <p style={{ color: C.muted, fontSize: 14, margin: '0 0 20px' }}>{sendResult.email}</p>
+        <div style={{ background: C.dark3, borderRadius: 8, padding: '14px', marginBottom: 24 }}>
+          <p style={{ color: C.mutedLight, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 6px' }}>Code sent</p>
+          <p style={{ ...s.codeText, fontSize: 22 }}>{sendResult.code}</p>
+        </div>
+        <button style={s.btn} onClick={() => { setSendResult(null); setRecipientName(''); setRecipientEmail(''); }}>
+          Send Another
+        </button>
+        <button style={s.btnGhost} onClick={() => { setAuthed(false); setKey(''); setSendResult(null); }}>
+          Log Out
+        </button>
+      </div>
+    </div>
+  );
 
   return (
     <div style={s.page}>
-      <div style={s.card}>
-        <p style={s.title}>Never Broken Admin</p>
+      <div style={s.wrap}>
+        <div style={s.card}>
+          <p style={s.title}>Never Broken Admin</p>
 
-        {!authed ? (
-          <>
-            <p style={{ color: C.muted, fontSize: 13, textAlign: 'center', marginBottom: 28 }}>Enter your admin key to continue</p>
-            <label style={s.label}>Admin key</label>
-            <input
-              style={s.input}
-              type="text"
-              autoComplete="off"
-              autoCapitalize="none"
-              autoCorrect="off"
-              value={key}
-              onChange={e => { setKey(e.target.value); setAuthError(''); }}
-              onKeyDown={e => e.key === 'Enter' && handleAuth()}
-              placeholder="Enter admin key"
-            />
-            {authError && <p style={s.error}>{authError}</p>}
-            <button style={{ ...s.btn, ...(authLoading ? s.btnDisabled : {}) }} onClick={handleAuth} disabled={authLoading}>
-              {authLoading ? 'Checking...' : 'Continue'}
-            </button>
-          </>
-        ) : (
-          <>
-            {/* COMP CODES */}
-            <p style={s.sectionTitle}>Generate Comp Code</p>
-            <p style={{ color: C.mutedLight, fontSize: 13, marginBottom: 16 }}>
-              Single-use, 100% off — works on audiobook, eBook, or bundle.
-            </p>
-            <button
-              style={{ ...s.btn, marginTop: 0, ...(compLoading ? s.btnDisabled : {}) }}
-              onClick={handleGenerate}
-              disabled={compLoading}
-            >
-              {compLoading ? 'Generating...' : 'Generate Comp Code'}
-            </button>
-            {code && (
-              <div style={s.codeBox}>
-                <p style={s.codeText}>{code}</p>
-                <button style={s.copyBtn} onClick={handleCopy}>
-                  {copied ? 'Copied!' : 'Copy to clipboard'}
+          {!authed ? (
+            <>
+              <p style={{ color: C.muted, fontSize: 13, textAlign: 'center', marginBottom: 28 }}>Enter your admin key to continue</p>
+              <label style={s.label}>Admin key</label>
+              <input
+                style={s.input}
+                type="text"
+                autoComplete="off"
+                autoCapitalize="none"
+                autoCorrect="off"
+                value={key}
+                onChange={e => { setKey(e.target.value); setAuthError(''); }}
+                onKeyDown={e => e.key === 'Enter' && handleAuth()}
+                placeholder="Enter admin key"
+              />
+              {authError && <p style={s.error}>{authError}</p>}
+              <button style={{ ...s.btn, ...(authLoading ? s.btnDisabled : {}) }} onClick={handleAuth} disabled={authLoading}>
+                {authLoading ? 'Checking...' : 'Continue'}
+              </button>
+            </>
+          ) : (
+            <>
+              <div style={s.tabs}>
+                <button style={s.tab(tab === 'send')} onClick={() => handleTabChange('send')}>Send Comp</button>
+                <button style={s.tab(tab === 'generate')} onClick={() => handleTabChange('generate')}>Get Code</button>
+                <button style={s.tab(tab === 'dashboard')} onClick={() => handleTabChange('dashboard')}>Dashboard</button>
+              </div>
+
+              {/* SEND COMP TAB */}
+              {tab === 'send' && (
+                <>
+                  <p style={{ color: C.mutedLight, fontSize: 13, marginBottom: 16 }}>
+                    Generates a code and sends a personal email from Joe with the bundle as a gift.
+                  </p>
+                  <label style={s.label}>Recipient name</label>
+                  <input
+                    style={s.input}
+                    type="text"
+                    autoComplete="off"
+                    autoCapitalize="words"
+                    value={recipientName}
+                    onChange={e => { setRecipientName(e.target.value); setSendError(''); }}
+                    placeholder="First and last name"
+                  />
+                  <label style={{ ...s.label, marginTop: 14 }}>Recipient email</label>
+                  <input
+                    style={s.input}
+                    type="email"
+                    autoComplete="off"
+                    value={recipientEmail}
+                    onChange={e => { setRecipientEmail(e.target.value); setSendError(''); }}
+                    placeholder="email@example.com"
+                  />
+                  <button
+                    style={{ ...s.btn, ...(sendLoading ? s.btnDisabled : {}) }}
+                    onClick={handleSendComp}
+                    disabled={sendLoading || !recipientName || !recipientEmail}
+                  >
+                    {sendLoading ? 'Sending...' : 'Send Comp to Customer'}
+                  </button>
+                  {sendError && <p style={s.error}>{sendError}</p>}
+                </>
+              )}
+
+              {/* GET CODE TAB */}
+              {tab === 'generate' && (
+                <>
+                  <p style={{ color: C.mutedLight, fontSize: 13, marginBottom: 16 }}>
+                    Single-use, 100% off — share manually via text or DM.
+                  </p>
+                  <button
+                    style={{ ...s.btn, marginTop: 0, ...(compLoading ? s.btnDisabled : {}) }}
+                    onClick={handleGenerate}
+                    disabled={compLoading}
+                  >
+                    {compLoading ? 'Generating...' : 'Generate Comp Code'}
+                  </button>
+                  {code && (
+                    <div style={s.codeBox}>
+                      <p style={s.codeText}>{code}</p>
+                    </div>
+                  )}
+                  {compError && <p style={s.error}>{compError}</p>}
+                </>
+              )}
+
+              {/* DASHBOARD TAB */}
+              {tab === 'dashboard' && (
+                <>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                    <p style={{ ...s.sectionTitle, margin: 0 }}>Comp History</p>
+                    <button onClick={loadHistory} style={{ background: 'transparent', border: 'none', color: C.gold, fontSize: 13, cursor: 'pointer' }}>
+                      {historyLoading ? 'Loading...' : 'Refresh'}
+                    </button>
+                  </div>
+                  {historyError && <p style={s.error}>{historyError}</p>}
+                  {history && history.length === 0 && (
+                    <p style={{ color: C.muted, fontSize: 14, textAlign: 'center', padding: '24px 0' }}>No comp codes issued yet.</p>
+                  )}
+                  {history && history.length > 0 && (
+                    <div style={{ overflowX: 'auto' }}>
+                      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+                        <thead>
+                          <tr>
+                            {['Name', 'Email', 'Code', 'Redeemed'].map(h => (
+                              <th key={h} style={{ color: C.mutedLight, fontWeight: 700, textAlign: 'left', padding: '6px 8px', borderBottom: `1px solid ${C.lineBright}`, whiteSpace: 'nowrap' }}>{h}</th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {history.map((r, i) => (
+                            <tr key={i} style={{ borderBottom: `1px solid ${C.line}` }}>
+                              <td style={{ color: C.cream, padding: '10px 8px', whiteSpace: 'nowrap' }}>{r.name}</td>
+                              <td style={{ color: C.muted, padding: '10px 8px', fontSize: 12 }}>{r.email}</td>
+                              <td style={{ color: C.gold, padding: '10px 8px', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>{r.code}</td>
+                              <td style={{ padding: '10px 8px', textAlign: 'center' }}>
+                                <span style={{ color: r.redeemed ? '#6fcf97' : C.muted, fontWeight: 700 }}>
+                                  {r.redeemed ? 'Yes' : 'No'}
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </>
+              )}
+
+              <div style={{ marginTop: 32, textAlign: 'center' }}>
+                <button onClick={() => { setAuthed(false); setKey(''); }} style={{ background: 'transparent', border: 'none', color: C.muted, fontSize: 12, cursor: 'pointer' }}>
+                  Log out
                 </button>
               </div>
-            )}
-            {compError && <p style={s.error}>{compError}</p>}
-
-            <hr style={s.divider} />
-
-            {/* SEND COMP TO CUSTOMER */}
-            <p style={s.sectionTitle}>Send Comp to Customer</p>
-            <p style={{ color: C.mutedLight, fontSize: 13, marginBottom: 16 }}>
-              Generates a code and sends a personal email from Joe with the bundle as a gift.
-            </p>
-            <label style={s.label}>Recipient name</label>
-            <input
-              style={s.input}
-              type="text"
-              autoComplete="off"
-              autoCapitalize="words"
-              value={recipientName}
-              onChange={e => { setRecipientName(e.target.value); setSendError(''); setSendResult(null); }}
-              placeholder="First and last name"
-            />
-            <label style={{ ...s.label, marginTop: 12 }}>Recipient email</label>
-            <input
-              style={s.input}
-              type="email"
-              autoComplete="off"
-              value={recipientEmail}
-              onChange={e => { setRecipientEmail(e.target.value); setSendError(''); setSendResult(null); }}
-              placeholder="email@example.com"
-            />
-            <button
-              style={{ ...s.btn, ...(sendLoading ? s.btnDisabled : {}) }}
-              onClick={handleSendComp}
-              disabled={sendLoading || !recipientName || !recipientEmail}
-            >
-              {sendLoading ? 'Sending...' : 'Send Comp to Customer'}
-            </button>
-            {sendResult && (
-              <div style={{ ...s.codeBox, marginTop: 16 }}>
-                <p style={{ color: '#6fcf97', fontSize: 14, margin: '0 0 6px' }}>
-                  Sent to {sendResult.name} at {sendResult.email}
-                </p>
-                <p style={{ ...s.codeText, fontSize: 20 }}>{sendResult.code}</p>
-              </div>
-            )}
-            {sendError && <p style={s.error}>{sendError}</p>}
-          </>
-        )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

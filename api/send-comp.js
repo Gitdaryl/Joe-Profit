@@ -32,6 +32,7 @@ module.exports = async function handler(req, res) {
       coupon: coupon.id,
       code: `COMP-${suffix}`,
       max_redemptions: 1,
+      metadata: { recipient_name: name.trim(), recipient_email: email.trim() },
     });
     code = promo.code;
   } catch (err) {
