@@ -4619,6 +4619,8 @@ function ChapterRoute() {
 function AdminPage() {
   const [key, setKey] = useState('');
   const [authed, setAuthed] = useState(false);
+  const [authError, setAuthError] = useState('');
+  const [authLoading, setAuthLoading] = useState(false);
 
   // comp state
   const [compLoading, setCompLoading] = useState(false);
@@ -4632,6 +4634,24 @@ function AdminPage() {
   const [testLoading, setTestLoading] = useState(false);
   const [testSent, setTestSent] = useState(false);
   const [testError, setTestError] = useState('');
+
+  async function handleAuth() {
+    setAuthLoading(true);
+    setAuthError('');
+    try {
+      const res = await fetch('/api/check-admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key }),
+      });
+      if (!res.ok) throw new Error('Wrong key');
+      setAuthed(true);
+    } catch {
+      setAuthError('Wrong key - try again');
+    } finally {
+      setAuthLoading(false);
+    }
+  }
 
   async function handleGenerate() {
     setCompLoading(true);
@@ -4711,12 +4731,16 @@ function AdminPage() {
             <input
               style={s.input}
               type="password"
+              autoComplete="off"
               value={key}
-              onChange={e => setKey(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && setAuthed(true)}
+              onChange={e => { setKey(e.target.value); setAuthError(''); }}
+              onKeyDown={e => e.key === 'Enter' && handleAuth()}
               placeholder="Enter admin key"
             />
-            <button style={s.btn} onClick={() => setAuthed(true)}>Continue</button>
+            {authError && <p style={s.error}>{authError}</p>}
+            <button style={{ ...s.btn, ...(authLoading ? s.btnDisabled : {}) }} onClick={handleAuth} disabled={authLoading}>
+              {authLoading ? 'Checking...' : 'Continue'}
+            </button>
           </>
         ) : (
           <>
