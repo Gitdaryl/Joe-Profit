@@ -4615,6 +4615,98 @@ function ChapterRoute() {
   );
 }
 
+// ─── ADMIN PAGE ───
+function AdminPage() {
+  const [key, setKey] = useState('');
+  const [authed, setAuthed] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [code, setCode] = useState('');
+  const [error, setError] = useState('');
+  const [copied, setCopied] = useState(false);
+
+  async function handleGenerate() {
+    setLoading(true);
+    setCode('');
+    setError('');
+    setCopied(false);
+    try {
+      const res = await fetch('/api/generate-comp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed');
+      setCode(data.code);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function handleCopy() {
+    navigator.clipboard.writeText(code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
+  const s = {
+    page: { minHeight: '100vh', background: C.black, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: FONT.body, padding: 24 },
+    card: { background: C.dark2, border: `1px solid ${C.lineBright}`, borderRadius: 16, padding: '48px 40px', width: '100%', maxWidth: 420, boxShadow: `0 0 40px ${C.goldGlow}` },
+    title: { fontFamily: FONT.display, color: C.gold, fontSize: 22, fontWeight: 600, marginBottom: 8, textAlign: 'center' },
+    sub: { color: C.muted, fontSize: 13, textAlign: 'center', marginBottom: 32 },
+    label: { color: C.mutedLight, fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 6, display: 'block' },
+    input: { width: '100%', background: C.dark3, border: `1px solid ${C.lineBright}`, borderRadius: 8, color: C.cream, fontSize: 15, padding: '12px 14px', outline: 'none', boxSizing: 'border-box' },
+    btn: { width: '100%', background: C.gold, color: C.black, border: 'none', borderRadius: 8, padding: '14px 0', fontSize: 15, fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.6 : 1, marginTop: 20 },
+    codeBox: { background: C.dark3, border: `1px solid ${C.gold}`, borderRadius: 8, padding: '16px 14px', marginTop: 24, textAlign: 'center' },
+    codeText: { color: C.gold, fontSize: 26, fontWeight: 700, letterSpacing: '0.1em', fontFamily: 'monospace' },
+    copyBtn: { marginTop: 12, background: 'transparent', border: `1px solid ${C.lineBright}`, borderRadius: 6, color: copied ? C.gold : C.mutedLight, fontSize: 13, padding: '7px 18px', cursor: 'pointer' },
+    error: { color: '#e05c5c', fontSize: 13, marginTop: 16, textAlign: 'center' },
+  };
+
+  return (
+    <div style={s.page}>
+      <div style={s.card}>
+        <p style={s.title}>Never Broken Admin</p>
+        <p style={s.sub}>Generate a single-use complimentary code</p>
+        {!authed ? (
+          <>
+            <label style={s.label}>Admin key</label>
+            <input
+              style={s.input}
+              type="password"
+              value={key}
+              onChange={e => setKey(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && setAuthed(true)}
+              placeholder="Enter admin key"
+            />
+            <button style={s.btn} onClick={() => setAuthed(true)}>Continue</button>
+          </>
+        ) : (
+          <>
+            <p style={{ color: C.mutedLight, fontSize: 14, textAlign: 'center', marginBottom: 8 }}>
+              Generates a <strong style={{ color: C.cream }}>COMP-XXXXXX</strong> code — 100% off, single use, all digital editions.
+            </p>
+            <button style={s.btn} onClick={handleGenerate} disabled={loading}>
+              {loading ? 'Generating...' : 'Generate Comp Code'}
+            </button>
+            {code && (
+              <div style={s.codeBox}>
+                <p style={s.codeText}>{code}</p>
+                <button style={s.copyBtn} onClick={handleCopy}>
+                  {copied ? 'Copied!' : 'Copy to clipboard'}
+                </button>
+              </div>
+            )}
+            {error && <p style={s.error}>{error}</p>}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ─── APP ───
 export default function App() {
   return (
@@ -4631,6 +4723,7 @@ export default function App() {
         <Route path="/speaking" element={<SpeakingPage />} />
         <Route path="/press" element={<PressPage />} />
         <Route path="/chapter/:slug" element={<ChapterRoute />} />
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
     </BrowserRouter>
   );
