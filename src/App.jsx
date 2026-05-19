@@ -4621,7 +4621,7 @@ function AdminPage() {
   const [authed, setAuthed] = useState(false);
   const [authError, setAuthError] = useState('');
   const [authLoading, setAuthLoading] = useState(false);
-  const [tab, setTab] = useState('send');
+  const [tab, setTab] = useState('generate');
 
   // generate comp state
   const [compLoading, setCompLoading] = useState(false);
@@ -4758,7 +4758,10 @@ function AdminPage() {
         <button style={s.btn} onClick={() => { setSendResult(null); setRecipientName(''); setRecipientEmail(''); }}>
           Send Another
         </button>
-        <button style={s.btnGhost} onClick={() => { setAuthed(false); setKey(''); setSendResult(null); }}>
+        <button style={s.btnGhost} onClick={() => { setSendResult(null); setRecipientName(''); setRecipientEmail(''); }}>
+          Back
+        </button>
+        <button style={{ ...s.btnGhost, marginTop: 6 }} onClick={() => { setAuthed(false); setKey(''); setSendResult(null); }}>
           Log Out
         </button>
       </div>
@@ -4794,8 +4797,8 @@ function AdminPage() {
           ) : (
             <>
               <div style={s.tabs}>
-                <button style={s.tab(tab === 'send')} onClick={() => handleTabChange('send')}>Send Comp</button>
-                <button style={s.tab(tab === 'generate')} onClick={() => handleTabChange('generate')}>Get Code</button>
+                <button style={s.tab(tab === 'generate')} onClick={() => handleTabChange('generate')}>1. Create Coupon</button>
+                <button style={s.tab(tab === 'send')} onClick={() => handleTabChange('send')}>2. Send Coupon</button>
                 <button style={s.tab(tab === 'dashboard')} onClick={() => handleTabChange('dashboard')}>Dashboard</button>
               </div>
 
