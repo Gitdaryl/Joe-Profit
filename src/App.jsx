@@ -4777,22 +4777,23 @@ function AdminPage() {
           {!authed ? (
             <>
               <p style={{ color: C.muted, fontSize: 13, textAlign: 'center', marginBottom: 28 }}>Enter your admin key to continue</p>
-              <label style={s.label}>Admin key</label>
-              <input
-                style={s.input}
-                type="text"
-                autoComplete="off"
-                autoCapitalize="none"
-                autoCorrect="off"
-                value={key}
-                onChange={e => { setKey(e.target.value); setAuthError(''); }}
-                onKeyDown={e => e.key === 'Enter' && handleAuth()}
-                placeholder="Enter admin key"
-              />
-              {authError && <p style={s.error}>{authError}</p>}
-              <button style={{ ...s.btn, ...(authLoading ? s.btnDisabled : {}) }} onClick={handleAuth} disabled={authLoading}>
-                {authLoading ? 'Checking...' : 'Continue'}
-              </button>
+              <form onSubmit={e => { e.preventDefault(); handleAuth(); }}>
+                <input type="text" name="username" autoComplete="username" value="joe-profit-admin" readOnly style={{ display: 'none' }} />
+                <label style={s.label}>Admin key</label>
+                <input
+                  style={s.input}
+                  type="password"
+                  name="password"
+                  autoComplete="current-password"
+                  value={key}
+                  onChange={e => { setKey(e.target.value); setAuthError(''); }}
+                  placeholder="Enter admin key"
+                />
+                {authError && <p style={s.error}>{authError}</p>}
+                <button type="submit" style={{ ...s.btn, ...(authLoading ? s.btnDisabled : {}) }} disabled={authLoading}>
+                  {authLoading ? 'Checking...' : 'Continue'}
+                </button>
+              </form>
             </>
           ) : (
             <>
