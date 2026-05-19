@@ -7,7 +7,7 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const { key, email, edition } = req.body;
-  if (!key || key !== process.env.ADMIN_SECRET) {
+  if (!key || key.trim() !== (process.env.ADMIN_SECRET || '').trim()) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
   if (!email || !edition || !DIGITAL_LABELS[edition]) {
