@@ -4640,6 +4640,11 @@ function AdminPage() {
   const [historyLoading, setHistoryLoading] = useState(false);
   const [historyError, setHistoryError] = useState('');
 
+  // orders state
+  const [orders, setOrders] = useState(null);
+  const [ordersLoading, setOrdersLoading] = useState(false);
+  const [ordersError, setOrdersError] = useState('');
+
   async function handleAuth() {
     setAuthLoading(true);
     setAuthError('');
@@ -4717,9 +4722,43 @@ function AdminPage() {
     }
   }
 
+  async function loadOrders() {
+    setOrdersLoading(true);
+    setOrdersError('');
+    try {
+      const res = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed');
+      setOrders(data.orders);
+    } catch (err) {
+      setOrdersError(err.message);
+    } finally {
+      setOrdersLoading(false);
+    }
+  }
+
+  async function toggleDelivered(order) {
+    const next = !order.delivered;
+    setOrders(prev => prev.map(o => o.id === order.id ? { ...o, delivered: next } : o));
+    try {
+      await fetch('/api/mark-delivered', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key, piId: order.piId, delivered: next }),
+      });
+    } catch {
+      setOrders(prev => prev.map(o => o.id === order.id ? { ...o, delivered: !next } : o));
+    }
+  }
+
   function handleTabChange(t) {
     setTab(t);
     if (t === 'dashboard' && !history) loadHistory();
+    if (t === 'orders' && !orders) loadOrders();
   }
 
   const s = {
@@ -4797,10 +4836,11 @@ function AdminPage() {
             </>
           ) : (
             <>
-              <div style={s.tabs}>
+              <div style={{ ...s.tabs, flexWrap: 'wrap' }}>
                 <button style={s.tab(tab === 'generate')} onClick={() => handleTabChange('generate')}>1. Create Coupon</button>
                 <button style={s.tab(tab === 'send')} onClick={() => handleTabChange('send')}>2. Send Coupon</button>
-                <button style={s.tab(tab === 'dashboard')} onClick={() => handleTabChange('dashboard')}>Dashboard</button>
+                <button style={s.tab(tab === 'orders')} onClick={() => handleTabChange('orders')}>Orders</button>
+                <button style={s.tab(tab === 'dashboard')} onClick={() => handleTabChange('dashboard')}>Comp Log</button>
               </div>
 
               {/* SEND COMP TAB */}
@@ -4858,6 +4898,74 @@ function AdminPage() {
                     </div>
                   )}
                   {compError && <p style={s.error}>{compError}</p>}
+                </>
+              )}
+
+              {/* ORDERS TAB */}
+              {tab === 'orders' && (
+                <>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                    <p style={{ ...s.sectionTitle, margin: 0 }}>All Orders</p>
+                    <button onClick={loadOrders} style={{ background: 'transparent', border: 'none', color: C.gold, fontSize: 13, cursor: 'pointer' }}>
+                      {ordersLoading ? 'Loading...' : 'Refresh'}
+                    </button>
+                  </div>
+                  {ordersError && <p style={s.error}>{ordersError}</p>}
+                  {orders && orders.length === 0 && (
+                    <p style={{ color: C.muted, fontSize: 14, textAlign: 'center', padding: '24px 0' }}>No orders yet.</p>
+                  )}
+                  {orders && orders.map(o => (
+                    <div key={o.id} style={{
+                      background: C.dark3,
+                      border: `1px solid ${o.isPhysical ? C.lineBright : C.line}`,
+                      borderRadius: 10,
+                      padding: '16px',
+                      marginBottom: 10,
+                      opacity: o.delivered ? 0.6 : 1,
+                    }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4, flexWrap: 'wrap' }}>
+                            <span style={{
+                              fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', padding: '2px 8px',
+                              borderRadius: 4, background: o.isComp ? 'rgba(111,207,151,0.15)' : o.isPhysical ? C.goldDim : 'rgba(100,160,255,0.12)',
+                              color: o.isComp ? '#6fcf97' : o.isPhysical ? C.gold : '#82b4ff',
+                            }}>
+                              {o.isComp ? 'COMP' : o.isPhysical ? 'PHYSICAL' : 'DIGITAL'}
+                            </span>
+                            <span style={{ color: C.cream, fontSize: 14, fontWeight: 600 }}>{o.label}</span>
+                            <span style={{ color: C.muted, fontSize: 13 }}>${o.amount}</span>
+                          </div>
+                          <p style={{ color: C.cream, fontSize: 14, margin: '0 0 2px' }}>{o.name}</p>
+                          <p style={{ color: C.muted, fontSize: 12, margin: '0 0 4px' }}>{o.email}</p>
+                          {o.shipping && (
+                            <p style={{ color: C.mutedLight, fontSize: 12, margin: '0 0 4px', lineHeight: 1.5 }}>{o.shipping}</p>
+                          )}
+                          <p style={{ color: C.muted, fontSize: 11, margin: 0 }}>
+                            {new Date(o.created * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                          </p>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8, flexShrink: 0 }}>
+                          {o.isPhysical && (
+                            <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
+                              <input
+                                type="checkbox"
+                                checked={o.delivered}
+                                onChange={() => toggleDelivered(o)}
+                                style={{ width: 18, height: 18, cursor: 'pointer', accentColor: C.gold }}
+                              />
+                              <span style={{ color: o.delivered ? C.gold : C.muted, fontSize: 12, fontWeight: 700 }}>
+                                {o.delivered ? 'Delivered' : 'Deliver?'}
+                              </span>
+                            </label>
+                          )}
+                          {o.compSent && (
+                            <span style={{ fontSize: 11, color: '#6fcf97', fontWeight: 700 }}>Bundle ✓</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </>
               )}
 
