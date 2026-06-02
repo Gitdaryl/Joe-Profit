@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo, forwardRef } from "react";
 import { BrowserRouter, Routes, Route, useParams, Navigate } from "react-router-dom";
 import HTMLFlipBook from "react-pageflip";
+import { Analytics } from "@vercel/analytics/react";
 
 // ─── DESIGN TOKENS ───
 const C = {
@@ -5043,6 +5044,7 @@ export default function App() {
         <Route path="/chapter/:slug" element={<ChapterRoute />} />
         <Route path="/admin" element={<AdminPage />} />
       </Routes>
+      <Analytics />
     </BrowserRouter>
   );
 }
