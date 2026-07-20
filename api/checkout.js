@@ -48,7 +48,7 @@ module.exports = async function handler(req, res) {
       ...(!isDigital && process.env.STRIPE_SHIPPING_RATE_ID
         ? { shipping_options: [{ shipping_rate: process.env.STRIPE_SHIPPING_RATE_ID }] }
         : {}),
-      ...(isDigital ? { allow_promotion_codes: true } : {}),
+      allow_promotion_codes: true,
       metadata: {
         product: 'Never Broken',
         edition,
