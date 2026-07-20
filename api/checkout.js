@@ -41,9 +41,10 @@ module.exports = async function handler(req, res) {
       success_url: `${siteUrl}${SUCCESS_PATHS[edition]}`,
       cancel_url: `${siteUrl}/shop`,
       ...(!isDigital ? {
+        // Checkout enforces shipping collection in the Link flow too; per-session Link
+        // disable is not supported by this API version (param rejected → checkout 500s).
+        // To hide Link entirely: Stripe Dashboard → Settings → Payment methods.
         shipping_address_collection: { allowed_countries: ['US'] },
-        // Disable Stripe Link for physical orders — Link's express flow can bypass shipping collection
-        payment_method_options: { link: { display_preference: { preference: 'none' } } },
       } : {}),
       ...(!isDigital && process.env.STRIPE_SHIPPING_RATE_ID
         ? { shipping_options: [{ shipping_rate: process.env.STRIPE_SHIPPING_RATE_ID }] }
