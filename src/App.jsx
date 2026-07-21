@@ -117,7 +117,7 @@ const GALLERY_ITEMS = [
   { src: IMG.saints, cat: "Athletics", title: "New Orleans Saints", caption: "Joe Profit gain 8.5 yards a carry against San Diego Chargers, for the New Orleans Saints." },
   { src: IMG.allAmerican, cat: "Athletics", title: "World Football League", caption: "Joe Profit scores the first touchdown in the World Football league for Birmingham." },
   { src: IMG.swayze, cat: "Athletics", title: "Swayze Elementary #40", caption: "Young Joe at Swayze Elementary - where the legend first took shape." },
-  { src: IMG.plaque, cat: "Athletics", title: "Hall of Fame Plaque", caption: "The first black athlete in the Gulf States Conference. The first and only first-round NFL Draft pick from NLU." },
+  { src: IMG.plaque, cat: "Athletics", title: "Hall of Fame Plaque", caption: "The first Black athlete to play football at a predominantly white college in Louisiana. The first and only first-round NFL Draft pick from NLU." },
   { src: IMG.coachDale, cat: "Athletics", title: "Coach Dale Brown", caption: "Legendary Coach Dale Brown and Joe Profit at their induction into the Louisiana Sports Hall of Fame." },
   { src: IMG.shack, cat: "Athletics", title: "Shack Harris", caption: "James 'Shack' Harris (Pro-Bowl MVP) and Joe Profit at the Black Football HOF Event." },
   { src: IMG.pi, cat: "Athletics", title: "Black College Football HOF", caption: "PI and Dr. Joe Profit at the Black College Football Hall of Fame Induction Ceremony." },
@@ -217,14 +217,14 @@ const CHAPTERS = [
     hero: IMG.touchdown, audio: "/audio/chapter-3-breaking-barriers.mp3",
     pullQuote: "You don't change minds with words. You change them with what you do.",
     paragraphs: [
-      "When Joe walked onto the campus of Northeast Louisiana University, he became the first Black athlete to play football in the Gulf States Conference. Every time he stepped on that field, he carried something bigger than himself.",
+      "When Joe walked onto the campus of Northeast Louisiana University, he became the first Black athlete to play football at a predominantly white college in the state of Louisiana - and the first in the Gulf States Conference. Every time he stepped on that field, he carried something bigger than himself.",
       "There were people in those stands who didn't want him there. He was spat on. He was called names. Opposing players hit harder than they needed to, trying to send a message. The hostility was constant and unrelenting.",
       "Then came the game that changed everything. A 95-yard kickoff return. Joe caught that ball and ran like his life depended on it - because in a way, it did. When he crossed that end zone, something shifted in the air.",
       "The crowd - the same crowd that had been hostile - erupted. 'Go Joe Go! Go Joe Go!' In that moment, a barrier didn't just crack. It shattered. Joe went on to be ranked the 7th best college football player in America, and NLU retired his #40 jersey forever."
     ],
     images: [
       { src: IMG.touchdown, caption: "Arms raised, crowd roaring - touchdown at Louisiana Monroe." },
-      { src: IMG.plaque, caption: "The Hall of Fame Plaque - first Black athlete in the Gulf States Conference." },
+      { src: IMG.plaque, caption: "The Hall of Fame Plaque - first Black athlete to play football at a predominantly white college in Louisiana." },
       { src: IMG.runTD, caption: "NLU's Joe Profit runs for a TD lead by QB Steve Mansur!" },
       { src: IMG.coachDale, caption: "Coach Dale Brown and Joe Profit at their Louisiana Sports Hall of Fame induction." },
       { src: IMG.alexandriaDaily, caption: "Alexandria Daily Town Talk: ranked 7th Best College Football Player." },
@@ -736,7 +736,7 @@ function TimelineSection() {
   const events = [
     { year: "1949", title: "Born in Louisiana", text: "Lake Providence - one of the poorest towns in America." },
     { year: "1962", title: "Swayze Elementary", text: "Young Joe discovers football in heavy work boots." },
-    { year: "1967", title: "First Black Athlete", text: "Breaks the color barrier at Northeast Louisiana University." },
+    { year: "1967", title: "First Black Athlete", text: "Breaks the color barrier - the first Black athlete to play football at a predominantly white college in Louisiana, at Northeast Louisiana University." },
     { year: "1971", title: "NFL Draft Day", text: "7th pick overall, 1st round - Atlanta Falcons." },
     { year: "1972", title: "NFL Rushing Leader", text: "169 yards and 2 TDs in a single game. Franchise record." },
     { year: "1976", title: "Business Begins", text: "Burger King franchise - poetic justice for a man denied service." },
