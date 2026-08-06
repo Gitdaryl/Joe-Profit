@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#F6E3A6"/>
+      <stop offset="38%"  stop-color="#D8B45B"/>
+      <stop offset="62%"  stop-color="#C09339"/>
+      <stop offset="100%" stop-color="#8E6E28"/>
+    </linearGradient>
+    <radialGradient id="disc" cx="50%" cy="42%" r="62%">
+      <stop offset="0%"   stop-color="#191512"/>
+      <stop offset="100%" stop-color="#080706"/>
+    </radialGradient>
+    <!-- baseline arcs: top runs L->R over the top, bottom runs L->R under the bottom -->
+    <path id="arcTop" d="M 112,512 A 400,400 0 0 1 912,512" fill="none"/>
+    <path id="arcBot" d="M  42,512 A 470,470 0 0 0 982,512" fill="none"/>
+  </defs>
+
+  <!-- dark backing disc so the seal reads over any footage -->
+  <circle cx="512" cy="512" r="503" fill="url(#disc)" fill-opacity="0.92"/>
+
+  <!-- rings -->
+  <circle cx="512" cy="512" r="494" fill="none" stroke="url(#gold)" stroke-width="13"/>
+  <circle cx="512" cy="512" r="372" fill="none" stroke="url(#gold)" stroke-width="9"/>
+
+  <!-- 3 and 9 o'clock markers -->
+  <circle cx="80"  cy="512" r="12" fill="url(#gold)"/>
+  <circle cx="944" cy="512" r="12" fill="url(#gold)"/>
+
+  <!-- arced lockup text -->
+  <text font-family="'Playfair Display'" font-weight="700" font-size="70"
+        letter-spacing="10" fill="url(#gold)">
+    <textPath href="#arcTop" startOffset="50%" text-anchor="middle">NEVER BROKEN</textPath>
+  </text>
+  <text font-family="'Playfair Display'" font-weight="700" font-size="62"
+        letter-spacing="9" fill="url(#gold)">
+    <textPath href="#arcBot" startOffset="50%" text-anchor="middle">ALWAYS FORWARD</textPath>
+  </text>
+
+  <!-- jersey number -->
+  <text x="512" y="512" font-family="Anton" font-size="345"
+        text-anchor="middle" dominant-baseline="central"
+        letter-spacing="-4" fill="url(#gold)">40</text>
+</svg>

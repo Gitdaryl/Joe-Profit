@@ -1,0 +1,55 @@
+<meta charset="utf-8">
+<style>
+  /* ---------------------------------------------------------------
+     End card. Opaque 1080x1920, sits over the final 4 seconds while
+     Joe speaks the CTA. All content stops at ~1470px so the URL never
+     falls behind the platform's caption / button overlay.
+     --------------------------------------------------------------- */
+  html, body { margin:0; padding:0; }
+  body {
+    width:1080px; height:1920px; position:relative; overflow:hidden;
+    background:
+      radial-gradient(120% 65% at 50% 34%, #241C11 0%, #0C0A08 58%, #060505 100%);
+    -webkit-font-smoothing:antialiased;
+    display:flex; flex-direction:column; align-items:center;
+    padding-top:250px; box-sizing:border-box;
+  }
+
+  .seal { width:132px; height:132px; display:block; }
+
+  .cover {
+    height:760px; width:auto; display:block; margin-top:38px;
+    border-radius:4px;
+    box-shadow:0 30px 70px rgba(0,0,0,0.72),
+               0 0 0 1px rgba(201,163,74,0.28);
+  }
+
+  .rule {
+    width:300px; height:2px; margin-top:46px;
+    background:linear-gradient(90deg,
+      rgba(201,163,74,0) 0%, #C9A34A 50%, rgba(201,163,74,0) 100%);
+  }
+
+  .tagline {
+    font-family:'Playfair Display'; font-style:italic; font-weight:500;
+    font-size:40px; color:#E9E1D2; margin-top:30px; letter-spacing:0.3px;
+  }
+
+  .url {
+    font-family:'Playfair Display'; font-weight:700; font-size:54px;
+    color:#FFFFFF; margin-top:26px; letter-spacing:0.4px;
+  }
+
+  .order {
+    font-family:'Montserrat'; font-weight:700; font-size:23px;
+    letter-spacing:5px; text-transform:uppercase;
+    color:#D8B45B; margin-top:22px;
+  }
+</style>
+
+<img class="seal" src="seal.svg">
+<img class="cover" src="../assets/never-broken-cover.png">
+<div class="rule"></div>
+<div class="tagline">Your next chapter starts with faith.</div>
+<div class="url">JoeProfitNeverBroken.com</div>
+<div class="order">Order your copy today</div>

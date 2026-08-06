@@ -1,0 +1,55 @@
+<meta charset="utf-8">
+<style>
+  /* ---------------------------------------------------------------
+     Corner lockup. Transparent 1080x1920 plate, drop straight on the
+     timeline at 0,0 with no repositioning.
+     Placed top-left at y=190 so it clears the IG/TikTok top chrome and
+     never lands in the bottom caption + action-button zone.
+     --------------------------------------------------------------- */
+  html, body { margin:0; padding:0; background:transparent; }
+  body { width:1080px; height:1920px; position:relative;
+         -webkit-font-smoothing:antialiased; }
+
+  .pill {
+    position:absolute; left:44px; top:190px;
+    display:flex; align-items:center; gap:16px;
+    padding:10px 30px 10px 10px;
+    border-radius:70px;
+    background:rgba(8,8,8,0.66);
+    border:1.5px solid rgba(201,163,74,0.50);
+    box-shadow:0 6px 26px rgba(0,0,0,0.45);
+  }
+  .pill img { display:block; width:96px; height:96px; }
+
+  .txt { display:flex; flex-direction:column; gap:5px; }
+  .eyebrow {
+    font-family:'Montserrat'; font-weight:700; font-size:14px;
+    letter-spacing:3.4px; color:#D8B45B; text-transform:uppercase;
+  }
+  .url {
+    font-family:'Playfair Display'; font-weight:700; font-size:31px;
+    color:#FFFFFF; letter-spacing:0.2px; line-height:1;
+    text-shadow:0 2px 6px rgba(0,0,0,0.6);
+  }
+
+  /* ?v=min  ->  seal only, for shots where the frame is already busy */
+  body.min .pill { background:none; border:none; box-shadow:none;
+                   padding:0; left:52px; }
+  body.min .txt  { display:none; }
+  body.min .pill img { width:120px; height:120px;
+                       filter:drop-shadow(0 4px 14px rgba(0,0,0,.55)); }
+</style>
+
+<div class="pill">
+  <img src="seal.svg">
+  <div class="txt">
+    <div class="eyebrow">Always Forward</div>
+    <div class="url">JoeProfitNeverBroken.com</div>
+  </div>
+</div>
+
+<script>
+  if (new URLSearchParams(location.search).get('v') === 'min') {
+    document.body.classList.add('min');
+  }
+</script>
