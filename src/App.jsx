@@ -27,6 +27,7 @@ const IMG = {
   falcons: "/images/Joe_23_NFL_atlanta.webp",
   cii: "/images/CII_tent.webp",
   yup: "/images/YUP_kids.webp",
+  ministry: "/images/yup-ministries.webp",
   book: "/images/Book_on_coffee_table.webp",
   reagan: "/images/Joe_Reagan_handshake.webp",
   ali: "/images/Joe_Ali.webp",
@@ -365,9 +366,10 @@ function Nav() {
   }, []);
   const links = [
     { label: "Story", href: "/#story" }, { label: "Archive", href: "/#archive" },
-    { label: "Timeline", href: "/#timeline" }, { label: "YUP Foundation", href: "/#charity" },
+    { label: "Timeline", href: "/#timeline" },
+    { label: "YUP", href: "/#charity", sub: [{ label: "Foundation", href: "/#charity" }, { label: "Ministries", href: "/#ministry" }] },
     { label: "Shop", href: "/shop" }, { label: "Speaking", href: "/speaking" },
-    { label: "My Books", href: "/audiobook", sub: [{ label: "Audiobook", href: "/audiobook" }, { label: "eBook", href: "/ebook" }, { label: "Read Along", href: "/read-along" }] },
+    { label: "My Books", href: "/audiobook", cta: true, sub: [{ label: "Audiobook", href: "/audiobook" }, { label: "eBook", href: "/ebook" }, { label: "Read Along", href: "/read-along" }] },
     { label: "Contact", href: "/#contact" },
     { label: "FAQ", href: "/support" },
   ];
@@ -388,7 +390,8 @@ function Nav() {
           <div className="dnav" style={{ display: "flex", gap: 32, alignItems: "center" }}>
             {links.map(l => l.sub ? (
               <div key={l.label} style={{ position: "relative" }} className="nav-dropdown-wrap">
-                <a href={l.href} style={{ fontFamily: FONT.body, fontSize: "0.9rem", color: C.gold, textDecoration: "none", letterSpacing: "0.1em", textTransform: "uppercase", transition: "color 0.3s", borderBottom: `1px solid ${C.gold}`, paddingBottom: 2 }}>
+                <a href={l.href} style={{ fontFamily: FONT.body, fontSize: "0.9rem", color: l.cta ? C.gold : C.muted, textDecoration: "none", letterSpacing: "0.1em", textTransform: "uppercase", transition: "color 0.3s", borderBottom: l.cta ? `1px solid ${C.gold}` : "none", paddingBottom: 2 }}
+                  onMouseEnter={e => e.target.style.color = C.gold} onMouseLeave={e => e.target.style.color = l.cta ? C.gold : C.muted}>
                   {l.label}
                 </a>
                 <div className="nav-dropdown" style={{ position: "absolute", top: "calc(100% + 12px)", right: 0, background: "rgba(10,9,8,0.96)", border: `1px solid ${C.lineBright}`, backdropFilter: "blur(20px)", minWidth: 160, display: "none", flexDirection: "column" }}>
@@ -815,12 +818,12 @@ function CharitySection() {
               Every dollar donated goes directly to programming that puts books in hands, confidence in hearts, and futures within reach.
             </p>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <a href="https://youthunitedpro.com/donate.php" target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.black, background: C.gold, padding: "12px 28px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
+              <a href="https://youthunitedforprosperity.org/donate.php" target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.black, background: C.gold, padding: "12px 28px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
                 onMouseEnter={e => e.target.style.background = C.goldLight}
                 onMouseLeave={e => e.target.style.background = C.gold}>
                 Donate Now
               </a>
-              <a href="https://youthunitedpro.com" target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.gold, border: `1px solid ${C.gold}`, padding: "12px 28px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", transition: "all 0.3s" }}
+              <a href="https://youthunitedforprosperity.org" target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.gold, border: `1px solid ${C.gold}`, padding: "12px 28px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", transition: "all 0.3s" }}
                 onMouseEnter={e => e.target.style.background = C.goldDim}
                 onMouseLeave={e => e.target.style.background = "transparent"}>
                 Visit YUP Foundation
@@ -840,6 +843,49 @@ function CharitySection() {
                 <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.15em" }}>Words That Change Worlds</div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── MINISTRY / YUP MINISTRIES SECTION ───
+function MinistrySection() {
+  const [ref, vis] = useScrollReveal(0.1);
+  return (
+    <section id="ministry" style={{ position: "relative", padding: "clamp(40px, 6vw, 80px) 0", background: C.dark, borderTop: `1px solid ${C.line}` }}>
+      <div ref={ref} style={{ position: "relative", zIndex: 2, maxWidth: 1000, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center", direction: "rtl" }} className="chgrid">
+          <div style={{ direction: "ltr", opacity: vis ? 1 : 0, transform: vis ? "none" : "translateX(30px)", transition: "all 0.8s ease" }}>
+            <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 12 }}>Faith</div>
+            <h2 style={{ fontFamily: FONT.display, fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)", color: C.cream, fontWeight: 600, margin: "0 0 20px 0", lineHeight: 1.15 }}>YUP <span style={{ fontStyle: "italic", color: C.gold }}>Ministries</span></h2>
+            <p style={{ fontFamily: FONT.body, fontSize: "1.05rem", color: C.mutedLight, lineHeight: 1.8, marginBottom: 16 }}>
+              Rev. Dr. Joe Profit's ministry carries the same message as his life: faith, purpose, and prosperity, in that order. YUP Ministries offers messages and teaching, and a Digital Sanctuary for prayer and worship that welcomes anyone, whatever their background.
+            </p>
+            <p style={{ fontFamily: FONT.body, fontSize: "1.05rem", color: C.mutedLight, lineHeight: 1.8, marginBottom: 28 }}>
+              Giving through the ministry puts clothing, food, personal-care items, and educational materials in the hands of families and young people facing a hard season.
+            </p>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+              <a href="https://yupministries.org" target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.black, background: C.gold, padding: "12px 28px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, transition: "all 0.3s" }}
+                onMouseEnter={e => e.target.style.background = C.goldLight}
+                onMouseLeave={e => e.target.style.background = C.gold}>
+                Visit YUP Ministries
+              </a>
+              <a href="https://yupministries.org/give.php" target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.gold, border: `1px solid ${C.gold}`, padding: "12px 28px", textDecoration: "none", letterSpacing: "0.18em", textTransform: "uppercase", transition: "all 0.3s" }}
+                onMouseEnter={e => e.target.style.background = C.goldDim}
+                onMouseLeave={e => e.target.style.background = "transparent"}>
+                Give
+              </a>
+            </div>
+          </div>
+          <div style={{ direction: "ltr", opacity: vis ? 1 : 0, transform: vis ? "none" : "translateX(-30px)", transition: "all 0.8s ease 0.2s" }}>
+            <a href="https://yupministries.org" target="_blank" rel="noopener noreferrer" style={{ position: "relative", overflow: "hidden", display: "block", border: `1px solid ${C.line}` }}>
+              <img src={IMG.ministry} alt="Rev. Dr. Joe Profit, Welcome to YUP Ministries" style={{ width: "100%", display: "block", filter: "brightness(0.9) contrast(1.05)" }} />
+              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "20px 14px 10px", background: "linear-gradient(to top, rgba(0,0,0,0.8), transparent)" }}>
+                <div style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.gold, letterSpacing: "0.15em" }}>yupministries.org</div>
+              </div>
+            </a>
           </div>
         </div>
       </div>
@@ -1135,16 +1181,17 @@ function ContactSection() {
             Get in Touch
           </a>
         </div>
-        <div style={{ marginTop: 40, display: "flex", gap: 32, justifyContent: "center", flexWrap: "wrap" }}>
+        <div style={{ marginTop: 40, display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
           {[
             { label: "Order the Book", desc: "Hardcover, softcover & digital", href: "/shop" },
-            { label: "Support the Foundation", desc: "Youth literacy & mentorship", href: "https://youthunitedpro.com/donate.php" },
+            { label: "Support the Foundation", desc: "Youth literacy & mentorship", href: "https://youthunitedforprosperity.org/donate.php" },
+            { label: "YUP Ministries", desc: "Messages, prayer & giving", href: "https://yupministries.org" },
             { label: "Book Joe to Speak", desc: "Keynotes & live events", href: "/speaking" },
           ].map(item => {
             const Tag = item.href ? "a" : "div";
             return (
               <Tag key={item.label} href={item.href || undefined} target={item.href && item.href.startsWith('http') ? "_blank" : undefined} rel={item.href && item.href.startsWith('http') ? "noopener noreferrer" : undefined}
-                style={{ textAlign: "center", padding: 20, border: `1px solid ${C.line}`, flex: "1 1 160px", maxWidth: 200, transition: "all 0.3s", cursor: "pointer", textDecoration: "none", display: "block" }}
+                style={{ textAlign: "center", padding: 20, border: `1px solid ${C.line}`, flex: "1 1 240px", maxWidth: 310, transition: "all 0.3s", cursor: "pointer", textDecoration: "none", display: "block" }}
                 onMouseEnter={e => e.currentTarget.style.borderColor = C.gold}
                 onMouseLeave={e => e.currentTarget.style.borderColor = C.line}>
                 <div style={{ width: 24, height: 1, background: C.gold, opacity: 0.4, margin: "0 auto 16px" }} />
@@ -3697,6 +3744,7 @@ function HomePage() {
       <TimelineSection />
       <ParallaxQuote quote="Every morning the sun rises again. No matter what happened yesterday, you get another chance. That's not optimism - that's a fact." attribution="Dr. Joe Profit" />
       <CharitySection />
+      <MinistrySection />
       <VideoShowcase videoId="1169381642" />
       <BookSection onOpenPreview={() => setPreviewOpen(true)} />
       {previewOpen && <BookPreviewModal onClose={() => setPreviewOpen(false)} />}
