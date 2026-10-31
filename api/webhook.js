@@ -274,7 +274,8 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ received: true });
   }
 
-  const session = event.data.object;
+  // Fetch full session so shipping_details is guaranteed to be populated
+  const session = await stripe.checkout.sessions.retrieve(event.data.object.id);
   const edition = session.metadata?.edition;
   const siteUrl = process.env.SITE_URL || 'https://joe-profit.vercel.app';
   const buyerEmail = session.customer_details?.email;
@@ -330,7 +331,10 @@ module.exports = async function handler(req, res) {
   // --- PHYSICAL PURCHASES: email buyer confirmation + notify Joe ---
   if (PHYSICAL_EDITIONS.includes(edition)) {
     const resend = new Resend(process.env.RESEND_API_KEY);
-    const addr = session.shipping_details?.address || {};
+    const shippingAddr = session.shipping_details?.address;
+    const billingAddr = session.customer_details?.address;
+    const addr = shippingAddr || billingAddr || {};
+    const addrSource = shippingAddr ? '' : ' (BILLING ADDRESS - customer skipped shipping field, confirm before mailing)';
     const shipName = session.shipping_details?.name || buyerName;
     const shippingLines = [
       addr.line1,
@@ -340,6 +344,33 @@ module.exports = async function handler(req, res) {
     ].filter(Boolean).join('\n');
 
     const editionLabel = edition === 'hardcover' ? 'Hardcover' : 'Paperback';
+
+    // If no shipping address at all, send a special alert to Joe before anything else
+    if (!shippingLines) {
+      try {
+        await new Resend(process.env.RESEND_API_KEY).emails.send({
+          from: 'Never Broken Shop <neverbroken@joeprofitneverbroken.com>',
+          to: ['jprofit23@gmail.com'],
+          subject: `ACTION REQUIRED: Missing shipping address - ${editionLabel} order $${amount}`,
+          text: [
+            `A book order came in WITHOUT a shipping address.`,
+            ``,
+            `DO NOT ship until you confirm the address with the buyer.`,
+            ``,
+            `Buyer: ${buyerName}`,
+            `Email: ${buyerEmail || 'Not provided'}`,
+            `Product: ${editionLabel}`,
+            `Amount: $${amount}`,
+            ``,
+            `Reply to ${buyerEmail} and ask for their mailing address before shipping.`,
+            ``,
+            `Stripe session: ${session.id}`,
+          ].join('\n'),
+        });
+      } catch (err) {
+        console.error('Failed to send missing-address alert:', err.message);
+      }
+    }
 
     // Send buyer their order confirmation
     if (buyerEmail) {
@@ -371,9 +402,9 @@ module.exports = async function handler(req, res) {
           `Product:  ${editionLabel}`,
           `Amount:   $${amount}`,
           ``,
-          `SHIP TO:`,
+          `SHIP TO${addrSource}:`,
           `${shipName}`,
-          `${shippingLines}`,
+          `${shippingLines || '*** NO ADDRESS - contact buyer before shipping ***'}`,
           ``,
           `Buyer email: ${buyerEmail || 'Not provided'}`,
           `Stripe session: ${session.id}`,

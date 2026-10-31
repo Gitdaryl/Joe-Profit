@@ -16,7 +16,7 @@ module.exports = async function handler(req, res) {
     coupon = coupons.data.find(c => c.name === 'Complimentary' && c.valid);
   } catch (err) {
     console.error('Stripe coupon lookup failed:', err.message);
-    return res.status(500).json({ error: 'Could not reach Stripe' });
+    return res.status(500).json({ error: `Stripe error: ${err.message}` });
   }
 
   if (!coupon) {
