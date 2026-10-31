@@ -1,3 +1,9 @@
+> **ARCHIVED, 2026-08-25. SUPERSEDED.**
+> This is the July 13 draft: the film ends at the 1971 draft, with no present-day frame.
+> It was replaced on July 18 by the v2 treatment on the Joe-facing site (`never-broken-site/treatment.html`),
+> which opens on the tracks, runs a present-day mentorship frame with Marcus, and climaxes on the IHOP deed.
+> Kept for the record only. Do not edit, cite, or send. See `never-broken-site/STRUCTURE-REVIEW-2026-08-25.md`.
+
 # NEVER BROKEN
 ## Feature Film Treatment (first draft, 2026-07-13)
 Based on "Never Broken: An Unrelenting Pursuit for Success" by Dr. Joe Profit
