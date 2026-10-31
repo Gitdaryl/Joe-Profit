@@ -20,80 +20,80 @@ const FONT = {
 
 // ─── IMAGE PATHS (relative for deployment) ───
 const IMG = {
-  hero: "/images/sunset.jpg",
-  cotton: "/images/Cotton_fields.jpg",
-  swayze: "/images/Swayze_elemtary.jpg",
-  touchdown: "/images/Joe_touchdown_LMU.jpg",
-  falcons: "/images/Joe_23_NFL_atlanta.jpg",
-  cii: "/images/CII_tent.jpg",
-  yup: "/images/YUP_kids.jpg",
-  book: "/images/Book_on_coffee_table.jpg",
-  reagan: "/images/Joe_Reagan_handshake.jpg",
-  ali: "/images/Joe_Ali.jpg",
-  boots: "/images/Shoes_-_joe.jpg",
-  plaque: "/images/Joe_Plaque.jpg",
-  gameball: "/images/Joe_Game_ball.jpg",
-  wanda: "/images/Joe___Wanda.jpg",
-  wandaDinner: "/images/Joe_Wanda_Dinner.jpg",
-  son: "/images/Joe_and_Son.jpg",
-  friends: "/images/Joe_Childhood_Friends.jpg",
-  reverend: "/images/Reverend_Joe_Profit.jpg",
-  ambassador: "/images/Ambassador_Andrew_Young.jpg",
-  artBlank: "/images/Arthur_Blank.jpg",
-  bodyBuilder: "/images/Joe_Body_Builder.jpg",
-  gate: "/images/Joes_Gate.jpg",
-  coachDale: "/images/Coach_Dale_Brown.jpg",
-  holyfield: "/images/Evander_Holyfield.jpg",
-  shack: "/images/James__Shack__Harris_HOF.jpg",
-  satcher: "/images/Joe___Dr_Satcher.jpg",
-  katrina: "/images/Hurricain_Katrina_Rescue.jpg",
-  dakota: "/images/Joe_and_Dakota.jpg",
-  signing: "/images/Signing_first_book.jpg",
-  aliPress: "/images/Ali_Press_conference.jpg",
-  thePick: "/images/Profits_the_pick.jpg",
-  kickoff: "/images/Returns_Kickoff_Atlanta_Falcons.jpg",
-  cutDime: "/images/Joe_Profit_cut_on_a_dime.jpg",
-  runTD: "/images/run_for_TD.jpg",
-  saints: "/images/Joe_New_Orleans_Saints.jpg",
-  allAmerican: "/images/Joe_all_american.jpg",
-  brunno: "/images/ULM_pres_Dr_Nick_Bruno.jpg",
-  ulmInterview: "/images/Joe_ULM_interview.jpg",
-  speaks: "/images/Joe_Profit_Speaks.jpg",
-  uae: "/images/Joe_and_UAE.jpg",
-  nextGenAuthors: "/images/Next_Gen_of_Authors.jpg",
-  pi: "/images/Pulikkottil_Ittymany_Joy_.jpg",
+  hero: "/images/sunset.webp",
+  cotton: "/images/Cotton_fields.webp",
+  swayze: "/images/Swayze_elemtary.webp",
+  touchdown: "/images/Joe_touchdown_LMU.webp",
+  falcons: "/images/Joe_23_NFL_atlanta.webp",
+  cii: "/images/CII_tent.webp",
+  yup: "/images/YUP_kids.webp",
+  book: "/images/Book_on_coffee_table.webp",
+  reagan: "/images/Joe_Reagan_handshake.webp",
+  ali: "/images/Joe_Ali.webp",
+  boots: "/images/Shoes_-_joe.webp",
+  plaque: "/images/Joe_Plaque.webp",
+  gameball: "/images/Joe_Game_ball.webp",
+  wanda: "/images/Joe___Wanda.webp",
+  wandaDinner: "/images/Joe_Wanda_Dinner.webp",
+  son: "/images/Joe_and_Son.webp",
+  friends: "/images/Joe_Childhood_Friends.webp",
+  reverend: "/images/Reverend_Joe_Profit.webp",
+  ambassador: "/images/Ambassador_Andrew_Young.webp",
+  artBlank: "/images/Arthur_Blank.webp",
+  bodyBuilder: "/images/Joe_Body_Builder.webp",
+  gate: "/images/Joes_Gate.webp",
+  coachDale: "/images/Coach_Dale_Brown.webp",
+  holyfield: "/images/Evander_Holyfield.webp",
+  shack: "/images/James__Shack__Harris_HOF.webp",
+  satcher: "/images/Joe___Dr_Satcher.webp",
+  katrina: "/images/Hurricain_Katrina_Rescue.webp",
+  dakota: "/images/Joe_and_Dakota.webp",
+  signing: "/images/Signing_first_book.webp",
+  aliPress: "/images/Ali_Press_conference.webp",
+  thePick: "/images/Profits_the_pick.webp",
+  kickoff: "/images/Returns_Kickoff_Atlanta_Falcons.webp",
+  cutDime: "/images/Joe_Profit_cut_on_a_dime.webp",
+  runTD: "/images/run_for_TD.webp",
+  saints: "/images/Joe_New_Orleans_Saints.webp",
+  allAmerican: "/images/Joe_all_american.webp",
+  brunno: "/images/ULM_pres_Dr_Nick_Bruno.webp",
+  ulmInterview: "/images/Joe_ULM_interview.webp",
+  speaks: "/images/Joe_Profit_Speaks.webp",
+  uae: "/images/Joe_and_UAE.webp",
+  nextGenAuthors: "/images/Next_Gen_of_Authors.webp",
+  pi: "/images/Pulikkottil_Ittymany_Joy_.webp",
   // Press/articles
-  essenceArticle: "/images/essence_magazine_article.jpg",
+  essenceArticle: "/images/essence_magazine_article.webp",
   ciiArticle: "/images/CII_article.jpg",
   minorityBiz: "/images/Minority_Business_development.jpg",
-  wallStreet: "/images/Wall_street_Journal.jpg",
-  usaToday: "/images/USA_Today.jpg",
+  wallStreet: "/images/Wall_street_Journal.webp",
+  usaToday: "/images/USA_Today.webp",
   sba: "/images/SBA_newspaper.jpg",
   millionaire: "/images/Newspaper_millionaire.jpg",
   gwinnett: "/images/Gwinnett_Business_Article.jpg",
-  nluArticle: "/images/NLU_article.jpg",
-  multimediaArticle: "/images/Multimedia_Article.jpg",
+  nluArticle: "/images/NLU_article.webp",
+  multimediaArticle: "/images/Multimedia_Article.webp",
   multiMillionContract: "/images/Multimillion_dollar_contract.jpg",
-  kuwaitArticle: "/images/Kuwait_contract_article.jpg",
-  newsStar: "/images/News_Star.jpg",
-  noOrdinaryJoe: "/images/No_ordinary_Joe.jpg",
-  alexandriaDaily: "/images/Alexandria_Daily.jpg",
+  kuwaitArticle: "/images/Kuwait_contract_article.webp",
+  newsStar: "/images/News_Star.webp",
+  noOrdinaryJoe: "/images/No_ordinary_Joe.webp",
+  alexandriaDaily: "/images/Alexandria_Daily.webp",
   hofArticle: "/images/HOF_induction_ceremony_article.jpg",
-  retired40: "/images/40_Retired_article.jpg",
-  galeSayers: "/images/Gale_Sayers.jpg",
-  buckhead: "/images/Brockhead_club.jpg",
-  daveEmanuel: "/images/Dave_Emmanuel_.jpg",
-  wandaGift: "/images/Wanda.jpg",
-  joeJoe: "/images/Joe_Joe.png",
-  portrait40: "/images/joe_portrait.png",
+  retired40: "/images/40_Retired_article.webp",
+  galeSayers: "/images/Gale_Sayers.webp",
+  buckhead: "/images/Brockhead_club.webp",
+  daveEmanuel: "/images/Dave_Emmanuel_.webp",
+  wandaGift: "/images/Wanda.webp",
+  joeJoe: "/images/Joe_Joe.webp",
+  portrait40: "/images/joe_portrait.webp",
   // Book preview pages
   preview: [
-    "/images/preview_01.png",
-    "/images/preview_02.png",
-    "/images/preview_03.png",
-    "/images/preview_04.png",
-    "/images/preview_05.png",
-    "/images/preview_06.png",
+    "/images/preview_01.webp",
+    "/images/preview_02.webp",
+    "/images/preview_03.webp",
+    "/images/preview_04.webp",
+    "/images/preview_05.webp",
+    "/images/preview_06.webp",
   ],
   // Press logos
   logoWSJ: "/images/wsj_logo.png",
@@ -336,6 +336,22 @@ function Grain() {
 }
 
 // ─── NAVIGATION ───
+const NAV_STYLES = `
+  .nav-brand{white-space:nowrap}
+  .dnav{white-space:nowrap;flex-shrink:0}
+  .dnav > a, .dnav > .nav-dropdown-wrap > a{white-space:nowrap}
+  .nav-dropdown-wrap:hover .nav-dropdown{display:flex!important}
+  @media(max-width:1300px){
+    .nav-tag{display:none!important}
+    .dnav{gap:18px!important}
+    .dnav > a, .dnav > .nav-dropdown-wrap > a{font-size:0.78rem!important;letter-spacing:0.08em!important}
+  }
+  @media(max-width:1024px){
+    .dnav{display:none!important}
+    .mobile-nav-btn{display:block!important}
+  }
+`;
+
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -362,11 +378,12 @@ function Nav() {
       {mobileOpen && (
         <div onClick={() => setMobileOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 99, background: "rgba(0,0,0,0.5)" }} />
       )}
+      <style>{NAV_STYLES}</style>
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, transition: "all 0.5s ease", background: mobileOpen ? C.black : navBg, borderBottom: `1px solid ${mobileOpen ? C.line : navBorder}`, backdropFilter: scrolled && !mobileOpen ? "blur(20px) saturate(1.4)" : "none" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: scrolled ? 56 : 72, transition: "height 0.5s ease" }}>
-          <a href="#" style={{ textDecoration: "none", display: "flex", alignItems: "baseline", gap: 8 }}>
+          <a href="#" className="nav-brand" style={{ textDecoration: "none", display: "flex", alignItems: "baseline", gap: 8, flexShrink: 0 }}>
             <span style={{ fontFamily: FONT.display, fontSize: "1.1rem", fontWeight: 700, color: C.gold, letterSpacing: "0.04em" }}>JOE PROFIT</span>
-            <span style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.muted, letterSpacing: "0.3em", textTransform: "uppercase" }}>Never Broken</span>
+            <span className="nav-tag" style={{ fontFamily: FONT.body, fontSize: "0.7rem", color: C.muted, letterSpacing: "0.3em", textTransform: "uppercase" }}>Never Broken</span>
           </a>
           <div className="dnav" style={{ display: "flex", gap: 32, alignItems: "center" }}>
             {links.map(l => l.sub ? (
@@ -419,11 +436,11 @@ function HeroSection() {
   const [loaded, setLoaded] = useState(false);
   useEffect(() => { setTimeout(() => setLoaded(true), 200); }, []);
   return (
-    <section ref={pRef} style={{ position: "relative", height: "88vh", minHeight: 560, overflow: "hidden" }}>
+    <section ref={pRef} style={{ position: "relative", minHeight: "max(560px, 88vh)", overflow: "hidden" }}>
       <div style={{ position: "absolute", inset: 0, transform: `translateY(${pOffset}px) scale(1.15)`, transition: "transform 0.05s linear", background: `url(${IMG.hero}) center/cover no-repeat`, filter: "brightness(0.35) contrast(1.1) saturate(0.8)" }} />
       <div style={{ position: "absolute", inset: 0, background: `linear-gradient(180deg, rgba(10,9,8,0.3) 0%, rgba(10,9,8,0.1) 40%, rgba(10,9,8,0.7) 75%, ${C.black} 100%)` }} />
       <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "40%", background: `linear-gradient(to top, ${C.black}, transparent)` }} />
-      <div style={{ position: "relative", zIndex: 2, height: "100%", display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "0 clamp(24px, 6vw, 120px)", paddingBottom: "clamp(60px, 12vh, 140px)" }}>
+      <div style={{ position: "relative", zIndex: 2, minHeight: "max(560px, 88vh)", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "0 clamp(24px, 6vw, 120px)", paddingTop: 104, paddingBottom: "clamp(60px, 12vh, 140px)" }}>
         <div style={{ opacity: loaded ? 1 : 0, transform: loaded ? "translateY(0)" : "translateY(30px)", transition: "all 1.2s cubic-bezier(0.23,1,0.32,1)" }}>
           <div style={{ fontFamily: FONT.body, fontSize: "clamp(0.6rem, 1vw, 0.75rem)", color: C.gold, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16, opacity: 0.9 }}>
             NFL Draft Pick · Business Pioneer · Servant Leader
@@ -1639,8 +1656,6 @@ function ShopPage() {
     ::selection{background:${C.gold};color:${C.black}}
     img{-webkit-user-drag:none}
     @media(max-width:820px){
-      .dnav{display:none!important}
-      .mobile-nav-btn{display:block!important}
       .shopgrid{grid-template-columns:1fr 1fr!important}
     }
     @media(max-width:560px){
@@ -1879,7 +1894,7 @@ function ShopPage() {
 
               {/* Stamp badge - top right corner */}
               <img
-                src="/images/best-value.png"
+                src="/images/best-value.webp"
                 alt="Best Value"
                 style={{
                   position: 'absolute', top: -10, right: -10,
@@ -3650,10 +3665,7 @@ function HomePage() {
         a:hover{opacity:0.85}
         ::selection{background:${C.gold};color:${C.black}}
         img{-webkit-user-drag:none}
-        .nav-dropdown-wrap:hover .nav-dropdown{display:flex!important}
         @media(max-width:820px){
-          .dnav{display:none!important}
-          .mobile-nav-btn{display:block!important}
           .chgrid{grid-template-columns:1fr!important;direction:ltr!important}
           .bkgrid{grid-template-columns:1fr!important}
           .testimgrid{grid-template-columns:1fr 1fr!important}
@@ -4078,8 +4090,6 @@ function SpeakingPage() {
     .spk-input:focus{border-color:${C.gold}!important}
     select.spk-input option{background:${C.dark2};color:${C.cream}}
     @media(max-width:820px){
-      .dnav{display:none!important}
-      .mobile-nav-btn{display:block!important}
       .spkhero{flex-direction:column!important}
       .spkgrid{grid-template-columns:1fr!important}
       .spkformrow{flex-direction:column!important}
@@ -4393,8 +4403,6 @@ function PressPage() {
     ::selection{background:${C.gold};color:${C.black}}
     img{-webkit-user-drag:none}
     @media(max-width:820px){
-      .dnav{display:none!important}
-      .mobile-nav-btn{display:block!important}
       .pressgrid{grid-template-columns:1fr!important}
       .presscovgrid{grid-template-columns:repeat(2,1fr)!important}
       .presshero{flex-direction:column!important}
