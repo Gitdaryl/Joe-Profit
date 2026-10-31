@@ -739,7 +739,7 @@ function GalleryCard({ item, i, onClick }) {
   return (
     <div onClick={onClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
       style={{ breakInside: "avoid", marginBottom: 6, position: "relative", overflow: "hidden", cursor: "pointer" }}>
-      <img src={item.src} alt={item.title} style={{ width: "100%", display: "block", transform: hover ? "scale(1.04)" : "scale(1)", transition: "transform 0.6s cubic-bezier(0.23,1,0.32,1)", filter: hover ? "brightness(0.7)" : "brightness(0.85)" }} />
+      <img src={item.src} alt={item.title} loading="lazy" decoding="async" style={{ width: "100%", display: "block", transform: hover ? "scale(1.04)" : "scale(1)", transition: "transform 0.6s cubic-bezier(0.23,1,0.32,1)", filter: hover ? "brightness(0.7)" : "brightness(0.85)" }} />
       <div style={{ position: "absolute", top: 8, right: 8, zIndex: 3, fontFamily: FONT.body, fontSize: "1rem", color: C.gold, opacity: hover ? 0.9 : 0.35, transition: "opacity 0.4s ease", lineHeight: 1, userSelect: "none" }}>⊕</div>
       <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "30px 12px 10px", background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)", opacity: hover ? 1 : 0, transform: hover ? "translateY(0)" : "translateY(8px)", transition: "all 0.4s ease" }}>
         <div style={{ fontFamily: FONT.body, fontSize: "0.8rem", color: C.gold, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 2 }}>{item.cat}</div>
@@ -1541,7 +1541,7 @@ function ChapterImage({ img, i }) {
   return (
     <div ref={ref} style={{ opacity: vis ? 1 : 0, transform: vis ? "none" : "translateY(25px)", transition: `all 0.8s ease ${i * 0.1}s` }}>
       <div style={{ position: "relative", overflow: "hidden" }}>
-        <img src={img.src} alt={img.caption} style={{ width: "100%", display: "block", filter: "brightness(0.9) contrast(1.05)" }} />
+        <img src={img.src} alt={img.caption} loading="lazy" decoding="async" style={{ width: "100%", display: "block", filter: "brightness(0.9) contrast(1.05)" }} />
       </div>
       <div style={{ fontFamily: FONT.body, fontSize: "0.85rem", color: C.muted, marginTop: 8, lineHeight: 1.5, fontStyle: "italic" }}>{img.caption}</div>
     </div>
@@ -1655,14 +1655,8 @@ function ShopPage() {
           .then(data => {
             if (data.valid && DIGITAL_PATHS[data.product]) {
               setSuccessEdition(data.product);
-            } else {
-              // Physical order — trigger fulfillment email to Joe
-              fetch('/api/fulfill-order', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ session_id: sessionId }),
-              }).catch(() => {});
             }
+            // Physical orders: the Stripe webhook emails Joe the ship-to details
           })
           .catch(() => {});
       }
@@ -4440,6 +4434,7 @@ function PressPage() {
   const [pressRef, pressVis] = useScrollReveal(0.08);
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
+  useEffect(() => { document.title = 'Press Kit - Dr. Joe Profit'; return () => { document.title = 'Dr. Joe Profit - Never Broken'; }; }, []);
 
   const globalStyles = `
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
@@ -5081,6 +5076,33 @@ function AdminPage() {
   );
 }
 
+// ─── NOT FOUND ───
+function NotFoundPage() {
+  useEffect(() => { document.title = 'Page Not Found - Dr. Joe Profit'; return () => { document.title = 'Dr. Joe Profit - Never Broken'; }; }, []);
+  return (
+    <>
+      <Grain />
+      <Nav />
+      <div style={{ minHeight: '100vh', background: C.black, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '120px 24px 60px', textAlign: 'center' }}>
+        <div style={{ maxWidth: 520 }}>
+          <div style={{ fontFamily: FONT.body, fontSize: '0.75rem', color: C.gold, letterSpacing: '0.4em', textTransform: 'uppercase', marginBottom: 16 }}>Page Not Found</div>
+          <h1 style={{ fontFamily: FONT.display, fontSize: 'clamp(2.2rem, 6vw, 4rem)', color: C.cream, fontWeight: 700, lineHeight: 1.05, margin: '0 0 20px' }}>
+            That page is <span style={{ fontStyle: 'italic', color: C.gold }}>not here</span>.
+          </h1>
+          <p style={{ fontFamily: FONT.body, fontSize: '1.05rem', color: C.mutedLight, lineHeight: 1.7, margin: '0 0 32px' }}>
+            The link may be old or mistyped. Everything about Joe, the book, and the foundation starts from the home page.
+          </p>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <a href="/" style={{ fontFamily: FONT.body, fontSize: '0.8rem', color: C.black, background: C.gold, padding: '14px 28px', textDecoration: 'none', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 700 }}>Back to the Story</a>
+            <a href="/shop" style={{ fontFamily: FONT.body, fontSize: '0.8rem', color: C.gold, border: `1px solid ${C.gold}`, padding: '14px 28px', textDecoration: 'none', letterSpacing: '0.18em', textTransform: 'uppercase' }}>Get the Book</a>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </>
+  );
+}
+
 // ─── APP ───
 export default function App() {
   return (
@@ -5098,6 +5120,7 @@ export default function App() {
         <Route path="/press" element={<PressPage />} />
         <Route path="/chapter/:slug" element={<ChapterRoute />} />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
