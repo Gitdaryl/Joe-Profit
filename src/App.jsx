@@ -3576,9 +3576,17 @@ function ConciergeBubble() {
   const [playing, setPlaying] = useState(false);
   const [done, setDone] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [seen, setSeen] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem('jp_concierge_seen')) return;
+    let alreadySeen = false;
+    try { alreadySeen = !!localStorage.getItem('jp_concierge_seen'); } catch { /* storage blocked */ }
+    if (alreadySeen) {
+      // Returning visitor (or QA on the same device): keep a small replay pill on screen
+      setSeen(true);
+      setVisible(true);
+      return;
+    }
     let scrolled = false;
     let timerFired = false;
 
@@ -3607,6 +3615,8 @@ function ConciergeBubble() {
 
   const handlePlay = () => {
     if (!audioRef.current) return;
+    audioRef.current.currentTime = 0;
+    setDone(false);
     setExpanded(true);
     audioRef.current.play().catch(() => {});
     setPlaying(true);
@@ -3614,9 +3624,11 @@ function ConciergeBubble() {
 
   const handleDismiss = () => {
     if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0; }
-    setVisible(false);
     setPlaying(false);
-    localStorage.setItem('jp_concierge_seen', '1');
+    setDone(false);
+    setExpanded(false);
+    setSeen(true);
+    try { localStorage.setItem('jp_concierge_seen', '1'); } catch { /* storage blocked */ }
   };
 
   const handleEnded = () => {
@@ -3635,7 +3647,7 @@ function ConciergeBubble() {
         <div style={{ background: 'rgba(10,9,8,0.96)', border: `1px solid ${C.lineBright}`, backdropFilter: 'blur(20px)', padding: '20px 22px', maxWidth: 260, borderRadius: 2, animation: 'fadeIn 0.4s ease' }}>
           <button onClick={handleDismiss} style={{ position: 'absolute', top: 10, right: 12, background: 'none', border: 'none', color: C.muted, fontSize: '1rem', cursor: 'pointer', lineHeight: 1 }}>×</button>
           <div style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.gold, letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: 8 }}>
-            Your Concierge
+            Site Tour
           </div>
           {playing ? (
             <div style={{ display: 'flex', gap: 4, alignItems: 'center', height: 24, marginBottom: 10 }}>
@@ -3652,27 +3664,40 @@ function ConciergeBubble() {
               <a href="/shop" onClick={handleDismiss} style={{ fontFamily: FONT.body, fontSize: '0.7rem', color: C.black, background: C.gold, padding: '10px 18px', textDecoration: 'none', letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 700, display: 'inline-block' }}>
                 Get the Book →
               </a>
+              <div style={{ marginTop: 12 }}>
+                <button onClick={handlePlay} style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.gold, background: 'none', border: 'none', cursor: 'pointer', letterSpacing: '0.1em', padding: 0, textDecoration: 'underline' }}>
+                  ↻ Play again
+                </button>
+              </div>
             </div>
           ) : null}
           <button onClick={handleDismiss} style={{ fontFamily: FONT.body, fontSize: '0.65rem', color: C.muted, background: 'none', border: 'none', cursor: 'pointer', letterSpacing: '0.1em', padding: 0, textDecoration: 'underline' }}>
-            Skip intro
+            {playing ? 'Skip' : 'Close'}
           </button>
         </div>
       )}
 
-      {/* Bubble trigger */}
-      {!expanded && (
+      {/* Replay pill: shown after the first visit so the tour can always be played again */}
+      {!expanded && seen && (
+        <button onClick={handlePlay} aria-label="Play the site tour" style={{ display: 'flex', alignItems: 'center', gap: 8, fontFamily: FONT.body, fontSize: '0.6rem', color: C.gold, background: 'rgba(10,9,8,0.92)', border: `1px solid ${C.gold}`, borderRadius: 999, padding: '9px 14px', cursor: 'pointer', letterSpacing: '0.2em', textTransform: 'uppercase', boxShadow: `0 0 16px ${C.goldGlow}` }}>
+          <span style={{ width: 0, height: 0, borderTop: '5px solid transparent', borderBottom: '5px solid transparent', borderLeft: `9px solid ${C.gold}` }} />
+          Site tour
+        </button>
+      )}
+
+      {/* Bubble trigger (first visit) */}
+      {!expanded && !seen && (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
           <button onClick={handlePlay} style={{ width: 60, height: 60, borderRadius: '50%', border: `2px solid ${C.gold}`, background: C.dark, cursor: 'pointer', overflow: 'hidden', padding: 0, position: 'relative', boxShadow: `0 0 20px ${C.goldGlow}`, transition: 'all 0.3s' }}
             onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.08)'; e.currentTarget.style.boxShadow = `0 0 32px ${C.goldGlow}`; }}
             onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = `0 0 20px ${C.goldGlow}`; }}>
-            <img src={IMG.portrait40} alt="Meet Dr. Joe Profit" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            <img src={IMG.portrait40} alt="Play the site tour"style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             <div style={{ position: 'absolute', inset: 0, background: 'rgba(10,9,8,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <div style={{ width: 0, height: 0, borderTop: '7px solid transparent', borderBottom: '7px solid transparent', borderLeft: `13px solid ${C.gold}`, marginLeft: 3 }} />
             </div>
           </button>
           <div style={{ fontFamily: FONT.body, fontSize: '0.6rem', color: C.gold, letterSpacing: '0.2em', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.3 }}>
-            Meet Joe
+            Site tour
           </div>
           <button onClick={handleDismiss} style={{ fontFamily: FONT.body, fontSize: '0.55rem', color: C.muted, background: 'none', border: 'none', cursor: 'pointer', letterSpacing: '0.08em', padding: 0 }}>
             not now
