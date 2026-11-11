@@ -160,7 +160,7 @@ function buildBuyerEmail(session, edition, siteUrl) {
   };
 }
 
-function buildPhysicalBuyerEmail(session, editionLabel, shippingLines, shipName, amount) {
+function buildPhysicalBuyerEmail(session, editionLabel, shippingLines, shipName, amount, qtyLabel = editionLabel) {
   const firstName = session.customer_details?.name?.split(' ')[0] || 'Friend';
 
   return {
@@ -189,14 +189,14 @@ function buildPhysicalBuyerEmail(session, editionLabel, shippingLines, shipName,
     </p>
 
     <p style="font-size:22px; color:#333; margin:0 0 20px; line-height:1.6;">
-      Your order is confirmed! Joe will get your <strong>${editionLabel}</strong> shipped out shortly.
+      Your order is confirmed! Joe will get your <strong>${qtyLabel}</strong> shipped out shortly.
     </p>
 
     <!-- Order box -->
     <table width="100%" cellpadding="0" cellspacing="0" style="background:#fff8ee; border:3px solid #d4a95a; border-radius:10px; margin:0 0 30px;">
     <tr><td style="padding:25px 30px;">
       <p style="font-size:18px; color:#888; margin:0 0 6px; text-transform:uppercase; letter-spacing:1px;">Your Order</p>
-      <p style="font-size:22px; color:#1a1a2e; margin:0 0 20px; font-weight:bold;">Never Broken - ${editionLabel} &nbsp;·&nbsp; $${amount}</p>
+      <p style="font-size:22px; color:#1a1a2e; margin:0 0 20px; font-weight:bold;">Never Broken - ${qtyLabel} &nbsp;·&nbsp; $${amount}</p>
       <p style="font-size:18px; color:#888; margin:0 0 6px; text-transform:uppercase; letter-spacing:1px;">Ships To</p>
       <p style="font-size:20px; color:#333; margin:0; line-height:1.7; white-space:pre-line;">${shipName}\n${shippingLines}</p>
     </td></tr>
@@ -226,10 +226,10 @@ function buildPhysicalBuyerEmail(session, editionLabel, shippingLines, shipName,
     text: [
       `Hey ${firstName},`,
       ``,
-      `Your order is confirmed! Joe will get your ${editionLabel} shipped out shortly.`,
+      `Your order is confirmed! Joe will get your ${qtyLabel} shipped out shortly.`,
       ``,
       `ORDER SUMMARY`,
-      `Product: Never Broken - ${editionLabel}`,
+      `Product: Never Broken - ${qtyLabel}`,
       `Amount:  $${amount}`,
       ``,
       `SHIPS TO:`,
@@ -345,13 +345,24 @@ module.exports = async function handler(req, res) {
 
     const editionLabel = edition === 'hardcover' ? 'Hardcover' : 'Paperback';
 
+    // Real count comes from Stripe line items (buyer can change it on the Stripe page)
+    let quantity = parseInt(session.metadata?.quantity, 10) || 1;
+    try {
+      const items = await stripe.checkout.sessions.listLineItems(session.id, { limit: 10 });
+      const total = items.data.reduce((n, li) => n + (li.quantity || 0), 0);
+      if (total > 0) quantity = total;
+    } catch (err) {
+      console.error('Failed to read line items, using metadata quantity:', err.message);
+    }
+    const qtyLabel = quantity > 1 ? `${quantity} x ${editionLabel}s` : editionLabel;
+
     // If no shipping address at all, send a special alert to Joe before anything else
     if (!shippingLines) {
       try {
         await new Resend(process.env.RESEND_API_KEY).emails.send({
           from: 'Never Broken Shop <neverbroken@joeprofitneverbroken.com>',
           to: ['jprofit23@gmail.com'],
-          subject: `ACTION REQUIRED: Missing shipping address - ${editionLabel} order $${amount}`,
+          subject: `ACTION REQUIRED: Missing shipping address - ${qtyLabel} order $${amount}`,
           text: [
             `A book order came in WITHOUT a shipping address.`,
             ``,
@@ -360,6 +371,7 @@ module.exports = async function handler(req, res) {
             `Buyer: ${buyerName}`,
             `Email: ${buyerEmail || 'Not provided'}`,
             `Product: ${editionLabel}`,
+            `Quantity: ${quantity}`,
             `Amount: $${amount}`,
             ``,
             `Reply to ${buyerEmail} and ask for their mailing address before shipping.`,
@@ -374,7 +386,7 @@ module.exports = async function handler(req, res) {
 
     // Send buyer their order confirmation
     if (buyerEmail) {
-      const receipt = buildPhysicalBuyerEmail(session, editionLabel, shippingLines, shipName, amount);
+      const receipt = buildPhysicalBuyerEmail(session, editionLabel, shippingLines, shipName, amount, qtyLabel);
       try {
         await resend.emails.send({
           from: 'Joe Profit <neverbroken@joeprofitneverbroken.com>',
@@ -395,11 +407,12 @@ module.exports = async function handler(req, res) {
       await resend.emails.send({
         from: 'Never Broken Shop <neverbroken@joeprofitneverbroken.com>',
         to: ['jprofit23@gmail.com'],
-        subject: `New Book Order - ${editionLabel} · $${amount}`,
+        subject: `New Book Order - ${qtyLabel} · $${amount}`,
         text: [
           `NEW ORDER - Never Broken`,
           ``,
           `Product:  ${editionLabel}`,
+          `Quantity: ${quantity}${quantity > 1 ? `  <-- SHIP ${quantity} BOOKS` : ''}`,
           `Amount:   $${amount}`,
           ``,
           `SHIP TO${addrSource}:`,

@@ -24,6 +24,7 @@ module.exports = async function handler(req, res) {
   }
 
   const { edition } = req.body;
+  const MAX_QTY = 10;
 
   if (!edition || !PRICE_IDS[edition]) {
     return res.status(400).json({ error: 'Invalid edition' });
@@ -32,11 +33,18 @@ module.exports = async function handler(req, res) {
   const stripe = Stripe(process.env.STRIPE_SECRET_KEY?.trim());
   const siteUrl = process.env.SITE_URL || 'https://joe-profit.vercel.app';
   const isDigital = DIGITAL_EDITIONS.includes(edition);
+  const requestedQty = parseInt(req.body.quantity, 10);
+  const quantity = isDigital ? 1 : Math.min(MAX_QTY, Math.max(1, Number.isFinite(requestedQty) ? requestedQty : 1));
 
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: [{ price: PRICE_IDS[edition], quantity: 1 }],
+      line_items: [{
+        price: PRICE_IDS[edition],
+        quantity,
+        // Print editions: buyer can also change the count on the Stripe page
+        ...(!isDigital ? { adjustable_quantity: { enabled: true, minimum: 1, maximum: MAX_QTY } } : {}),
+      }],
       mode: 'payment',
       success_url: `${siteUrl}${SUCCESS_PATHS[edition]}`,
       cancel_url: `${siteUrl}/shop`,
@@ -53,6 +61,7 @@ module.exports = async function handler(req, res) {
       metadata: {
         product: 'Never Broken',
         edition,
+        quantity: String(quantity),
       },
     });
 

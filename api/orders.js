@@ -20,7 +20,7 @@ module.exports = async function handler(req, res) {
   let sessions, compEmails;
   try {
     const [sessionList, couponList] = await Promise.all([
-      stripe.checkout.sessions.list({ status: 'complete', limit: 100, expand: ['data.payment_intent'] }),
+      stripe.checkout.sessions.list({ status: 'complete', limit: 100, expand: ['data.payment_intent', 'data.line_items'] }),
       stripe.coupons.list({ limit: 100 }),
     ]);
 
@@ -50,6 +50,8 @@ module.exports = async function handler(req, res) {
       const pi = s.payment_intent;
       const piId = typeof pi === 'string' ? pi : pi?.id;
       const delivered = pi?.metadata?.delivered === 'true';
+      const lineQty = (s.line_items?.data || []).reduce((n, li) => n + (li.quantity || 0), 0);
+      const qty = lineQty || parseInt(s.metadata?.quantity, 10) || 1;
 
       const addr = s.shipping_details?.address || {};
       const shipName = s.shipping_details?.name || s.customer_details?.name || '';
@@ -67,7 +69,8 @@ module.exports = async function handler(req, res) {
         name: s.customer_details?.name || '-',
         email: s.customer_details?.email || '-',
         edition,
-        label: EDITION_LABELS[edition] || edition,
+        quantity: qty,
+        label: qty > 1 ? `${qty} x ${EDITION_LABELS[edition] || edition}` : (EDITION_LABELS[edition] || edition),
         isPhysical,
         isComp,
         amount: (s.amount_total / 100).toFixed(2),

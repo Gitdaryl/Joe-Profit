@@ -1663,13 +1663,16 @@ function ShopPage() {
     }
   }, []);
 
+  const [qty, setQty] = useState({ hardcover: 1, paperback: 1 });
+  const changeQty = (edition, delta) => setQty(q => ({ ...q, [edition]: Math.min(10, Math.max(1, (q[edition] || 1) + delta)) }));
+
   const handleOrder = async (edition) => {
     setOrderStates(s => ({ ...s, [edition]: 'loading' }));
     try {
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ edition }),
+        body: JSON.stringify({ edition, quantity: qty[edition] || 1 }),
       });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
@@ -1797,9 +1800,14 @@ function ShopPage() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 48 }} className="shopgrid">
             {[
-              { key: 'hardcover', label: 'Hardcover', price: '$31.95', amount: '39.92', cashLabel: '$39.92 (incl. shipping)', desc: 'Premium hardcover binding. A keepsake edition worthy of the story inside.' },
-              { key: 'paperback', label: 'Paperback', price: '$19.95', amount: '27.92', cashLabel: '$27.92 (incl. shipping)', desc: 'Classic paperback. The full story, every chapter, at an accessible price.' },
-            ].map(({ key, label, price, amount, cashLabel, desc }) => (
+              { key: 'hardcover', label: 'Hardcover', unit: 31.95, desc: 'Premium hardcover binding. A keepsake edition worthy of the story inside.' },
+              { key: 'paperback', label: 'Paperback', unit: 19.95, desc: 'Classic paperback. The full story, every chapter, at an accessible price.' },
+            ].map(({ key, label, unit, desc }) => {
+              const q = qty[key] || 1;
+              const price = `$${unit.toFixed(2)}`;
+              const amount = (unit * q + 7.97).toFixed(2);
+              const cashLabel = `$${amount} (incl. shipping)`;
+              return (
               <div key={key} style={{ background: C.dark, border: `1px solid ${C.lineBright}`, padding: 'clamp(28px, 4vw, 40px)', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ marginBottom: 24, textAlign: 'center' }}>
                   <div style={{ display: 'inline-block', position: 'relative', boxShadow: '12px 12px 40px rgba(0,0,0,0.6)', transform: 'rotate(-1deg)' }}>
@@ -1810,6 +1818,21 @@ function ShopPage() {
                 <div style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.gold, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 8 }}>{label}</div>
                 <div style={{ fontFamily: FONT.display, fontSize: '1.6rem', color: C.gold, fontStyle: 'italic', marginBottom: 12 }}>{price}</div>
                 <p style={{ fontFamily: FONT.body, fontSize: '0.9rem', color: C.muted, lineHeight: 1.7, marginBottom: 24, flex: 1 }}>{desc}</p>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 16 }}>
+                  <span style={{ fontFamily: FONT.body, fontSize: '0.75rem', color: C.muted, letterSpacing: '0.2em', textTransform: 'uppercase' }}>Quantity</span>
+                  <div style={{ display: 'flex', alignItems: 'center', border: `1px solid ${C.lineBright}` }} role="group" aria-label={`${label} quantity`}>
+                    <button type="button" onClick={() => changeQty(key, -1)} disabled={q <= 1} aria-label={`Fewer ${label} copies`}
+                      style={{ width: 44, height: 44, background: 'transparent', border: 'none', color: q <= 1 ? C.muted : C.gold, fontSize: '1.3rem', cursor: q <= 1 ? 'not-allowed' : 'pointer', opacity: q <= 1 ? 0.4 : 1 }}>−</button>
+                    <span aria-live="polite" style={{ minWidth: 36, textAlign: 'center', fontFamily: FONT.body, fontSize: '1.05rem', color: C.cream, fontWeight: 700 }}>{q}</span>
+                    <button type="button" onClick={() => changeQty(key, 1)} disabled={q >= 10} aria-label={`More ${label} copies`}
+                      style={{ width: 44, height: 44, background: 'transparent', border: 'none', color: q >= 10 ? C.muted : C.gold, fontSize: '1.3rem', cursor: q >= 10 ? 'not-allowed' : 'pointer', opacity: q >= 10 ? 0.4 : 1 }}>+</button>
+                  </div>
+                </div>
+                {q > 1 && (
+                  <p style={{ fontFamily: FONT.body, fontSize: '0.8rem', color: C.muted, marginTop: -8, marginBottom: 16, textAlign: 'right' }}>
+                    {q} × {price} = ${(unit * q).toFixed(2)} + shipping
+                  </p>
+                )}
                 <button
                   onClick={() => handleOrder(key)}
                   disabled={orderStates[key] === 'loading'}
@@ -1822,7 +1845,7 @@ function ShopPage() {
                   onMouseEnter={e => { if (orderStates[key] !== 'loading') e.currentTarget.style.background = C.goldLight; }}
                   onMouseLeave={e => { if (orderStates[key] !== 'loading') e.currentTarget.style.background = C.gold; }}
                 >
-                  {orderStates[key] === 'loading' ? 'Preparing Checkout…' : `Order ${label}`}
+                  {orderStates[key] === 'loading' ? 'Preparing Checkout…' : (q > 1 ? `Order ${q} ${label}s` : `Order ${label}`)}
                 </button>
                 {orderStates[key] === 'error' && (
                   <p style={{ fontFamily: FONT.body, fontSize: '0.8rem', color: '#c0392b', marginTop: 8, fontStyle: 'italic' }}>
@@ -1846,11 +1869,12 @@ function ShopPage() {
                     Pay with CashApp · {cashLabel}
                   </a>
                   <p style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, opacity: 0.45, marginTop: 7, textAlign: 'center', fontStyle: 'italic', lineHeight: 1.5 }}>
-                    Includes $7.97 shipping · In your note: "{label} - Never Broken" + your full shipping address
+                    Includes $7.97 shipping · In your note: "{q > 1 ? `${q} x ` : ''}{label} - Never Broken" + your full shipping address
                   </p>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Digital editions */}
