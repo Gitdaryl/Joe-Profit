@@ -1805,7 +1805,9 @@ function ShopPage() {
             ].map(({ key, label, unit, desc }) => {
               const q = qty[key] || 1;
               const price = `$${unit.toFixed(2)}`;
-              const amount = (unit * q + 7.97).toFixed(2);
+              // Keep in sync with SHIP_FIRST_CENTS / SHIP_EXTRA_CENTS in api/checkout.js
+              const ship = (797 + 350 * (q - 1)) / 100;
+              const amount = (unit * q + ship).toFixed(2);
               const cashLabel = `$${amount} (incl. shipping)`;
               return (
               <div key={key} style={{ background: C.dark, border: `1px solid ${C.lineBright}`, padding: 'clamp(28px, 4vw, 40px)', display: 'flex', flexDirection: 'column' }}>
@@ -1830,7 +1832,7 @@ function ShopPage() {
                 </div>
                 {q > 1 && (
                   <p style={{ fontFamily: FONT.body, fontSize: '0.8rem', color: C.muted, marginTop: -8, marginBottom: 16, textAlign: 'right' }}>
-                    {q} × {price} = ${(unit * q).toFixed(2)} + shipping
+                    {q} × {price} = ${(unit * q).toFixed(2)} + ${ship.toFixed(2)} shipping
                   </p>
                 )}
                 <button
@@ -1869,7 +1871,7 @@ function ShopPage() {
                     Pay with CashApp · {cashLabel}
                   </a>
                   <p style={{ fontFamily: FONT.body, fontSize: '0.68rem', color: C.muted, opacity: 0.45, marginTop: 7, textAlign: 'center', fontStyle: 'italic', lineHeight: 1.5 }}>
-                    Includes $7.97 shipping · In your note: "{q > 1 ? `${q} x ` : ''}{label} - Never Broken" + your full shipping address
+                    Includes ${ship.toFixed(2)} shipping & handling · In your note: "{q > 1 ? `${q} x ` : ''}{label} - Never Broken" + your full shipping address
                   </p>
                 </div>
               </div>

@@ -18,6 +18,12 @@ const SUCCESS_PATHS = {
   bundle: '/read-along?session_id={CHECKOUT_SESSION_ID}',
 };
 
+// Shipping & handling: first book, then each extra book in the same box.
+// Keep in sync with SHIP_FIRST / SHIP_EXTRA in src/App.jsx (shop + CashApp amounts).
+const SHIP_FIRST_CENTS = 797;
+const SHIP_EXTRA_CENTS = 350;
+const shippingCents = (qty) => SHIP_FIRST_CENTS + SHIP_EXTRA_CENTS * (qty - 1);
+
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -39,12 +45,9 @@ module.exports = async function handler(req, res) {
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: [{
-        price: PRICE_IDS[edition],
-        quantity,
-        // Print editions: buyer can also change the count on the Stripe page
-        ...(!isDigital ? { adjustable_quantity: { enabled: true, minimum: 1, maximum: MAX_QTY } } : {}),
-      }],
+      // Quantity is locked here (no adjustable_quantity): shipping is priced per book,
+      // so a count changed on the Stripe page would keep the wrong shipping charge.
+      line_items: [{ price: PRICE_IDS[edition], quantity }],
       mode: 'payment',
       success_url: `${siteUrl}${SUCCESS_PATHS[edition]}`,
       cancel_url: `${siteUrl}/shop`,
@@ -54,9 +57,15 @@ module.exports = async function handler(req, res) {
         // To hide Link entirely: Stripe Dashboard → Settings → Payment methods.
         shipping_address_collection: { allowed_countries: ['US'] },
       } : {}),
-      ...(!isDigital && process.env.STRIPE_SHIPPING_RATE_ID
-        ? { shipping_options: [{ shipping_rate: process.env.STRIPE_SHIPPING_RATE_ID }] }
-        : {}),
+      ...(!isDigital ? {
+        shipping_options: [{
+          shipping_rate_data: {
+            type: 'fixed_amount',
+            fixed_amount: { amount: shippingCents(quantity), currency: 'usd' },
+            display_name: quantity > 1 ? `Shipping & handling (${quantity} books)` : 'Shipping & handling',
+          },
+        }],
+      } : {}),
       allow_promotion_codes: true,
       metadata: {
         product: 'Never Broken',
