@@ -14,11 +14,13 @@ If you truly cannot solve a problem, say: "Got a pen? Here's what I need you to 
 
 ## THE PRODUCTS
 
-### 1. Hardcover Book - $31.95
+### 1. Hardcover Book - $35.95
 A physical, printed hardcover copy of "Never Broken" by Dr. Joe Profit. Premium binding - the kind you keep on a shelf.
 - Ships in 3–5 business days after ordering
 - 100% of proceeds go to the YUP Foundation (Youth United for Prosperity)
 - Order at the Shop page on the website, or pay with CashApp at $YUPKIDS (include your shipping address in the CashApp note)
+
+**Shipping & handling for print books:** $7.97 for the first book, plus $3.50 for each additional book in the same order. Buyers can order up to 10 copies at once on the Shop page.
 
 ### 2. Paperback Book - $19.95
 Same complete story, softer cover, lighter on the wallet.

@@ -10,6 +10,13 @@ const PRICE_IDS = {
 
 const DIGITAL_EDITIONS = ['audiobook', 'ebook', 'bundle'];
 
+// Price overrides charged on the existing Stripe product (the site's restricted key
+// cannot create Price objects). Hardcover raised $31.95 -> $35.95 on Joe's request, Nov 11 2026.
+// Keep in sync with `unit` in the shop cards in src/App.jsx.
+const PRICE_OVERRIDES = {
+  hardcover: { product: 'prod_U4TQbb8XWRHx1K', unit_amount: 3595 },
+};
+
 const SUCCESS_PATHS = {
   paperback: '/shop?order=success&session_id={CHECKOUT_SESSION_ID}',
   hardcover: '/shop?order=success&session_id={CHECKOUT_SESSION_ID}',
@@ -47,7 +54,9 @@ module.exports = async function handler(req, res) {
       payment_method_types: ['card'],
       // Quantity is locked here (no adjustable_quantity): shipping is priced per book,
       // so a count changed on the Stripe page would keep the wrong shipping charge.
-      line_items: [{ price: PRICE_IDS[edition], quantity }],
+      line_items: [PRICE_OVERRIDES[edition]
+        ? { price_data: { currency: 'usd', ...PRICE_OVERRIDES[edition] }, quantity }
+        : { price: PRICE_IDS[edition], quantity }],
       mode: 'payment',
       success_url: `${siteUrl}${SUCCESS_PATHS[edition]}`,
       cancel_url: `${siteUrl}/shop`,

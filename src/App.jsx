@@ -1800,7 +1800,7 @@ function ShopPage() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 48 }} className="shopgrid">
             {[
-              { key: 'hardcover', label: 'Hardcover', unit: 31.95, desc: 'Premium hardcover binding. A keepsake edition worthy of the story inside.' },
+              { key: 'hardcover', label: 'Hardcover', unit: 35.95, desc: 'Premium hardcover binding. A keepsake edition worthy of the story inside.' },
               { key: 'paperback', label: 'Paperback', unit: 19.95, desc: 'Classic paperback. The full story, every chapter, at an accessible price.' },
             ].map(({ key, label, unit, desc }) => {
               const q = qty[key] || 1;
