@@ -3768,7 +3768,8 @@ function HomePage() {
         }
         @media(max-width:600px){
           .testimgrid{grid-template-columns:1fr!important}
-          .hero-portrait{display:none!important}
+          .hero-portrait{top:max(124px, calc(max(560px,88vh) - clamp(60px,12vh,140px) - 501px))!important;bottom:auto!important;right:-6px!important;width:58vw!important;max-width:300px!important;height:300px!important;align-items:flex-start!important;-webkit-mask-image:linear-gradient(to bottom,#000 42%,transparent 90%)!important;mask-image:linear-gradient(to bottom,#000 42%,transparent 90%)!important}
+          .hero-portrait img{height:auto!important;width:100%!important}
           .tl-center-line{left:16px!important}
           .tl-dot{left:16px!important}
           .tl-item{padding-left:40px!important;padding-right:0!important;justify-content:flex-start!important}
