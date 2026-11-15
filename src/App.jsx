@@ -1477,7 +1477,7 @@ function VideoShowcase({ videoId }) {
       opacity: vis ? 1 : 0, transition: "opacity 1.2s ease",
     }}>
       <iframe
-        src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&muted=1&background=1`}
+        src={`https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&muted=1&background=1&dnt=1`}
         style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
         allow="autoplay; fullscreen"
         title="Video Showcase"
@@ -1507,7 +1507,7 @@ function HologramSection() {
         <div style={{ position: "relative", paddingTop: "100%", width: "100%" }}>
           <iframe
             key={`holo-${muted}`}
-            src={`https://player.vimeo.com/video/1169383000?autoplay=1&loop=1&muted=${muted ? 1 : 0}&background=${muted ? 1 : 0}`}
+            src={`https://player.vimeo.com/video/1169383000?autoplay=1&loop=1&muted=${muted ? 1 : 0}&background=${muted ? 1 : 0}&dnt=1`}
             style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
             allow="autoplay; fullscreen"
             title="Dr. Joe Profit - Hologram"
