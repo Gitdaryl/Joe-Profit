@@ -1252,7 +1252,7 @@ function Footer() {
         <a href="/press" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>Press</a>
         <a href="/support" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>FAQ & Support</a>
         <a href="/privacy" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>Privacy Policy</a>
-        <a href="/terms" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>Terms of Service</a>
+        <a href="/terms" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>Terms and Conditions</a>
       </div>
       <a href="https://yetigroove.com" target="_blank" rel="nofollow noopener noreferrer" style={{ fontFamily: FONT.body, fontSize: "0.62rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none", marginTop: 2 }}>Website designed by yetigroove.com</a>
     </footer>
@@ -3832,7 +3832,7 @@ function LegalPage({ title, updated = "Last updated: March 2026", children }) {
         </div>
         <div style={{ maxWidth: 780, margin: "48px auto 0", borderTop: `1px solid ${C.line}`, paddingTop: 24, display: "flex", flexWrap: "wrap", gap: 20 }}>
           <a href="/privacy" style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.muted, textDecoration: "none", opacity: 0.5 }}>Privacy Policy</a>
-          <a href="/terms" style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.muted, textDecoration: "none", opacity: 0.5 }}>Terms of Service</a>
+          <a href="/terms" style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.muted, textDecoration: "none", opacity: 0.5 }}>Terms and Conditions</a>
           <a href="https://yetigroove.com" target="_blank" rel="nofollow noopener noreferrer" style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.muted, textDecoration: "none", opacity: 0.5, marginLeft: "auto" }}>Website designed by yetigroove.com</a>
         </div>
       </div>
