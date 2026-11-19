@@ -1254,6 +1254,7 @@ function Footer() {
         <a href="/privacy" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>Privacy Policy</a>
         <a href="/terms" style={{ fontFamily: FONT.body, fontSize: "0.65rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none" }}>Terms of Service</a>
       </div>
+      <a href="https://yetigroove.com" target="_blank" rel="nofollow noopener noreferrer" style={{ fontFamily: FONT.body, fontSize: "0.62rem", color: "rgba(154,142,127,0.4)", letterSpacing: "0.1em", textDecoration: "none", marginTop: 2 }}>Website designed by yetigroove.com</a>
     </footer>
   );
 }
@@ -3806,7 +3807,7 @@ function HomePage() {
 }
 
 // ─── LEGAL PAGE SHELL ───
-function LegalPage({ title, children }) {
+function LegalPage({ title, updated = "Last updated: March 2026", children }) {
   useEffect(() => {
     document.title = `${title} - Dr. Joe Profit`;
     return () => { document.title = 'Dr. Joe Profit - Never Broken'; };
@@ -3824,14 +3825,15 @@ function LegalPage({ title, children }) {
         <div style={{ maxWidth: 780, margin: "0 auto" }}>
           <a href="/" style={{ display: "inline-block", marginBottom: 40, fontFamily: FONT.body, fontSize: "0.8rem", color: C.gold, letterSpacing: "0.15em", textTransform: "uppercase", textDecoration: "none", opacity: 0.7 }}>← Back</a>
           <h1 style={{ fontFamily: FONT.display, fontSize: "clamp(2rem, 5vw, 3rem)", color: C.gold, marginBottom: 8, fontWeight: 700 }}>{title}</h1>
-          <p style={{ fontSize: "0.8rem", color: C.muted, marginBottom: 48, opacity: 0.6 }}>Last updated: March 2026</p>
+          <p style={{ fontSize: "0.8rem", color: C.muted, marginBottom: 48, opacity: 0.6 }}>{updated}</p>
           <div style={{ lineHeight: 1.8, fontSize: "1rem", color: "rgba(245,237,224,0.85)" }}>
             {children}
           </div>
         </div>
-        <div style={{ maxWidth: 780, margin: "48px auto 0", borderTop: `1px solid ${C.line}`, paddingTop: 24, display: "flex", gap: 20 }}>
+        <div style={{ maxWidth: 780, margin: "48px auto 0", borderTop: `1px solid ${C.line}`, paddingTop: 24, display: "flex", flexWrap: "wrap", gap: 20 }}>
           <a href="/privacy" style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.muted, textDecoration: "none", opacity: 0.5 }}>Privacy Policy</a>
           <a href="/terms" style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.muted, textDecoration: "none", opacity: 0.5 }}>Terms of Service</a>
+          <a href="https://yetigroove.com" target="_blank" rel="nofollow noopener noreferrer" style={{ fontFamily: FONT.body, fontSize: "0.75rem", color: C.muted, textDecoration: "none", opacity: 0.5, marginLeft: "auto" }}>Website designed by yetigroove.com</a>
         </div>
       </div>
     </>
@@ -3847,97 +3849,75 @@ const LS = {
 };
 
 // ─── PRIVACY POLICY PAGE ───
+// Text supplied by Joe's office (Multimedia Communications Group, LLC), Nov 19 2026. Post verbatim; do not reword.
 function PrivacyPage() {
   return (
-    <LegalPage title="Privacy Policy">
-      <p style={LS.p}>This Privacy Policy describes how Yeti Groove Media LLC ("we," "us," or "our") collects, uses, and protects information when you visit <strong>joeprofitneverbroken.com</strong> (the "Site") or make a purchase.</p>
+    <LegalPage title="Privacy Policy" updated="Effective date: November 18, 2026">
+      <p style={LS.p}>This Privacy Policy explains how Multimedia Communications Group, LLC (“we,” “us,” or “our”) handles personal information when you visit JoeProfitNeverBroken.com, buy directly through the site, or contact us.</p>
 
-      <h2 style={LS.h2}>Information We Collect</h2>
-      <p style={LS.p}>We collect information you provide directly when you:</p>
+      <h2 style={LS.h2}>Information We Collect and Use</h2>
+      <p style={LS.p}>When you place an order, we use your name, email address, order details, and, for physical orders, shipping address to fulfill your purchase and send confirmations and digital access links. When you contact us or make a speaking inquiry, we use the contact details and message you provide to respond. Our host records standard request data, such as IP address and browser type, in server logs. We use information to operate the site and meet legal obligations.</p>
+
+      <h2 style={LS.h2}>Talk to Joe Voice Assistant</h2>
+      <p style={LS.p}>If you use the optional Talk to Joe voice assistant, ElevenLabs processes your voice and conversation and stores the recording and transcript. If you choose to provide your name, email address, phone number, organization, request details, or shipping address during the conversation, ElevenLabs collects that information so a person can follow up. You can visit the site without using the voice assistant.</p>
+
+      <h2 style={LS.h2}>Payments</h2>
+      <p style={LS.p}>Stripe processes card payments on its own checkout page. Stripe keeps order details, the email address used for fulfillment, and the shipping address when applicable. Stripe’s privacy policy governs how it handles payment information. Cash App is available as a manual payment option.</p>
+
+      <h2 style={LS.h2}>Cookies and Browser Storage</h2>
+      <p style={LS.p}>We use no analytics, advertising technology, or retargeting. The site itself sets no cookies and uses no tracking cookies.</p>
+      <p style={LS.p}>The site uses local storage in your browser to remember access to your purchased e-book or audiobook so you stay signed in, save your listening position and playback speed, and remember that the welcome audio has played. These local storage values stay on your device and are never sent to us or any provider. You can clear them by clearing this site’s data in your browser.</p>
+      <p style={LS.p}>External content loads from Google Fonts, Vimeo, ElevenLabs, and unpkg. These providers receive your IP address and browser details when their content loads. The Vimeo player is set to do-not-track and sets no tracking cookies. Stripe sets its own cookies on its hosted checkout page for payment security and fraud prevention. You can block or clear cookies and site data in your browser.</p>
+
+      <h2 style={LS.h2}>When Information Is Shared</h2>
+      <p style={LS.p}>We do not sell, rent, or trade your personal information to third parties. The providers described here receive information to operate the site, deliver purchases, or respond to requests.</p>
       <ul style={LS.ul}>
-        <li style={LS.li}><strong>Place an order</strong> - name, email address, shipping address, and payment information (processed securely by Stripe, PayPal, or Cash App - we do not store your payment card details).</li>
-        <li style={LS.li}><strong>Contact us</strong> - name, email, and message content.</li>
+        <li style={LS.li}>Vercel hosts the site and receives standard request data, including IP address and browser type, in server logs.</li>
+        <li style={LS.li}>Resend sends order confirmations, e-book and audiobook access links, and booking or inquiry notifications. It receives recipients’ names, email addresses, and the content of those emails.</li>
+        <li style={LS.li}>ElevenLabs provides the voice assistant and handles the recordings, transcripts, and information you choose to share during the conversation as described above.</li>
+        <li style={LS.li}>Google Gmail receives order notifications, speaking inquiries, and voice-chat follow-up requests sent to Joe’s Gmail account. These messages contain contact information and order or request details.</li>
+        <li style={LS.li}>Google Fonts delivers typefaces, Vimeo provides the embedded video player, and unpkg delivers site resources. Each receives IP address and browser details when its content loads.</li>
       </ul>
-      <p style={LS.p}>We also automatically collect standard technical data when you visit the Site, including your IP address, browser type, pages viewed, and referring URLs. This is standard server/analytics logging.</p>
 
-      <h2 style={LS.h2}>How We Use Your Information</h2>
-      <ul style={LS.ul}>
-        <li style={LS.li}>To process and fulfill your orders and send order confirmations.</li>
-        <li style={LS.li}>To respond to your inquiries and customer service requests.</li>
-        <li style={LS.li}>To improve and maintain the Site.</li>
-        <li style={LS.li}>To comply with legal obligations.</li>
-      </ul>
-      <p style={LS.p}>We do not sell, rent, or trade your personal information to third parties.</p>
+      <h2 style={LS.h2}>Retention and Privacy Requests</h2>
+      <p style={LS.p}>We keep order and contact information as needed to fulfill orders, respond to inquiries, handle disputes, and meet legal obligations. To request access to, correction of, or deletion of your personal information, email <a href="mailto:info@joeprofitspeaks.com" style={LS.a}>info@joeprofitspeaks.com</a>. We will respond in accordance with applicable law.</p>
 
-      <h2 style={LS.h2}>Payment Processing</h2>
-      <p style={LS.p}>All payments are processed by third-party providers - Stripe, PayPal, and Cash App. Your payment information is transmitted directly to these processors and is subject to their privacy policies. We do not store full credit card numbers or financial account details on our servers.</p>
+      <h2 style={LS.h2}>Children’s Privacy</h2>
+      <p style={LS.p}>The site is intended for a general audience. We do not knowingly collect personal information from children under 13.</p>
 
-      <h2 style={LS.h2}>Cookies</h2>
-      <p style={LS.p}>The Site may use essential cookies required for navigation and security. We do not use tracking cookies for advertising purposes.</p>
-
-      <h2 style={LS.h2}>Data Retention</h2>
-      <p style={LS.p}>We retain order and contact information for as long as necessary to fulfill orders, handle disputes, and meet legal requirements. You may request deletion of your personal data at any time by contacting us.</p>
-
-      <h2 style={LS.h2}>Your Rights</h2>
-      <p style={LS.p}>You have the right to request access to, correction of, or deletion of personal data we hold about you. To exercise these rights, contact us at the email below.</p>
-
-      <h2 style={LS.h2}>Children's Privacy</h2>
-      <p style={LS.p}>This Site is not directed at children under 13. We do not knowingly collect personal information from children under 13.</p>
-
-      <h2 style={LS.h2}>Changes to This Policy</h2>
-      <p style={LS.p}>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated date.</p>
-
-      <h2 style={LS.h2}>Contact</h2>
-      <p style={LS.p}>Questions about this policy? Contact us at: <a href="mailto:info@joeprofitneverbroken.com" style={LS.a}>info@joeprofitneverbroken.com</a></p>
-      <p style={LS.p}>Yeti Groove Media LLC · Adrian, Michigan</p>
+      <h2 style={LS.h2}>Updates and Contact</h2>
+      <p style={LS.p}>We will post updates on this page and revise the date above. For privacy questions, email <a href="mailto:info@joeprofitspeaks.com" style={LS.a}>info@joeprofitspeaks.com</a>.</p>
     </LegalPage>
   );
 }
 
 // ─── TERMS OF SERVICE PAGE ───
+// Text supplied by Joe's office (Multimedia Communications Group, LLC), Nov 19 2026. Post verbatim; do not reword.
 function TermsPage() {
   return (
-    <LegalPage title="Terms of Service">
-      <p style={LS.p}>These Terms of Service ("Terms") govern your use of <strong>joeprofitneverbroken.com</strong> (the "Site") operated by Yeti Groove Media LLC ("we," "us," or "our"). By accessing or using the Site, you agree to these Terms.</p>
+    <LegalPage title="Terms and Conditions" updated="Effective date: November 18, 2026">
+      <p style={LS.p}>These Terms govern your use of JoeProfitNeverBroken.com and purchases you make directly through the site from Multimedia Communications Group, LLC (“we,” “us,” or “our”). Purchases made through another retailer are subject to that retailer’s terms and policies.</p>
 
       <h2 style={LS.h2}>Use of the Site</h2>
-      <p style={LS.p}>You may use the Site for lawful purposes only. You agree not to:</p>
-      <ul style={LS.ul}>
-        <li style={LS.li}>Use the Site in any way that violates applicable laws or regulations.</li>
-        <li style={LS.li}>Reproduce, distribute, or commercially exploit any Site content without written permission.</li>
-        <li style={LS.li}>Attempt to gain unauthorized access to any portion of the Site or its related systems.</li>
-      </ul>
+      <p style={LS.p}>Use the site lawfully. Do not attempt to gain unauthorized access to the site or its systems. Site content is protected by applicable intellectual property laws. You may reproduce, distribute, or commercially use it only with permission from the appropriate rights holder or as permitted by law.</p>
 
-      <h2 style={LS.h2}>Products and Orders</h2>
-      <p style={LS.p}>All product descriptions and prices are subject to change without notice. We reserve the right to refuse or cancel any order. If a charge has already been made and we cancel the order, we will issue a full refund.</p>
+      <h2 style={LS.h2}>Orders and Payments</h2>
+      <p style={LS.p}>Product descriptions and prices may change. Stripe processes card payments on its hosted checkout page. Cash App is available as a manual payment option. By submitting payment, you confirm you are authorized to use that payment method. The applicable provider’s terms govern its payment services. If we cancel an order after charging you, we will issue a full refund.</p>
 
-      <h2 style={LS.h2}>Payments</h2>
-      <p style={LS.p}>We accept payment via Stripe (credit/debit card), PayPal, and Cash App. By providing payment information, you represent that you are authorized to use the payment method. All transactions are subject to the terms and conditions of the respective payment processor.</p>
-
-      <h2 style={LS.h2}>Shipping and Delivery</h2>
-      <p style={LS.p}>Physical products (books) are shipped to the address you provide at checkout. Estimated delivery times are provided at checkout and are not guaranteed. We are not responsible for delays caused by shipping carriers or customs.</p>
+      <h2 style={LS.h2}>Shipping and Digital Delivery</h2>
+      <p style={LS.p}>We ship physical books to the address you provide at checkout. Delivery estimates may vary. If we cannot ship within the promised time, or within the period required by law when no time is stated, we will offer the option to agree to a delay or cancel for a refund as required by law. We email access links for e-book and audiobook purchases. Contact us if you have trouble accessing a digital purchase.</p>
 
       <h2 style={LS.h2}>Returns and Refunds</h2>
-      <p style={LS.p}>If you receive a damaged or defective product, contact us within 14 days of delivery at <a href="mailto:info@joeprofitneverbroken.com" style={LS.a}>info@joeprofitneverbroken.com</a> and we will arrange a replacement or full refund. Digital products (audiobooks, downloads) are non-refundable once accessed.</p>
+      <p style={LS.p}>If a product arrives damaged or defective, email <a href="mailto:info@joeprofitspeaks.com" style={LS.a}>info@joeprofitspeaks.com</a> within 14 days of delivery so we can arrange a replacement or full refund. Digital products are nonrefundable once accessed, except as required by law. These Terms preserve any rights or remedies you have under applicable law.</p>
 
-      <h2 style={LS.h2}>Intellectual Property</h2>
-      <p style={LS.p}>All content on this Site - including text, images, audio, video, and design - is owned by Yeti Groove Media LLC or Dr. Joe Profit and is protected by copyright and other intellectual property laws. No content may be reproduced without express written consent.</p>
-
-      <h2 style={LS.h2}>Disclaimer of Warranties</h2>
-      <p style={LS.p}>The Site and its content are provided "as is" without warranties of any kind, express or implied. We do not warrant that the Site will be uninterrupted, error-free, or free of harmful components.</p>
-
-      <h2 style={LS.h2}>Limitation of Liability</h2>
-      <p style={LS.p}>To the fullest extent permitted by law, Yeti Groove Media LLC and Dr. Joe Profit shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the Site or products purchased through it.</p>
+      <h2 style={LS.h2}>Site Availability and Liability</h2>
+      <p style={LS.p}>To the extent permitted by law, the site is provided “as is” and “as available,” without warranties regarding uninterrupted or error-free operation. To the extent permitted by law, we are not liable for indirect, incidental, special, or consequential damages arising from use of the site or products purchased through it.</p>
 
       <h2 style={LS.h2}>Governing Law</h2>
-      <p style={LS.p}>These Terms are governed by the laws of Fulton County, the State of Georgia, without regard to its conflict of law provisions.</p>
+      <p style={LS.p}>These Terms are governed by the laws of Cobb County, the State of Georgia, without regard to its conflict-of-laws provisions, subject to any mandatory protections under applicable law.</p>
 
-      <h2 style={LS.h2}>Changes to These Terms</h2>
-      <p style={LS.p}>We reserve the right to modify these Terms at any time. Continued use of the Site after changes constitutes acceptance of the updated Terms.</p>
-
-      <h2 style={LS.h2}>Contact</h2>
-      <p style={LS.p}>Questions? Contact us at: <a href="mailto:info@joeprofitneverbroken.com" style={LS.a}>info@joeprofitneverbroken.com</a></p>
-      <p style={LS.p}>Transition Focus Group, LLC. d.b.a. Yeti Groove Media LLC</p>
+      <h2 style={LS.h2}>Updates and Contact</h2>
+      <p style={LS.p}>We will post updated Terms on this page and revise the date above. For questions about the site or an order, email <a href="mailto:info@joeprofitspeaks.com" style={LS.a}>info@joeprofitspeaks.com</a>.</p>
     </LegalPage>
   );
 }
